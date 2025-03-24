@@ -289,9 +289,11 @@ class _FormanScreenState extends State<FormanScreen> {
                           children: [
                             Icon(Icons.email, size: 16, color: Colors.teal),
                             const SizedBox(width: 4),
-                            Text(
-                              'ই-মেইল: ${forman.email}',
-                              style: TextStyle(color: Colors.grey.shade600),
+                            Expanded(
+                              child: Text(
+                                'ই-মেইল: ${forman.email}',
+                                style: TextStyle(color: Colors.grey.shade600),
+                              ),
                             ),
                           ],
                         ),

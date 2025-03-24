@@ -46,8 +46,8 @@ class _HomeScreenState extends State<HomeScreen> {
               const HomeScreenSlider(),
               const SizedBox(height: 16),
               provider.gridView
-                  ? HomeScreenCategoryList(categories: categories)
-                  : HomeScreenCategoryGrid(items: items),
+                  ? HomeScreenCategoryGrid(items: items)
+                  : HomeScreenCategoryList(categories: categories),
             ],
           ),
         ),

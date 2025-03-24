@@ -23,7 +23,7 @@ class HomeScreenCategoryList extends StatelessWidget {
               // Category Title
               Text(
                 category.title,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,color: Colors.teal),
               ),
               const SizedBox(height: 8),
               SizedBox(
@@ -40,7 +40,7 @@ class HomeScreenCategoryList extends StatelessWidget {
                         }
                       },
                       child: Container(
-                        width: 105,
+                        width: 90,
                         padding: EdgeInsets.all(8),
                         margin: const EdgeInsets.only(right: 8.0, bottom: 8),
                         decoration: BoxDecoration(
@@ -59,11 +59,17 @@ class HomeScreenCategoryList extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Image.asset(item.image, height: 45, width: 45),
-                            Text(
-                              item.title,
-                              textAlign: TextAlign.center,
-                              softWrap: true,
+                            Image.asset(item.image, height: 40, width: 40),
+                            Flexible(
+                              child: Text(
+                                item.title,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
                           ],
                         ),
