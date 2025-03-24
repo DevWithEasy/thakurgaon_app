@@ -1,0 +1,182 @@
+[
+  {
+    "id": "1",
+    "name": "আহমেদ আলী",
+    "specialization": "দেওয়ানি আইন",
+    "location": "ঢাকা, বাংলাদেশ",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "contact": "01711122334",
+    "email": "ahmed.ali@example.com"
+  },
+  {
+    "id": "2",
+    "name": "ফাতেমা বেগম",
+    "specialization": "ফৌজদারি আইন",
+    "location": "চট্টগ্রাম, বাংলাদেশ",
+    "upazilla": "পীরগঞ্জ",
+    "contact": "01811556677",
+    "email": "fatema.begum@example.com"
+  },
+  {
+    "id": "3",
+    "name": "কামরুল হাসান",
+    "specialization": "কোম্পানি আইন",
+    "location": "রাজশাহী, বাংলাদেশ",
+    "upazilla": "রাণীশংকৈল",
+    "contact": "01911889900",
+    "email": "kamrul.hasan@example.com"
+  },
+  {
+    "id": "4",
+    "name": "নাজনীন আক্তার",
+    "specialization": "শ্রম আইন",
+    "location": "খুলনা, বাংলাদেশ",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "contact": "01611334455",
+    "email": "naznin.akter@example.com"
+  },
+  {
+    "id": "5",
+    "name": "রফিকুল ইসলাম",
+    "specialization": "পরিবার আইন",
+    "location": "সিলেট, বাংলাদেশ",
+    "upazilla": "হরিপুর",
+    "contact": "01511667788",
+    "email": "rafiqul.islam@example.com"
+  },
+  {
+    "id": "6",
+    "name": "শাহানা পারভীন",
+    "specialization": "ভূমি আইন",
+    "location": "বগুড়া, বাংলাদেশ",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "contact": "01311778899",
+    "email": "shahana.parvin@example.com"
+  },
+  {
+    "id": "7",
+    "name": "জহিরুল হক",
+    "specialization": "কর আইন",
+    "location": "কুমিল্লা, বাংলাদেশ",
+    "upazilla": "পীরগঞ্জ",
+    "contact": "01411990011",
+    "email": "jahirul.haque@example.com"
+  },
+  {
+    "id": "8",
+    "name": "তাসলিমা রহমান",
+    "specialization": "আন্তর্জাতিক আইন",
+    "location": "বরিশাল, বাংলাদেশ",
+    "upazilla": "রাণীশংকৈল",
+    "contact": "01711445566",
+    "email": "taslima.rahman@example.com"
+  },
+  {
+    "id": "9",
+    "name": "ইকবাল হোসেন",
+    "specialization": "সাইবার আইন",
+    "location": "ময়মনসিংহ, বাংলাদেশ",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "contact": "01811112233",
+    "email": "iqbal.hossain@example.com"
+  },
+  {
+    "id": "10",
+    "name": "নাসরিন সুলতানা",
+    "specialization": "মানবাধিকার আইন",
+    "location": "রংপুর, বাংলাদেশ",
+    "upazilla": "হরিপুর",
+    "contact": "01911223344",
+    "email": "nasrin.sultana@example.com"
+  },
+  {
+    "id": "11",
+    "name": "শামিমা আক্তার",
+    "specialization": "পরিবেশ আইন",
+    "location": "নারায়ণগঞ্জ, বাংলাদেশ",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "contact": "01611111111",
+    "email": "shamima.akter@example.com"
+  },
+  {
+    "id": "12",
+    "name": "জাহাঙ্গীর আলম",
+    "specialization": "মেধাস্বত্ব আইন",
+    "location": "গাজীপুর, বাংলাদেশ",
+    "upazilla": "পীরগঞ্জ",
+    "contact": "01511222222",
+    "email": "jahangir.alam@example.com"
+  },
+  {
+    "id": "13",
+    "name": "রেহানা পারভীন",
+    "specialization": "স্বাস্থ্য আইন",
+    "location": "নোয়াখালী, বাংলাদেশ",
+    "upazilla": "রাণীশংকৈল",
+    "contact": "01711333333",
+    "email": "rehana.parvin@example.com"
+  },
+  {
+    "id": "14",
+    "name": "আনোয়ার হোসেন",
+    "specialization": "ব্যাংকিং আইন",
+    "location": "যশোর, বাংলাদেশ",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "contact": "01811444444",
+    "email": "anwar.hossain@example.com"
+  },
+  {
+    "id": "15",
+    "name": "লুৎফর রহমান",
+    "specialization": "বীমা আইন",
+    "location": "সিরাজগঞ্জ, বাংলাদেশ",
+    "upazilla": "হরিপুর",
+    "contact": "01911555555",
+    "email": "lutfor.rahman@example.com"
+  },
+  {
+    "id": "16",
+    "name": "সাজেদা বেগম",
+    "specialization": "শিক্ষা আইন",
+    "location": "পাবনা, বাংলাদেশ",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "contact": "01611666666",
+    "email": "sajeda.begum@example.com"
+  },
+  {
+    "id": "17",
+    "name": "আব্দুল মমিন",
+    "specialization": "স্থানীয় সরকার আইন",
+    "location": "কুষ্টিয়া, বাংলাদেশ",
+    "upazilla": "পীরগঞ্জ",
+    "contact": "01511777777",
+    "email": "abdul.momin@example.com"
+  },
+  {
+    "id": "18",
+    "name": "রওশন আরা",
+    "specialization": "প্রশাসনিক আইন",
+    "location": "ঝিনাইদহ, বাংলাদেশ",
+    "upazilla": "রাণীশংকৈল",
+    "contact": "01711888888",
+    "email": "rowshan.ara@example.com"
+  },
+  {
+    "id": "19",
+    "name": "শফিকুল ইসলাম",
+    "specialization": "সামরিক আইন",
+    "location": "মাগুরা, বাংলাদেশ",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "contact": "01811999999",
+    "email": "shafiqul.islam@example.com"
+  },
+  {
+    "id": "20",
+    "name": "আফরোজা খাতুন",
+    "specialization": "খেলোয়াড় আইন",
+    "location": "নড়াইল, বাংলাদেশ",
+    "upazilla": "হরিপুর",
+    "contact": "01911000000",
+    "email": "afroza.khatun@example.com"
+  }
+]

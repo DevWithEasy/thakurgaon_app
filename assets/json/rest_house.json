@@ -1,0 +1,202 @@
+[
+  {
+    "id": "1",
+    "name": "শান্তি নিবাস রেস্ট হাউজ",
+    "location": "ঢাকা, বাংলাদেশ",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "contact": "01711122334",
+    "email": "shantiniwas@example.com",
+    "rooms": 10,
+    "amenities": ["ওয়াইফাই", "রান্নাঘর", "বারবিকিউ সুবিধা"]
+  },
+  {
+    "id": "2",
+    "name": "মেঘলা রেস্ট হাউজ",
+    "location": "চট্টগ্রাম, বাংলাদেশ",
+    "upazilla": "পীরগঞ্জ",
+    "contact": "01811556677",
+    "email": "meghla@example.com",
+    "rooms": 8,
+    "amenities": ["ওয়াইফাই", "রান্নাঘর", "গার্ডেন"]
+  },
+  {
+    "id": "3",
+    "name": "নদী ভিউ রেস্ট হাউজ",
+    "location": "রাজশাহী, বাংলাদেশ",
+    "upazilla": "রাণীশংকৈল",
+    "contact": "01911889900",
+    "email": "nodiview@example.com",
+    "rooms": 12,
+    "amenities": ["ওয়াইফাই", "রান্নাঘর", "বারবিকিউ সুবিধা", "নদী দর্শন"]
+  },
+  {
+    "id": "4",
+    "name": "বনলতা রেস্ট হাউজ",
+    "location": "খুলনা, বাংলাদেশ",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "contact": "01611334455",
+    "email": "bonlota@example.com",
+    "rooms": 6,
+    "amenities": ["ওয়াইফাই", "রান্নাঘর", "গার্ডেন"]
+  },
+  {
+    "id": "5",
+    "name": "পাহাড়িকা রেস্ট হাউজ",
+    "location": "সিলেট, বাংলাদেশ",
+    "upazilla": "হরিপুর",
+    "contact": "01511667788",
+    "email": "paharika@example.com",
+    "rooms": 9,
+    "amenities": ["ওয়াইফাই", "রান্নাঘর", "বারবিকিউ সুবিধা", "পাহাড় দর্শন"]
+  },
+  {
+    "id": "6",
+    "name": "গ্রামীণ রেস্ট হাউজ",
+    "location": "বগুড়া, বাংলাদেশ",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "contact": "01311778899",
+    "email": "gramin@example.com",
+    "rooms": 7,
+    "amenities": ["ওয়াইফাই", "রান্নাঘর", "গার্ডেন"]
+  },
+  {
+    "id": "7",
+    "name": "আবাসিক রেস্ট হাউজ",
+    "location": "কুমিল্লা, বাংলাদেশ",
+    "upazilla": "পীরগঞ্জ",
+    "contact": "01411990011",
+    "email": "abasik@example.com",
+    "rooms": 11,
+    "amenities": ["ওয়াইফাই", "রান্নাঘর", "বারবিকিউ সুবিধা"]
+  },
+  {
+    "id": "8",
+    "name": "সাগরিকা রেস্ট হাউজ",
+    "location": "বরিশাল, বাংলাদেশ",
+    "upazilla": "রাণীশংকৈল",
+    "contact": "01711445566",
+    "email": "sagorika@example.com",
+    "rooms": 10,
+    "amenities": ["ওয়াইফাই", "রান্নাঘর", "সাগর দর্শন"]
+  },
+  {
+    "id": "9",
+    "name": "শাপলা রেস্ট হাউজ",
+    "location": "ময়মনসিংহ, বাংলাদেশ",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "contact": "01811112233",
+    "email": "shapla@example.com",
+    "rooms": 8,
+    "amenities": ["ওয়াইফাই", "রান্নাঘর", "গার্ডেন"]
+  },
+  {
+    "id": "10",
+    "name": "রংপুর রেস্ট হাউজ",
+    "location": "রংপুর, বাংলাদেশ",
+    "upazilla": "হরিপুর",
+    "contact": "01911223344",
+    "email": "rangpur@example.com",
+    "rooms": 12,
+    "amenities": ["ওয়াইফাই", "রান্নাঘর", "বারবিকিউ সুবিধা"]
+  },
+  {
+    "id": "11",
+    "name": "নীলগিরি রেস্ট হাউজ",
+    "location": "নারায়ণগঞ্জ, বাংলাদেশ",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "contact": "01611111111",
+    "email": "nilgiri@example.com",
+    "rooms": 9,
+    "amenities": ["ওয়াইফাই", "রান্নাঘর", "বারবিকিউ সুবিধা"]
+  },
+  {
+    "id": "12",
+    "name": "শাপলা বিল রেস্ট হাউজ",
+    "location": "গাজীপুর, বাংলাদেশ",
+    "upazilla": "পীরগঞ্জ",
+    "contact": "01511222222",
+    "email": "shaplabill@example.com",
+    "rooms": 7,
+    "amenities": ["ওয়াইফাই", "রান্নাঘর", "বিল দর্শন"]
+  },
+  {
+    "id": "13",
+    "name": "মেঘনা পাড় রেস্ট হাউজ",
+    "location": "নোয়াখালী, বাংলাদেশ",
+    "upazilla": "রাণীশংকৈল",
+    "contact": "01711333333",
+    "email": "meghnapar@example.com",
+    "rooms": 11,
+    "amenities": ["ওয়াইফাই", "রান্নাঘর", "বারবিকিউ সুবিধা", "নদী দর্শন"]
+  },
+  {
+    "id": "14",
+    "name": "যমুনা রিভার রেস্ট হাউজ",
+    "location": "যশোর, বাংলাদেশ",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "contact": "01811444444",
+    "email": "jamunariver@example.com",
+    "rooms": 8,
+    "amenities": ["ওয়াইফাই", "রান্নাঘর", "গার্ডেন", "নদী দর্শন"]
+  },
+  {
+    "id": "15",
+    "name": "সিরাজগঞ্জ রেস্ট হাউজ",
+    "location": "সিরাজগঞ্জ, বাংলাদেশ",
+    "upazilla": "হরিপুর",
+    "contact": "01911555555",
+    "email": "sirajganj@example.com",
+    "rooms": 12,
+    "amenities": ["ওয়াইফাই", "রান্নাঘর", "বারবিকিউ সুবিধা"]
+  },
+  {
+    "id": "16",
+    "name": "পাবনা হিল রেস্ট হাউজ",
+    "location": "পাবনা, বাংলাদেশ",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "contact": "01611666666",
+    "email": "pabnahill@example.com",
+    "rooms": 10,
+    "amenities": ["ওয়াইফাই", "রান্নাঘর", "পাহাড় দর্শন"]
+  },
+  {
+    "id": "17",
+    "name": "কুষ্টিয়া রিভার ভিউ রেস্ট হাউজ",
+    "location": "কুষ্টিয়া, বাংলাদেশ",
+    "upazilla": "পীরগঞ্জ",
+    "contact": "01511777777",
+    "email": "kustiariver@example.com",
+    "rooms": 9,
+    "amenities": ["ওয়াইফাই", "রান্নাঘর", "নদী দর্শন"]
+  },
+  {
+    "id": "18",
+    "name": "ঝিনাইদহ গার্ডেন রেস্ট হাউজ",
+    "location": "ঝিনাইদহ, বাংলাদেশ",
+    "upazilla": "রাণীশংকৈল",
+    "contact": "01711888888",
+    "email": "jhenaidahgarden@example.com",
+    "rooms": 7,
+    "amenities": ["ওয়াইফাই", "রান্নাঘর", "গার্ডেন"]
+  },
+  {
+    "id": "19",
+    "name": "মাগুরা লেক রেস্ট হাউজ",
+    "location": "মাগুরা, বাংলাদেশ",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "contact": "01811999999",
+    "email": "maguralake@example.com",
+    "rooms": 11,
+    "amenities": ["ওয়াইফাই", "রান্নাঘর", "লেক দর্শন"]
+  },
+  {
+    "id": "20",
+    "name": "নড়াইল ফরেস্ট রেস্ট হাউজ",
+    "location": "নড়াইল, বাংলাদেশ",
+    "upazilla": "হরিপুর",
+    "contact": "01911000000",
+    "email": "narailforest@example.com",
+    "rooms": 12,
+    "amenities": ["ওয়াইফাই", "রান্নাঘর", "বারবিকিউ সুবিধা", "বন দর্শন"]
+  }
+]

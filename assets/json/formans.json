@@ -1,0 +1,182 @@
+[
+    {
+      "id": "1",
+      "name": "আব্দুল কাদের",
+      "specialization": "নির্মাণ ফোরম্যান",
+      "location": "ঢাকা, বাংলাদেশ",
+      "upazilla": "ঠাকুরগাঁও সদর",
+      "contact": "01711122334",
+      "email": "abdul.kader@example.com"
+    },
+    {
+      "id": "2",
+      "name": "রহিম মিয়া",
+      "specialization": "কারখানা ফোরম্যান",
+      "location": "চট্টগ্রাম, বাংলাদেশ",
+      "upazilla": "পীরগঞ্জ",
+      "contact": "01811556677",
+      "email": "rahim.mia@example.com"
+    },
+    {
+      "id": "3",
+      "name": "সালাম শেখ",
+      "specialization": "ইলেকট্রিক্যাল ফোরম্যান",
+      "location": "রাজশাহী, বাংলাদেশ",
+      "upazilla": "রাণীশংকৈল",
+      "contact": "01911889900",
+      "email": "salam.sheikh@example.com"
+    },
+    {
+      "id": "4",
+      "name": "জসিম উদ্দিন",
+      "specialization": "মেকানিক্যাল ফোরম্যান",
+      "location": "খুলনা, বাংলাদেশ",
+      "upazilla": "বালিয়াডাঙ্গী",
+      "contact": "01611334455",
+      "email": "josim.uddin@example.com"
+    },
+    {
+      "id": "5",
+      "name": "বাবুল হোসেন",
+      "specialization": "ওয়েল্ডিং ফোরম্যান",
+      "location": "সিলেট, বাংলাদেশ",
+      "upazilla": "হরিপুর",
+      "contact": "01511667788",
+      "email": "babul.hossain@example.com"
+    },
+    {
+      "id": "6",
+      "name": "শফিকুল ইসলাম",
+      "specialization": "প্লাম্বিং ফোরম্যান",
+      "location": "বগুড়া, বাংলাদেশ",
+      "upazilla": "ঠাকুরগাঁও সদর",
+      "contact": "01311778899",
+      "email": "shafiqul.islam@example.com"
+    },
+    {
+      "id": "7",
+      "name": "আনোয়ার হোসেন",
+      "specialization": "কাঠমিস্ত্রি ফোরম্যান",
+      "location": "কুমিল্লা, বাংলাদেশ",
+      "upazilla": "পীরগঞ্জ",
+      "contact": "01411990011",
+      "email": "anwar.hossain@example.com"
+    },
+    {
+      "id": "8",
+      "name": "ইসমাইল হোসেন",
+      "specialization": "রং ফোরম্যান",
+      "location": "বরিশাল, বাংলাদেশ",
+      "upazilla": "রাণীশংকৈল",
+      "contact": "01711445566",
+      "email": "ismail.hossain@example.com"
+    },
+    {
+      "id": "9",
+      "name": "আজিজুল হক",
+      "specialization": "টাইলস ফোরম্যান",
+      "location": "ময়মনসিংহ, বাংলাদেশ",
+      "upazilla": "বালিয়াডাঙ্গী",
+      "contact": "01811112233",
+      "email": "azizul.haque@example.com"
+    },
+    {
+      "id": "10",
+      "name": "মফিজুল ইসলাম",
+      "specialization": "স্টিল ফোরম্যান",
+      "location": "রংপুর, বাংলাদেশ",
+      "upazilla": "হরিপুর",
+      "contact": "01911223344",
+      "email": "mofizul.islam@example.com"
+    },
+        {
+          "id": "11",
+          "name": "শামীম আহমেদ",
+          "specialization": "পেইন্টিং ফোরম্যান",
+          "location": "নারায়ণগঞ্জ, বাংলাদেশ",
+          "upazilla": "ঠাকুরগাঁও সদর",
+          "contact": "01611111111",
+          "email": "shamim.ahmed@example.com"
+        },
+        {
+          "id": "12",
+          "name": "আজিজুল ইসলাম",
+          "specialization": "কংক্রিট ফোরম্যান",
+          "location": "গাজীপুর, বাংলাদেশ",
+          "upazilla": "পীরগঞ্জ",
+          "contact": "01511222222",
+          "email": "azizul.islam@example.com"
+        },
+        {
+          "id": "13",
+          "name": "ফারুক হোসেন",
+          "specialization": "ইটের কাজ ফোরম্যান",
+          "location": "নোয়াখালী, বাংলাদেশ",
+          "upazilla": "রাণীশংকৈল",
+          "contact": "01711333333",
+          "email": "faruk.hossain@example.com"
+        },
+        {
+          "id": "14",
+          "name": "মনির খান",
+          "specialization": "ছাদ ঢালাই ফোরম্যান",
+          "location": "যশোর, বাংলাদেশ",
+          "upazilla": "বালিয়াডাঙ্গী",
+          "contact": "01811444444",
+          "email": "monir.khan@example.com"
+        },
+        {
+          "id": "15",
+          "name": "আলী হোসেন",
+          "specialization": "রাস্তা নির্মাণ ফোরম্যান",
+          "location": "সিরাজগঞ্জ, বাংলাদেশ",
+          "upazilla": "হরিপুর",
+          "contact": "01911555555",
+          "email": "ali.hossain@example.com"
+        },
+        {
+          "id": "16",
+          "name": "রফিক মিয়া",
+          "specialization": "সেপটিক ট্যাঙ্ক ফোরম্যান",
+          "location": "পাবনা, বাংলাদেশ",
+          "upazilla": "ঠাকুরগাঁও সদর",
+          "contact": "01611666666",
+          "email": "rafiq.mia@example.com"
+        },
+        {
+          "id": "17",
+          "name": "জামাল শেখ",
+          "specialization": "বাউন্ডারি ওয়াল ফোরম্যান",
+          "location": "কুষ্টিয়া, বাংলাদেশ",
+          "upazilla": "পীরগঞ্জ",
+          "contact": "01511777777",
+          "email": "jamal.sheikh@example.com"
+        },
+        {
+          "id": "18",
+          "name": "কবির হোসেন",
+          "specialization": "পাইপলাইন ফোরম্যান",
+          "location": "ঝিনাইদহ, বাংলাদেশ",
+          "upazilla": "রাণীশংকৈল",
+          "contact": "01711888888",
+          "email": "kabir.hossain@example.com"
+        },
+        {
+          "id": "19",
+          "name": "সোহেল রানা",
+          "specialization": "টানেল ফোরম্যান",
+          "location": "মাগুরা, বাংলাদেশ",
+          "upazilla": "বালিয়াডাঙ্গী",
+          "contact": "01811999999",
+          "email": "sohel.rana@example.com"
+        },
+        {
+          "id": "20",
+          "name": "ইমরান হোসেন",
+          "specialization": "ব্রিজ ফোরম্যান",
+          "location": "নড়াইল, বাংলাদেশ",
+          "upazilla": "হরিপুর",
+          "contact": "01911000000",
+          "email": "imran.hossain@example.com"
+        }
+  ]

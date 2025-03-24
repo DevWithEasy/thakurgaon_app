@@ -1,0 +1,182 @@
+[
+  {
+    "id": "1",
+    "name": "ক্যাফে ঢাকা",
+    "cuisine": "বাংলা, কন্টিনেন্টাল",
+    "location": "ঢাকা, বাংলাদেশ",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "contact": "01711122334",
+    "email": "cafe.dhaka@example.com"
+  },
+  {
+    "id": "2",
+    "name": "সি ভিউ রেস্টুরেন্ট",
+    "cuisine": "সি-ফুড, থাই",
+    "location": "চট্টগ্রাম, বাংলাদেশ",
+    "upazilla": "পীরগঞ্জ",
+    "contact": "01811556677",
+    "email": "seaview@example.com"
+  },
+  {
+    "id": "3",
+    "name": "রাজশাহী গার্ডেন রেস্টুরেন্ট",
+    "cuisine": "বাংলা, ইন্ডিয়ান",
+    "location": "রাজশাহী, বাংলাদেশ",
+    "upazilla": "রাণীশংকৈল",
+    "contact": "01911889900",
+    "email": "rajshahi.garden@example.com"
+  },
+  {
+    "id": "4",
+    "name": "খুলনা কিচেন",
+    "cuisine": "বাংলা, ফাস্ট ফুড",
+    "location": "খুলনা, বাংলাদেশ",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "contact": "01611334455",
+    "email": "khulna.kitchen@example.com"
+  },
+  {
+    "id": "5",
+    "name": "সিলেট স্পাইস",
+    "cuisine": "সিলেটি, চাইনিজ",
+    "location": "সিলেট, বাংলাদেশ",
+    "upazilla": "হরিপুর",
+    "contact": "01511667788",
+    "email": "sylhet.spice@example.com"
+  },
+  {
+    "id": "6",
+    "name": "বগুড়া কাবাব হাউস",
+    "cuisine": "কাবাব, বিরিয়ানি",
+    "location": "বগুড়া, বাংলাদেশ",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "contact": "01311778899",
+    "email": "bogra.kabab@example.com"
+  },
+  {
+    "id": "7",
+    "name": "কুমিল্লা ভোজন",
+    "cuisine": "বাংলা, কাবাব",
+    "location": "কুমিল্লা, বাংলাদেশ",
+    "upazilla": "পীরগঞ্জ",
+    "contact": "01411990011",
+    "email": "comilla.vojon@example.com"
+  },
+  {
+    "id": "8",
+    "name": "বরিশাল ফিশ মার্কেট",
+    "cuisine": "সি-ফুড, বাংলা",
+    "location": "বরিশাল, বাংলাদেশ",
+    "upazilla": "রাণীশংকৈল",
+    "contact": "01711445566",
+    "email": "barishal.fish.market@example.com"
+  },
+  {
+    "id": "9",
+    "name": "ময়মনসিংহ সুইটস",
+    "cuisine": "মিষ্টি, ফাস্ট ফুড",
+    "location": "ময়মনসিংহ, বাংলাদেশ",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "contact": "01811112233",
+    "email": "mymensingh.sweets@example.com"
+  },
+  {
+    "id": "10",
+    "name": "রংপুর থাই রেস্টুরেন্ট",
+    "cuisine": "থাই, চাইনিজ",
+    "location": "রংপুর, বাংলাদেশ",
+    "upazilla": "হরিপুর",
+    "contact": "01911223344",
+    "email": "rangpur.thai@example.com"
+  },
+  {
+    "id": "11",
+    "name": "স্পাইসি কিচেন",
+    "cuisine": "ইন্ডিয়ান, কাবাব",
+    "location": "নারায়ণগঞ্জ, বাংলাদেশ",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "contact": "01611111111",
+    "email": "spicy.kitchen@example.com"
+  },
+  {
+    "id": "12",
+    "name": "ইতালিয়ান গার্ডেন",
+    "cuisine": "ইতালিয়ান, কন্টিনেন্টাল",
+    "location": "গাজীপুর, বাংলাদেশ",
+    "upazilla": "পীরগঞ্জ",
+    "contact": "01511222222",
+    "email": "italian.garden@example.com"
+  },
+  {
+    "id": "13",
+    "name": "সিলেটি ফুড প্যালেস",
+    "cuisine": "সিলেটি, বাংলা",
+    "location": "নোয়াখালী, বাংলাদেশ",
+    "upazilla": "রাণীশংকৈল",
+    "contact": "01711333333",
+    "email": "sylheti.food.palace@example.com"
+  },
+  {
+    "id": "14",
+    "name": "বিরিয়ানি মহল",
+    "cuisine": "বিরিয়ানি, কাবাব",
+    "location": "যশোর, বাংলাদেশ",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "contact": "01811444444",
+    "email": "biriyani.mahal@example.com"
+  },
+  {
+    "id": "15",
+    "name": "চাইনিজ ভ্যালি",
+    "cuisine": "চাইনিজ, থাই",
+    "location": "সিরাজগঞ্জ, বাংলাদেশ",
+    "upazilla": "হরিপুর",
+    "contact": "01911555555",
+    "email": "chinese.valley@example.com"
+  },
+  {
+    "id": "16",
+    "name": "বাংলা কিচেন",
+    "cuisine": "বাংলা, ফাস্ট ফুড",
+    "location": "পাবনা, বাংলাদেশ",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "contact": "01611666666",
+    "email": "bangla.kitchen@example.com"
+  },
+  {
+    "id": "17",
+    "name": "সি-ফুড গার্ডেন",
+    "cuisine": "সি-ফুড, বাংলা",
+    "location": "কুষ্টিয়া, বাংলাদেশ",
+    "upazilla": "পীরগঞ্জ",
+    "contact": "01511777777",
+    "email": "seafood.garden@example.com"
+  },
+  {
+    "id": "18",
+    "name": "মিষ্টি মেলা",
+    "cuisine": "মিষ্টি, ফাস্ট ফুড",
+    "location": "ঝিনাইদহ, বাংলাদেশ",
+    "upazilla": "রাণীশংকৈল",
+    "contact": "01711888888",
+    "email": "mishti.mela@example.com"
+  },
+  {
+    "id": "19",
+    "name": "থাই স্পাইস",
+    "cuisine": "থাই, ইন্ডিয়ান",
+    "location": "মাগুরা, বাংলাদেশ",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "contact": "01811999999",
+    "email": "thai.spice@example.com"
+  },
+  {
+    "id": "20",
+    "name": "কন্টিনেন্টাল প্লেস",
+    "cuisine": "কন্টিনেন্টাল, ইতালিয়ান",
+    "location": "নড়াইল, বাংলাদেশ",
+    "upazilla": "হরিপুর",
+    "contact": "01911000000",
+    "email": "continental.place@example.com"
+  }
+]

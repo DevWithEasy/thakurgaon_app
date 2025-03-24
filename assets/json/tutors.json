@@ -1,0 +1,182 @@
+[
+  {
+    "id": "1",
+    "name": "আব্দুল করিম",
+    "subject": "গণিত",
+    "location": "ঢাকা, বাংলাদেশ",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "contact": "01711122334",
+    "email": "karim@example.com"
+  },
+  {
+    "id": "2",
+    "name": "আয়েশা খাতুন",
+    "subject": "ইংরেজি",
+    "location": "চট্টগ্রাম, বাংলাদেশ",
+    "upazilla": "পীরগঞ্জ",
+    "contact": "01811556677",
+    "email": "ayesha@example.com"
+  },
+  {
+    "id": "3",
+    "name": "রাকিব হাসান",
+    "subject": "পদার্থবিজ্ঞান",
+    "location": "রাজশাহী, বাংলাদেশ",
+    "upazilla": "রাণীশংকৈল",
+    "contact": "01911889900",
+    "email": "rakib@example.com"
+  },
+  {
+    "id": "4",
+    "name": "সুমাইয়া আক্তার",
+    "subject": "রসায়ন",
+    "location": "খুলনা, বাংলাদেশ",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "contact": "01611334455",
+    "email": "sumaiya@example.com"
+  },
+  {
+    "id": "5",
+    "name": "সাকিব আহমেদ",
+    "subject": "জীববিজ্ঞান",
+    "location": "সিলেট, বাংলাদেশ",
+    "upazilla": "হরিপুর",
+    "contact": "01511667788",
+    "email": "sakib@example.com"
+  },
+  {
+    "id": "6",
+    "name": "জান্নাতুল ফেরদৌস",
+    "subject": "উচ্চতর গণিত",
+    "location": "বগুড়া, বাংলাদেশ",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "contact": "01311778899",
+    "email": "jannatul@example.com"
+  },
+  {
+    "id": "7",
+    "name": "মাহফুজুর রহমান",
+    "subject": "অর্থনীতি",
+    "location": "কুমিল্লা, বাংলাদেশ",
+    "upazilla": "পীরগঞ্জ",
+    "contact": "01411990011",
+    "email": "mahfuz@example.com"
+  },
+  {
+    "id": "8",
+    "name": "তাসলিমা আক্তার",
+    "subject": "হিসাববিজ্ঞান",
+    "location": "বরিশাল, বাংলাদেশ",
+    "upazilla": "রাণীশংকৈল",
+    "contact": "01711445566",
+    "email": "taslima@example.com"
+  },
+  {
+    "id": "9",
+    "name": "আসিফ ইকবাল",
+    "subject": "ফিন্যান্স",
+    "location": "ময়মনসিংহ, বাংলাদেশ",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "contact": "01811112233",
+    "email": "asif@example.com"
+  },
+  {
+    "id": "10",
+    "name": "নাদিয়া সুলতানা",
+    "subject": "পরিসংখ্যান",
+    "location": "রংপুর, বাংলাদেশ",
+    "upazilla": "হরিপুর",
+    "contact": "01911223344",
+    "email": "nadia@example.com"
+  },
+  {
+    "id": "11",
+    "name": "ফারজানা হক",
+    "subject": "ভূগোল",
+    "location": "নোয়াখালী, বাংলাদেশ",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "contact": "01611111111",
+    "email": "farzana@example.com"
+  },
+  {
+    "id": "12",
+    "name": "ইমরান খান",
+    "subject": "ইতিহাস",
+    "location": "যশোর, বাংলাদেশ",
+    "upazilla": "পীরগঞ্জ",
+    "contact": "01511222222",
+    "email": "imran@example.com"
+  },
+  {
+    "id": "13",
+    "name": "মৌমিতা রায়",
+    "subject": "সমাজবিজ্ঞান",
+    "location": "সিরাজগঞ্জ, বাংলাদেশ",
+    "upazilla": "রাণীশংকৈল",
+    "contact": "01711333333",
+    "email": "moumita@example.com"
+  },
+  {
+    "id": "14",
+    "name": "আতিকুর রহমান",
+    "subject": "রাষ্ট্রবিজ্ঞান",
+    "location": "পাবনা, বাংলাদেশ",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "contact": "01811444444",
+    "email": "atikur@example.com"
+  },
+  {
+    "id": "15",
+    "name": "সাবিহা সুলতানা",
+    "subject": "ইসলাম শিক্ষা",
+    "location": "কুষ্টিয়া, বাংলাদেশ",
+    "upazilla": "হরিপুর",
+    "contact": "01911555555",
+    "email": "sabiha@example.com"
+  },
+  {
+    "id": "16",
+    "name": "আনোয়ার হোসেন",
+    "subject": "হিন্দু ধর্ম শিক্ষা",
+    "location": "ঝিনাইদহ, বাংলাদেশ",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "contact": "01611666666",
+    "email": "anwar@example.com"
+  },
+  {
+    "id": "17",
+    "name": "রিতা দাস",
+    "subject": "বৌদ্ধ ধর্ম শিক্ষা",
+    "location": "মাগুরা, বাংলাদেশ",
+    "upazilla": "পীরগঞ্জ",
+    "contact": "01511777777",
+    "email": "rita@example.com"
+  },
+  {
+    "id": "18",
+    "name": "ডেভিড সরকার",
+    "subject": "খ্রিস্ট ধর্ম শিক্ষা",
+    "location": "নড়াইল, বাংলাদেশ",
+    "upazilla": "রাণীশংকৈল",
+    "contact": "01711888888",
+    "email": "david@example.com"
+  },
+  {
+    "id": "19",
+    "name": "শাহরিয়ার কবির",
+    "subject": "বাংলা সাহিত্য",
+    "location": "বাগেরহাট, বাংলাদেশ",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "contact": "01811999999",
+    "email": "shahriar@example.com"
+  },
+  {
+    "id": "20",
+    "name": "শামিমা আক্তার",
+    "subject": "ইংরেজি সাহিত্য",
+    "location": "সাতক্ষীরা, বাংলাদেশ",
+    "upazilla": "হরিপুর",
+    "contact": "01911000000",
+    "email": "shamima@example.com"
+  }
+]

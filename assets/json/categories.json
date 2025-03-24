@@ -1,0 +1,241 @@
+[
+    {
+        "id" : 1,
+        "title" : "জেলা সম্পর্কে",
+        "route" : "/district",
+        "image" : "",
+        "items" : [
+            {
+                "title" : "পরিচিতি",
+                "route" : "/about",
+                "image" : "assets/images/home_screen/about.png"
+            },
+            {
+                "title" : "ম্যাপ",
+                "route" : "/map",
+                "image" : "assets/images/home_screen/map.png"
+            },
+            {
+                "title" : "দর্শনীয় স্থান",
+                "route" : "/historical-place",
+                "image" : "assets/images/home_screen/historical_place.png"
+            },
+            {
+                "title" : "উপজেলা ইউ.পি",
+                "route" : "/upazilla",
+                "image" : "assets/images/home_screen/district_place.png"
+            },
+            {
+                "title" : "ঐতিহ্য",
+                "route" : "/traditions",
+                "image" : "assets/images/home_screen/tradition.png"
+            }
+        ]
+    },
+    {
+        "id" : 2,
+        "title" : "জরুরি সেবা",
+        "route" : "/emergency",
+        "image" : "",
+        "items" : [
+            {
+                "title" : "থানা পুলিশ",
+                "route" : "/police",
+                "image" : "assets/images/home_screen/police.png"
+            },
+            {
+                "title" : "ফায়ার সার্ভিস",
+                "route" : "/fire-service",
+                "image" : "assets/images/home_screen/fire_service.png"
+            },
+            {
+                "title" : "পল্লী বিদ্যুৎ",
+                "route" : "/electricity",
+                "image" : "assets/images/home_screen/electric_service.png"
+            },
+            {
+                "title" : "জরুরি সেবা",
+                "route" : "/helpline",
+                "image" : "assets/images/home_screen/helpline.png"
+            }
+        ]
+    },
+    {
+        "id" : 3,
+        "title" : "স্বাস্থ্য সেবা",
+        "route" : "/health",
+        "image" : "",
+        "items" : [
+            {
+                "title" : "হাসপাতাল",
+                "route" : "/hospital",
+                "image" : "assets/images/home_screen/hospital.png"
+            },
+            {
+                "title" : "ডায়াগনস্টিক",
+                "route" : "/diagnostic",
+                "image" : "assets/images/home_screen/diagnostic.png"
+            },
+            {
+                "title" : "ডাক্তার",
+                "route" : "/doctors",
+                "image" : "assets/images/home_screen/doctor.png"
+            },
+            {
+                "title" : "হোমিও ডাক্তার",
+                "route" : "/homeo-doctors",
+                "image" : "assets/images/home_screen/homeopathy_doctor.png"
+            },
+            {
+                "title" : "রক্ত সংগঠন",
+                "route" : "/blood-org",
+                "image" : "assets/images/home_screen/blood_donation.png"
+            },
+            {
+                "title" : "রক্তদাতা",
+                "route" : "/blood",
+                "image" : "assets/images/home_screen/blood.png"
+            },
+            {
+                "title" : "অ্যাম্বুলেন্স",
+                "route" : "/ambulance",
+                "image" : "assets/images/home_screen/ambulance.png"
+            }
+        ]
+    },
+    {
+        "id" : 4,
+        "title" : "শিক্ষা সেবা",
+        "route" : "/education",
+        "image" : "",
+        "items" : [
+            {
+                "title" : "শিক্ষা প্রতিষ্ঠান",
+                "route" : "/institute",
+                "image" : "assets/images/home_screen/institute.png"
+            },
+            {
+                "title" : "লাইব্রেরী",
+                "route" : "/library",
+                "image" : "assets/images/home_screen/library.png"
+            },
+            {
+                "title" : "কোচিং সেন্টার",
+                "route" : "/coaching-center",
+                "image" : "assets/images/home_screen/coaching_center.png"
+            },
+            {
+                "title" : "টিউটর",
+                "route" : "/tutor",
+                "image" : "assets/images/home_screen/tutor.png"
+            }
+        ]
+    },
+    {
+        "id" : 5,
+        "title" : "সেবা পেশাদার",
+        "route" : "",
+        "image" : "",
+        "items" : [
+            {
+                "title" : "আইনজীবী",
+                "route" : "/lawyer",
+                "image" : "assets/images/home_screen/lawyer.png"
+            },
+            {
+                "title" : "সার্ভেয়ার(ভুমি)",
+                "route" : "/surveyor",
+                "image" : "assets/images/home_screen/surveyor.png"
+            },
+            {
+                "title" : "ফোরম্যান",
+                "route" : "/foreman",
+                "image" : "assets/images/home_screen/electrician.png"
+            }
+        ]
+    },
+    {
+        "id" : 6,
+        "title" : "ভাড়া সেবা",
+        "route" : "",
+        "image" : "",
+        "items" : [
+            {
+                "title" : "বাসা বাড়ি",
+                "route" : "/rent-house",
+                "image" : "assets/images/home_screen/house_rent.png"
+            },
+            {
+                "title" : "মেস বাসা",
+                "route" : "/rent-mess",
+                "image" : "assets/images/home_screen/rent_mess.png"
+            },
+            {
+                "title" : "গাড়ি ভাড়া",
+                "route" : "/rent-car",
+                "image" : "assets/images/home_screen/car_rental.png"
+            },
+            {
+                "title" : "বাস সেবা",
+                "route" : "/bus-service",
+                "image" : "assets/images/home_screen/bus_stop.png"
+            },
+            {
+                "title" : "ট্রেনের সময়",
+                "route" : "/train-service",
+                "image" : "assets/images/home_screen/rail_stop.png"
+            }
+        ]
+    },
+    {
+        "id" : 7,
+        "title" : "হোটেল রেস্টুরেন্ট",
+        "route" : "",
+        "image" : "",
+        "items" : [
+            {
+                "title" : "খাবার হোটেল",
+                "route" : "/hotel-food",
+                "image" : "assets/images/home_screen/hotel_food.png"
+            },
+            {
+                "title" : "রেস্টুরেন্ট",
+                "route" : "/restaurant",
+                "image" : "assets/images/home_screen/restaurant.png"
+            },
+            {
+                "title" : "আবাসিক হোটেল",
+                "route" : "/residental-hotel",
+                "image" : "assets/images/home_screen/hotel_residental.png"
+            },
+            {
+                "title" : "রেস্ট হাউজ",
+                "route" : "/rest-house",
+                "image" : "assets/images/home_screen/house_rest.png"
+            }
+        ]
+    },
+    {
+        "id" : 8,
+        "title" : "আরো",
+        "route" : "",
+        "image" : "",
+        "items" : [
+            {
+                "title" : "উদ্যোক্তা",
+                "route" : "/uddokta",
+                "image" : "assets/images/home_screen/entrepreneur.png"
+            },
+            {
+                "title" : "জেলা সংবাদ",
+                "route" : "/news",
+                "image" : "assets/images/home_screen/newspaper.png"
+            },
+            {
+                "title" : "চাকরি",
+                "route" : "/jobs",
+                "image" : "assets/images/home_screen/job.png"
+            }
+        ]
+    }
+]

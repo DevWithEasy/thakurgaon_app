@@ -1,0 +1,202 @@
+[
+  {
+    "id": "1",
+    "name": "হোটেল গ্র্যান্ড পার্ক",
+    "location": "ঢাকা, বাংলাদেশ",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "contact": "01711122334",
+    "email": "grandpark@example.com",
+    "rooms": 50,
+    "amenities": ["ওয়াইফাই", "সুইমিং পুল", "জিম", "রেস্টুরেন্ট"]
+  },
+  {
+    "id": "2",
+    "name": "হোটেল সী ভিউ",
+    "location": "চট্টগ্রাম, বাংলাদেশ",
+    "upazilla": "পীরগঞ্জ",
+    "contact": "01811556677",
+    "email": "seaview@example.com",
+    "rooms": 30,
+    "amenities": ["ওয়াইফাই", "রেস্টুরেন্ট", "বার"]
+  },
+  {
+    "id": "3",
+    "name": "হোটেল রয়্যাল গার্ডেন",
+    "location": "রাজশাহী, বাংলাদেশ",
+    "upazilla": "রাণীশংকৈল",
+    "contact": "01911889900",
+    "email": "royalgarden@example.com",
+    "rooms": 40,
+    "amenities": ["ওয়াইফাই", "রেস্টুরেন্ট", "কনফারেন্স রুম"]
+  },
+  {
+    "id": "4",
+    "name": "হোটেল সিটি ইন",
+    "location": "খুলনা, বাংলাদেশ",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "contact": "01611334455",
+    "email": "cityinn@example.com",
+    "rooms": 25,
+    "amenities": ["ওয়াইফাই", "রেস্টুরেন্ট"]
+  },
+  {
+    "id": "5",
+    "name": "হোটেল প্যাসিফিক",
+    "location": "সিলেট, বাংলাদেশ",
+    "upazilla": "হরিপুর",
+    "contact": "01511667788",
+    "email": "pacific@example.com",
+    "rooms": 35,
+    "amenities": ["ওয়াইফাই", "রেস্টুরেন্ট", "বার", "জিম"]
+  },
+  {
+    "id": "6",
+    "name": "হোটেল নর্থ ভিউ",
+    "location": "বগুড়া, বাংলাদেশ",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "contact": "01311778899",
+    "email": "northview@example.com",
+    "rooms": 20,
+    "amenities": ["ওয়াইফাই", "রেস্টুরেন্ট"]
+  },
+  {
+    "id": "7",
+    "name": "হোটেল কুমিল্লা ইন",
+    "location": "কুমিল্লা, বাংলাদেশ",
+    "upazilla": "পীরগঞ্জ",
+    "contact": "01411990011",
+    "email": "comillainn@example.com",
+    "rooms": 28,
+    "amenities": ["ওয়াইফাই", "রেস্টুরেন্ট", "কনফারেন্স রুম"]
+  },
+  {
+    "id": "8",
+    "name": "হোটেল বরিশাল প্যালেস",
+    "location": "বরিশাল, বাংলাদেশ",
+    "upazilla": "রাণীশংকৈল",
+    "contact": "01711445566",
+    "email": "barishalpalace@example.com",
+    "rooms": 32,
+    "amenities": ["ওয়াইফাই", "রেস্টুরেন্ট", "বার"]
+  },
+  {
+    "id": "9",
+    "name": "হোটেল ময়মনসিংহ গার্ডেন",
+    "location": "ময়মনসিংহ, বাংলাদেশ",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "contact": "01811112233",
+    "email": "mymensinghgarden@example.com",
+    "rooms": 22,
+    "amenities": ["ওয়াইফাই", "রেস্টুরেন্ট"]
+  },
+  {
+    "id": "10",
+    "name": "হোটেল রংপুর ইন্টারন্যাশনাল",
+    "location": "রংপুর, বাংলাদেশ",
+    "upazilla": "হরিপুর",
+    "contact": "01911223344",
+    "email": "rangpurinternational@example.com",
+    "rooms": 45,
+    "amenities": ["ওয়াইফাই", "রেস্টুরেন্ট", "জিম", "সুইমিং পুল"]
+  },
+  {
+    "id": "11",
+    "name": "হোটেল রয়েল বেঙ্গল",
+    "location": "নারায়ণগঞ্জ, বাংলাদেশ",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "contact": "01611111111",
+    "email": "royalbengal@example.com",
+    "rooms": 38,
+    "amenities": ["ওয়াইফাই", "রেস্টুরেন্ট", "বার", "কনফারেন্স রুম"]
+  },
+  {
+    "id": "12",
+    "name": "হোটেল গ্রিন ভ্যালি",
+    "location": "গাজীপুর, বাংলাদেশ",
+    "upazilla": "পীরগঞ্জ",
+    "contact": "01511222222",
+    "email": "greenvalley@example.com",
+    "rooms": 26,
+    "amenities": ["ওয়াইফাই", "রেস্টুরেন্ট"]
+  },
+  {
+    "id": "13",
+    "name": "হোটেল নোয়াখালী ইন",
+    "location": "নোয়াখালী, বাংলাদেশ",
+    "upazilla": "রাণীশংকৈল",
+    "contact": "01711333333",
+    "email": "noakhaliinn@example.com",
+    "rooms": 30,
+    "amenities": ["ওয়াইফাই", "রেস্টুরেন্ট", "কনফারেন্স রুম"]
+  },
+  {
+    "id": "14",
+    "name": "হোটেল যশোর গার্ডেন",
+    "location": "যশোর, বাংলাদেশ",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "contact": "01811444444",
+    "email": "jashoregarden@example.com",
+    "rooms": 29,
+    "amenities": ["ওয়াইফাই", "রেস্টুরেন্ট", "বার"]
+  },
+  {
+    "id": "15",
+    "name": "হোটেল সিরাজগঞ্জ প্যালেস",
+    "location": "সিরাজগঞ্জ, বাংলাদেশ",
+    "upazilla": "হরিপুর",
+    "contact": "01911555555",
+    "email": "sirajganjpalace@example.com",
+    "rooms": 33,
+    "amenities": ["ওয়াইফাই", "রেস্টুরেন্ট", "জিম"]
+  },
+  {
+    "id": "16",
+    "name": "হোটেল পাবনা সিটি",
+    "location": "পাবনা, বাংলাদেশ",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "contact": "01611666666",
+    "email": "pabnacity@example.com",
+    "rooms": 27,
+    "amenities": ["ওয়াইফাই", "রেস্টুরেন্ট"]
+  },
+  {
+    "id": "17",
+    "name": "হোটেল কুষ্টিয়া ইন",
+    "location": "কুষ্টিয়া, বাংলাদেশ",
+    "upazilla": "পীরগঞ্জ",
+    "contact": "01511777777",
+    "email": "kustia.inn@example.com",
+    "rooms": 31,
+    "amenities": ["ওয়াইফাই", "রেস্টুরেন্ট", "কনফারেন্স রুম"]
+  },
+  {
+    "id": "18",
+    "name": "হোটেল ঝিনাইদহ গার্ডেন",
+    "location": "ঝিনাইদহ, বাংলাদেশ",
+    "upazilla": "রাণীশংকৈল",
+    "contact": "01711888888",
+    "email": "jhenaidahgarden@example.com",
+    "rooms": 24,
+    "amenities": ["ওয়াইফাই", "রেস্টুরেন্ট", "বার"]
+  },
+  {
+    "id": "19",
+    "name": "হোটেল মাগুরা প্যালেস",
+    "location": "মাগুরা, বাংলাদেশ",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "contact": "01811999999",
+    "email": "magurapalace@example.com",
+    "rooms": 36,
+    "amenities": ["ওয়াইফাই", "রেস্টুরেন্ট", "জিম"]
+  },
+  {
+    "id": "20",
+    "name": "হোটেল নড়াইল ইন্টারন্যাশনাল",
+    "location": "নড়াইল, বাংলাদেশ",
+    "upazilla": "হরিপুর",
+    "contact": "01911000000",
+    "email": "narailinternational@example.com",
+    "rooms": 42,
+    "amenities": ["ওয়াইফাই", "রেস্টুরেন্ট", "সুইমিং পুল"]
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Thakurgaon Sadar",
+    "bn_name": "ঠাকুরগাঁও সদর",
+    "url": "thakurgaonsadar.thakurgaon.gov.bd"
+  },
+  {
+    "id": 2,
+    "name": "Pirganj",
+    "bn_name": "পীরগঞ্জ",
+    "url": "pirganj.thakurgaon.gov.bd"
+  },
+  {
+    "id": 3,
+    "name": "Ranisankail",
+    "bn_name": "রাণীশংকৈল",
+    "url": "ranisankail.thakurgaon.gov.bd"
+  },
+  {
+    "id": 4,
+    "name": "Haripur",
+    "bn_name": "হরিপুর",
+    "url": "haripur.thakurgaon.gov.bd"
+  },
+  {
+    "id": 5,
+    "name": "Baliadangi",
+    "bn_name": "বালিয়াডাঙ্গী",
+    "url": "baliadangi.thakurgaon.gov.bd"
+  }
+]

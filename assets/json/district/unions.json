@@ -1,0 +1,373 @@
+[
+  {
+    "id": 1,
+    "upazilla_id": 1,
+    "name": "Ruhea",
+    "bn_name": "রুহিয়া",
+    "url": "ruheaup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 2,
+    "upazilla_id": 1,
+    "name": "Akhanagar",
+    "bn_name": "আখানগর",
+    "url": "akhanagarup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 3,
+    "upazilla_id": 1,
+    "name": "Ahcha",
+    "bn_name": "আকচা",
+    "url": "ahchaup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 4,
+    "upazilla_id": 1,
+    "name": "Baragaon",
+    "bn_name": "বড়গাঁও",
+    "url": "baragaonup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 5,
+    "upazilla_id": 1,
+    "name": "Balia",
+    "bn_name": "বালিয়া",
+    "url": "baliaup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 6,
+    "upazilla_id": 1,
+    "name": "Auliapur",
+    "bn_name": "আউলিয়াপুর",
+    "url": "auliapurup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 7,
+    "upazilla_id": 1,
+    "name": "Chilarang",
+    "bn_name": "চিলারং",
+    "url": "chilarangup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 8,
+    "upazilla_id": 1,
+    "name": "Rahimanpur",
+    "bn_name": "রহিমানপুর",
+    "url": "rahimanpurup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 9,
+    "upazilla_id": 1,
+    "name": "Roypur",
+    "bn_name": "রায়পুর",
+    "url": "roypurup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 10,
+    "upazilla_id": 1,
+    "name": "Jamalpur",
+    "bn_name": "জামালপুর",
+    "url": "jamalpurup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 11,
+    "upazilla_id": 1,
+    "name": "Mohammadpur",
+    "bn_name": "মোহাম্মদপুর",
+    "url": "mohammadpurup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 12,
+    "upazilla_id": 1,
+    "name": "Salandar",
+    "bn_name": "সালন্দর",
+    "url": "salandarup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 13,
+    "upazilla_id": 1,
+    "name": "Gareya",
+    "bn_name": "গড়েয়া",
+    "url": "gareyaup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 14,
+    "upazilla_id": 1,
+    "name": "Rajagaon",
+    "bn_name": "রাজাগাঁও",
+    "url": "rajagaonup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 15,
+    "upazilla_id": 1,
+    "name": "Debipur",
+    "bn_name": "দেবীপুর",
+    "url": "debipurup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 16,
+    "upazilla_id": 1,
+    "name": "Nargun",
+    "bn_name": "নারগুন",
+    "url": "nargunup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 17,
+    "upazilla_id": 1,
+    "name": "Jagannathpur",
+    "bn_name": "জগন্নাথপুর",
+    "url": "jagannathpurup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 18,
+    "upazilla_id": 1,
+    "name": "Sukhanpukhari",
+    "bn_name": "শুখানপুকুরী",
+    "url": "sukhanpukhariup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 19,
+    "upazilla_id": 1,
+    "name": "Begunbari",
+    "bn_name": "বেগুনবাড়ী",
+    "url": "begunbariup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 20,
+    "upazilla_id": 1,
+    "name": "Ruhia Pashchim",
+    "bn_name": "রুহিয়া পশ্চিম",
+    "url": "ruhiapashchimup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 21,
+    "upazilla_id": 1,
+    "name": "Dholarhat",
+    "bn_name": "ঢোলারহাট",
+    "url": "dholarhatup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 22,
+    "upazilla_id": 2,
+    "name": "Bhomradaha",
+    "bn_name": "ভোমরাদহ",
+    "url": "bhomradahaup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 23,
+    "upazilla_id": 2,
+    "name": "Kosharaniganj",
+    "bn_name": "কোষারাণীগঞ্জ",
+    "url": "kosharaniganjup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 24,
+    "upazilla_id": 2,
+    "name": "Khangaon",
+    "bn_name": "খনগাঁও",
+    "url": "khangaonup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 25,
+    "upazilla_id": 2,
+    "name": "Saidpur",
+    "bn_name": "সৈয়দপুর",
+    "url": "saidpurup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 26,
+    "upazilla_id": 2,
+    "name": "Pirganj",
+    "bn_name": "পীরগঞ্জ",
+    "url": "pirganjup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 27,
+    "upazilla_id": 2,
+    "name": "Hajipur",
+    "bn_name": "হাজীপুর",
+    "url": "hajipurup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 28,
+    "upazilla_id": 2,
+    "name": "Daulatpur",
+    "bn_name": "দৌলতপুর",
+    "url": "daulatpurup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 29,
+    "upazilla_id": 2,
+    "name": "Sengaon",
+    "bn_name": "সেনগাঁও",
+    "url": "sengaonup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 30,
+    "upazilla_id": 2,
+    "name": "Jabarhat",
+    "bn_name": "জাবরহাট",
+    "url": "jabarhatup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 31,
+    "upazilla_id": 2,
+    "name": "Bairchuna",
+    "bn_name": "বৈরচুনা",
+    "url": "bairchunaup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 32,
+    "upazilla_id": 3,
+    "name": "Dhormogarh",
+    "bn_name": "ধর্মগড়",
+    "url": "dhormogarhup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 33,
+    "upazilla_id": 3,
+    "name": "Nekmorod",
+    "bn_name": "নেকমরদ",
+    "url": "nekmorodup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 34,
+    "upazilla_id": 3,
+    "name": "Hosengaon",
+    "bn_name": "হোসেনগাঁও",
+    "url": "hosengaonup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 35,
+    "upazilla_id": 3,
+    "name": "Lehemba",
+    "bn_name": "লেহেম্বা",
+    "url": "lehembaup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 36,
+    "upazilla_id": 3,
+    "name": "Bachor",
+    "bn_name": "বাচোর",
+    "url": "bachorup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 37,
+    "upazilla_id": 3,
+    "name": "Kashipur",
+    "bn_name": "কাশিপুর",
+    "url": "kashipurup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 38,
+    "upazilla_id": 3,
+    "name": "Ratore",
+    "bn_name": "রাতোর",
+    "url": "ratoreup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 39,
+    "upazilla_id": 3,
+    "name": "Nonduar",
+    "bn_name": "নন্দুয়ার",
+    "url": "nonduarup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 40,
+    "upazilla_id": 4,
+    "name": "Gedura",
+    "bn_name": "গেদুড়া",
+    "url": "geduraup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 41,
+    "upazilla_id": 4,
+    "name": "Amgaon",
+    "bn_name": "আমগাঁও",
+    "url": "amgaonup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 42,
+    "upazilla_id": 4,
+    "name": "Bakua",
+    "bn_name": "বকুয়া",
+    "url": "bakuaup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 43,
+    "upazilla_id": 4,
+    "name": "Dangipara",
+    "bn_name": "ডাঙ্গীপাড়া",
+    "url": "dangiparaup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 44,
+    "upazilla_id": 4,
+    "name": "Haripur",
+    "bn_name": "হরিপুর",
+    "url": "haripurup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 45,
+    "upazilla_id": 4,
+    "name": "Bhaturia",
+    "bn_name": "ভাতুরিয়া",
+    "url": "bhaturiaup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 46,
+    "upazilla_id": 5,
+    "name": "Paria",
+    "bn_name": "পাড়িয়া",
+    "url": "pariaup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 47,
+    "upazilla_id": 5,
+    "name": "Charol",
+    "bn_name": "চারোল",
+    "url": "charolup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 48,
+    "upazilla_id": 5,
+    "name": "Dhontola",
+    "bn_name": "ধনতলা",
+    "url": "dhontolaup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 49,
+    "upazilla_id": 5,
+    "name": "Boropalashbari",
+    "bn_name": "বড়পলাশবাড়ী",
+    "url": "boropalashbariup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 50,
+    "upazilla_id": 5,
+    "name": "Duosuo",
+    "bn_name": "দুওসুও",
+    "url": "duosuoup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 51,
+    "upazilla_id": 5,
+    "name": "Vanor",
+    "bn_name": "ভানোর",
+    "url": "vanorup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 52,
+    "upazilla_id": 5,
+    "name": "Amjankhore",
+    "bn_name": "আমজানখোর",
+    "url": "amjankhoreup.thakurgaon.gov.bd"
+  },
+  {
+    "id": 53,
+    "upazilla_id": 5,
+    "name": "Borobari",
+    "bn_name": "বড়বাড়ী",
+    "url": "borobariup.thakurgaon.gov.bd"
+  }
+]

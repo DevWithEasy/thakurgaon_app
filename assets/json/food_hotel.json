@@ -1,0 +1,182 @@
+[
+  {
+    "id": "1",
+    "name": "হোটেল আল-আমিন",
+    "cuisine": "বাংলা, চাইনিজ",
+    "location": "ঢাকা, বাংলাদেশ",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "contact": "01711122334",
+    "email": "alamin@example.com"
+  },
+  {
+    "id": "2",
+    "name": "নিউ স্টার রেস্টুরেন্ট",
+    "cuisine": "ইন্ডিয়ান, থাই",
+    "location": "চট্টগ্রাম, বাংলাদেশ",
+    "upazilla": "পীরগঞ্জ",
+    "contact": "01811556677",
+    "email": "newstar@example.com"
+  },
+  {
+    "id": "3",
+    "name": "ফুড প্যালেস",
+    "cuisine": "কন্টিনেন্টাল, ইতালিয়ান",
+    "location": "রাজশাহী, বাংলাদেশ",
+    "upazilla": "রাণীশংকৈল",
+    "contact": "01911889900",
+    "email": "foodpalace@example.com"
+  },
+  {
+    "id": "4",
+    "name": "গ্রিন গার্ডেন রেস্টুরেন্ট",
+    "cuisine": "বাংলা, ফাস্ট ফুড",
+    "location": "খুলনা, বাংলাদেশ",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "contact": "01611334455",
+    "email": "greengarden@example.com"
+  },
+  {
+    "id": "5",
+    "name": "সিলেট ফুড জোন",
+    "cuisine": "সিলেটি, চাইনিজ",
+    "location": "সিলেট, বাংলাদেশ",
+    "upazilla": "হরিপুর",
+    "contact": "01511667788",
+    "email": "sylhetfood@example.com"
+  },
+  {
+    "id": "6",
+    "name": "বগুড়া বিরিয়ানি হাউস",
+    "cuisine": "বিরিয়ানি, কাবাব",
+    "location": "বগুড়া, বাংলাদেশ",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "contact": "01311778899",
+    "email": "bogra.biriyani@example.com"
+  },
+  {
+    "id": "7",
+    "name": "কুমিল্লা কাবাব ঘর",
+    "cuisine": "কাবাব, বাংলা",
+    "location": "কুমিল্লা, বাংলাদেশ",
+    "upazilla": "পীরগঞ্জ",
+    "contact": "01411990011",
+    "email": "comilla.kabab@example.com"
+  },
+  {
+    "id": "8",
+    "name": "বরিশাল ফিশ হাউস",
+    "cuisine": "সি-ফুড, বাংলা",
+    "location": "বরিশাল, বাংলাদেশ",
+    "upazilla": "রাণীশংকৈল",
+    "contact": "01711445566",
+    "email": "barishal.fish@example.com"
+  },
+  {
+    "id": "9",
+    "name": "ময়মনসিংহ মিষ্টান্ন ভান্ডার",
+    "cuisine": "মিষ্টি, ফাস্ট ফুড",
+    "location": "ময়মনসিংহ, বাংলাদেশ",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "contact": "01811112233",
+    "email": "mymensingh.sweet@example.com"
+  },
+  {
+    "id": "10",
+    "name": "রংপুর চাইনিজ রেস্টুরেন্ট",
+    "cuisine": "চাইনিজ, থাই",
+    "location": "রংপুর, বাংলাদেশ",
+    "upazilla": "হরিপুর",
+    "contact": "01911223344",
+    "email": "rangpur.chinese@example.com"
+  },
+  {
+    "id": "11",
+    "name": "কাবাব মহল",
+    "cuisine": "কাবাব, বিরিয়ানি",
+    "location": "নারায়ণগঞ্জ, বাংলাদেশ",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "contact": "01611111111",
+    "email": "kabab.mahal@example.com"
+  },
+  {
+    "id": "12",
+    "name": "ফিশ ল্যান্ড",
+    "cuisine": "সি-ফুড, বাংলা",
+    "location": "গাজীপুর, বাংলাদেশ",
+    "upazilla": "পীরগঞ্জ",
+    "contact": "01511222222",
+    "email": "fish.land@example.com"
+  },
+  {
+    "id": "13",
+    "name": "মিষ্টি ঘর",
+    "cuisine": "মিষ্টি, ফাস্ট ফুড",
+    "location": "নোয়াখালী, বাংলাদেশ",
+    "upazilla": "রাণীশংকৈল",
+    "contact": "01711333333",
+    "email": "mishti.ghor@example.com"
+  },
+  {
+    "id": "14",
+    "name": "থাই গার্ডেন",
+    "cuisine": "থাই, চাইনিজ",
+    "location": "যশোর, বাংলাদেশ",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "contact": "01811444444",
+    "email": "thai.garden@example.com"
+  },
+  {
+    "id": "15",
+    "name": "বাংলা ভোজন",
+    "cuisine": "বাংলা, ফাস্ট ফুড",
+    "location": "সিরাজগঞ্জ, বাংলাদেশ",
+    "upazilla": "হরিপুর",
+    "contact": "01911555555",
+    "email": "bangla.vojon@example.com"
+  },
+  {
+    "id": "16",
+    "name": "ইন্ডিয়ান স্পাইস",
+    "cuisine": "ইন্ডিয়ান, কাবাব",
+    "location": "পাবনা, বাংলাদেশ",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "contact": "01611666666",
+    "email": "indian.spice@example.com"
+  },
+  {
+    "id": "17",
+    "name": "কন্টিনেন্টাল কিচেন",
+    "cuisine": "কন্টিনেন্টাল, ইতালিয়ান",
+    "location": "কুষ্টিয়া, বাংলাদেশ",
+    "upazilla": "পীরগঞ্জ",
+    "contact": "01511777777",
+    "email": "continental.kitchen@example.com"
+  },
+  {
+    "id": "18",
+    "name": "সিলেটি স্বাদ",
+    "cuisine": "সিলেটি, বাংলা",
+    "location": "ঝিনাইদহ, বাংলাদেশ",
+    "upazilla": "রাণীশংকৈল",
+    "contact": "01711888888",
+    "email": "sylheti.swad@example.com"
+  },
+  {
+    "id": "19",
+    "name": "বিরিয়ানি এক্সপ্রেস",
+    "cuisine": "বিরিয়ানি, কাবাব",
+    "location": "মাগুরা, বাংলাদেশ",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "contact": "01811999999",
+    "email": "biriyani.express@example.com"
+  },
+  {
+    "id": "20",
+    "name": "চাইনিজ টাউন",
+    "cuisine": "চাইনিজ, থাই",
+    "location": "নড়াইল, বাংলাদেশ",
+    "upazilla": "হরিপুর",
+    "contact": "01911000000",
+    "email": "chinese.town@example.com"
+  }
+]

@@ -1,0 +1,202 @@
+[
+    {
+      "id": "1",
+      "name": "উদ্ভাস কোচিং সেন্টার",
+      "location": "ঢাকা, বাংলাদেশ",
+      "contact": "01711223344",
+      "email": "udvash@example.com",
+      "upazilla": "ঠাকুরগাঁও সদর"
+    },
+    {
+      "id": "2",
+      "name": "রেটিনা কোচিং সেন্টার",
+      "location": "চট্টগ্রাম, বাংলাদেশ",
+      "contact": "01811556677",
+      "email": "retina@example.com",
+      "upazilla": "পীরগঞ্জ"
+    },
+    {
+      "id": "3",
+      "name": "ফোকাস কোচিং সেন্টার",
+      "location": "রাজশাহী, বাংলাদেশ",
+      "contact": "01911889900",
+      "email": "focus@example.com",
+      "upazilla": "রাণীশংকৈল"
+    },
+    {
+      "id": "4",
+      "name": "সাঁইন্স ল্যাব কোচিং সেন্টার",
+      "location": "খুলনা, বাংলাদেশ",
+      "contact": "01611334455",
+      "email": "science@example.com",
+      "upazilla": "বালিয়াডাঙ্গী"
+    },
+    {
+      "id": "5",
+      "name": "প্যারাগন কোচিং সেন্টার",
+      "location": "সিলেট, বাংলাদেশ",
+      "contact": "01511667788",
+      "email": "paragon@example.com",
+      "upazilla": "হরিপুর"
+    },
+    {
+      "id": "6",
+      "name": "সাইফুলস কোচিং সেন্টার",
+      "location": "বগুড়া, বাংলাদেশ",
+      "contact": "01311778899",
+      "email": "saifurs@example.com",
+      "upazilla": "ঠাকুরগাঁও সদর"
+    },
+    {
+      "id": "7",
+      "name": "কনসেপ্ট কোচিং সেন্টার",
+      "location": "কুমিল্লা, বাংলাদেশ",
+      "contact": "01411990011",
+      "email": "concept@example.com",
+      "upazilla": "পীরগঞ্জ"
+    },
+    {
+      "id": "8",
+      "name": "ক্যারিয়ার এইড কোচিং সেন্টার",
+      "location": "বরিশাল, বাংলাদেশ",
+      "contact": "01711445566",
+      "email": "career@example.com",
+      "upazilla": "রাণীশংকৈল"
+    },
+    {
+      "id": "9",
+      "name": "মেন্টরস কোচিং সেন্টার",
+      "location": "ময়মনসিংহ, বাংলাদেশ",
+      "contact": "01811112233",
+      "email": "mentors@example.com",
+      "upazilla": "বালিয়াডাঙ্গী"
+    },
+    {
+      "id": "10",
+      "name": "প্রয়াস কোচিং সেন্টার",
+      "location": "রংপুর, বাংলাদেশ",
+      "contact": "01911223344",
+      "email": "proyas@example.com",
+      "upazilla": "হরিপুর"
+    },
+    {
+      "id": "11",
+      "name": "আইকন কোচিং সেন্টার",
+      "location": "নারায়ণগঞ্জ, বাংলাদেশ",
+      "contact": "01611556677",
+      "email": "icon@example.com",
+      "upazilla": "ঠাকুরগাঁও সদর"
+    },
+    {
+      "id": "12",
+      "name": "এক্সেল কোচিং সেন্টার",
+      "location": "গাজীপুর, বাংলাদেশ",
+      "contact": "01511889900",
+      "email": "excel@example.com",
+      "upazilla": "পীরগঞ্জ"
+    },
+    {
+      "id": "13",
+      "name": "এপেক্স কোচিং সেন্টার",
+      "location": "নোয়াখালী, বাংলাদেশ",
+      "contact": "01711334455",
+      "email": "apex@example.com",
+      "upazilla": "রাণীশংকৈল"
+    },
+    {
+      "id": "14",
+      "name": "গোল্ডেন কোচিং সেন্টার",
+      "location": "যশোর, বাংলাদেশ",
+      "contact": "01811667788",
+      "email": "golden@example.com",
+      "upazilla": "বালিয়াডাঙ্গী"
+    },
+    {
+      "id": "15",
+      "name": "অগ্রদূত কোচিং সেন্টার",
+      "location": "সিরাজগঞ্জ, বাংলাদেশ",
+      "contact": "01911990011",
+      "email": "agrodut@example.com",
+      "upazilla": "হরিপুর"
+    },
+    {
+      "id": "16",
+      "name": "দিশা কোচিং সেন্টার",
+      "location": "পাবনা, বাংলাদেশ",
+      "contact": "01311111111",
+      "email": "disha@example.com",
+      "upazilla": "ঠাকুরগাঁও সদর"
+    },
+    {
+      "id": "17",
+      "name": "প্রগতি কোচিং সেন্টার",
+      "location": "কুষ্টিয়া, বাংলাদেশ",
+      "contact": "01411222222",
+      "email": "progoti@example.com",
+      "upazilla": "পীরগঞ্জ"
+    },
+    {
+      "id": "18",
+      "name": "আলোকিত কোচিং সেন্টার",
+      "location": "ঝিনাইদহ, বাংলাদেশ",
+      "contact": "01711333333",
+      "email": "alokito@example.com",
+      "upazilla": "রাণীশংকৈল"
+    },
+    {
+      "id": "19",
+      "name": "উত্তরণ কোচিং সেন্টার",
+      "location": "মাগুরা, বাংলাদেশ",
+      "contact": "01811444444",
+      "email": "uttoron@example.com",
+      "upazilla": "বালিয়াডাঙ্গী"
+    },
+    {
+      "id": "20",
+      "name": "স্বপ্নীল কোচিং সেন্টার",
+      "location": "নড়াইল, বাংলাদেশ",
+      "contact": "01911555555",
+      "email": "shopnil@example.com",
+      "upazilla": "হরিপুর"
+    },
+    {
+      "id": "21",
+      "name": "জাগরণ কোচিং সেন্টার",
+      "location": "বাগেরহাট, বাংলাদেশ",
+      "contact": "01611666666",
+      "email": "jagarun@example.com",
+      "upazilla": "ঠাকুরগাঁও সদর"
+    },
+    {
+      "id": "22",
+      "name": "আদর্শ কোচিং সেন্টার",
+      "location": "সাতক্ষীরা, বাংলাদেশ",
+      "contact": "01511777777",
+      "email": "adarsho@example.com",
+      "upazilla": "পীরগঞ্জ"
+    },
+    {
+      "id": "23",
+      "name": "মেধাবী কোচিং সেন্টার",
+      "location": "পিরোজপুর, বাংলাদেশ",
+      "contact": "01711888888",
+      "email": "medhabi@example.com",
+      "upazilla": "রাণীশংকৈল"
+    },
+    {
+      "id": "24",
+      "name": "জ্ঞানদ্বীপ কোচিং সেন্টার",
+      "location": "ঝালকাঠি, বাংলাদেশ",
+      "contact": "01811999999",
+      "email": "gandip@example.com",
+      "upazilla": "বালিয়াডাঙ্গী"
+    },
+    {
+      "id": "25",
+      "name": "উজ্জ্বল কোচিং সেন্টার",
+      "location": "বরগুনা, বাংলাদেশ",
+      "contact": "01911000000",
+      "email": "ujjol@example.com",
+      "upazilla": "হরিপুর"
+    }
+  ]

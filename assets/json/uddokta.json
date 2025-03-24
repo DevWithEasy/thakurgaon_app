@@ -1,0 +1,102 @@
+[
+    {
+      "id": "1",
+      "name": "আহমেদ কামাল",
+      "business": "ই-কমার্স",
+      "location": "ঢাকা, বাংলাদেশ",
+      "upazilla": "ঠাকুরগাঁও সদর",
+      "contact": "01711122334",
+      "email": "ahmed.kamal@example.com",
+      "image": "https://picsum.photos/200/300"
+    },
+    {
+      "id": "2",
+      "name": "ফারজানা হক",
+      "business": "ফ্যাশন ডিজাইন",
+      "location": "চট্টগ্রাম, বাংলাদেশ",
+      "upazilla": "পীরগঞ্জ",
+      "contact": "01811556677",
+      "email": "farzana.haque@example.com",
+      "image": "https://picsum.photos/300/200"
+    },
+    {
+      "id": "3",
+      "name": "রাকিব হোসেন",
+      "business": "ফুড ডেলিভারি",
+      "location": "রাজশাহী, বাংলাদেশ",
+      "upazilla": "রাণীশংকৈল",
+      "contact": "01911889900",
+      "email": "rakib.hossain@example.com",
+      "image": "https://picsum.photos/250/250"
+    },
+    {
+      "id": "4",
+      "name": "সুমাইয়া আক্তার",
+      "business": "আইটি সলিউশন",
+      "location": "খুলনা, বাংলাদেশ",
+      "upazilla": "বালিয়াডাঙ্গী",
+      "contact": "01611334455",
+      "email": "sumaiya.akter@example.com",
+      "image": "https://picsum.photos/400/200"
+    },
+    {
+      "id": "5",
+      "name": "সাকিব আহমেদ",
+      "business": "হস্তশিল্প",
+      "location": "সিলেট, বাংলাদেশ",
+      "upazilla": "হরিপুর",
+      "contact": "01511667788",
+      "email": "sakib.ahmed@example.com",
+      "image": "https://picsum.photos/200/400"
+    },
+    {
+      "id": "6",
+      "name": "জান্নাতুল ফেরদৌস",
+      "business": "শিক্ষা প্রযুক্তি",
+      "location": "বগুড়া, বাংলাদেশ",
+      "upazilla": "ঠাকুরগাঁও সদর",
+      "contact": "01311778899",
+      "email": "jannatul.ferdous@example.com",
+      "image": "https://picsum.photos/350/250"
+    },
+    {
+      "id": "7",
+      "name": "মাহফুজুর রহমান",
+      "business": "কৃষি পণ্য",
+      "location": "কুমিল্লা, বাংলাদেশ",
+      "upazilla": "পীরগঞ্জ",
+      "contact": "01411990011",
+      "email": "mahfuzur.rahman@example.com",
+      "image": "https://picsum.photos/250/350"
+    },
+    {
+      "id": "8",
+      "name": "তাসলিমা আক্তার",
+      "business": "পর্যটন সেবা",
+      "location": "বরিশাল, বাংলাদেশ",
+      "upazilla": "রাণীশংকৈল",
+      "contact": "01711445566",
+      "email": "taslima.akter@example.com",
+      "image": "https://picsum.photos/300/300"
+    },
+    {
+      "id": "9",
+      "name": "আসিফ ইকবাল",
+      "business": "নির্মাণ সামগ্রী",
+      "location": "ময়মনসিংহ, বাংলাদেশ",
+      "upazilla": "বালিয়াডাঙ্গী",
+      "contact": "01811112233",
+      "email": "asif.iqbal@example.com",
+      "image": "https://picsum.photos/200/250"
+    },
+    {
+      "id": "10",
+      "name": "নাদিয়া সুলতানা",
+      "business": "স্বাস্থ্য সেবা",
+      "location": "রংপুর, বাংলাদেশ",
+      "upazilla": "হরিপুর",
+      "contact": "01911223344",
+      "email": "nadia.sultana@example.com",
+      "image": "https://picsum.photos/250/200"
+    }
+  ]

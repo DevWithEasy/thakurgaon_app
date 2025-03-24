@@ -1,0 +1,452 @@
+[
+  {
+    "id": "1",
+    "name": "শিক্ষা প্রতিষ্ঠান 1",
+    "type": "alia",
+    "upazilla": "পীরগঞ্জ",
+    "location": "পীরগঞ্জ বাজার, ঠাকুরগাঁও",
+    "contact": "0171000001",
+    "email": "school1@example.com"
+  },
+  {
+    "id": "2",
+    "name": "শিক্ষা প্রতিষ্ঠান 2",
+    "type": "collage",
+    "upazilla": "রাণীশংকৈল",
+    "location": "রাণীশংকৈল বাজার, ঠাকুরগাঁও",
+    "contact": "0171000002",
+    "email": "school2@example.com"
+  },
+  {
+    "id": "3",
+    "name": "শিক্ষা প্রতিষ্ঠান 3",
+    "type": "school",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "location": "বালিয়াডাঙ্গী বাজার, ঠাকুরগাঁও",
+    "contact": "0171000003",
+    "email": "school3@example.com"
+  },
+  {
+    "id": "4",
+    "name": "শিক্ষা প্রতিষ্ঠান 4",
+    "type": "technical",
+    "upazilla": "হরিপুর",
+    "location": "হরিপুর বাজার, ঠাকুরগাঁও",
+    "contact": "0171000004",
+    "email": "school4@example.com"
+  },
+  {
+    "id": "5",
+    "name": "শিক্ষা প্রতিষ্ঠান 5",
+    "type": "hafeji",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "location": "ঠাকুরগাঁও সদর বাজার, ঠাকুরগাঁও",
+    "contact": "0171000005",
+    "email": "school5@example.com"
+  },
+  {
+    "id": "6",
+    "name": "শিক্ষা প্রতিষ্ঠান 6",
+    "type": "alia",
+    "upazilla": "পীরগঞ্জ",
+    "location": "পীরগঞ্জ বাজার, ঠাকুরগাঁও",
+    "contact": "0171000006",
+    "email": "school6@example.com"
+  },
+  {
+    "id": "7",
+    "name": "শিক্ষা প্রতিষ্ঠান 7",
+    "type": "collage",
+    "upazilla": "রাণীশংকৈল",
+    "location": "রাণীশংকৈল বাজার, ঠাকুরগাঁও",
+    "contact": "0171000007",
+    "email": "school7@example.com"
+  },
+  {
+    "id": "8",
+    "name": "শিক্ষা প্রতিষ্ঠান 8",
+    "type": "school",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "location": "বালিয়াডাঙ্গী বাজার, ঠাকুরগাঁও",
+    "contact": "0171000008",
+    "email": "school8@example.com"
+  },
+  {
+    "id": "9",
+    "name": "শিক্ষা প্রতিষ্ঠান 9",
+    "type": "technical",
+    "upazilla": "হরিপুর",
+    "location": "হরিপুর বাজার, ঠাকুরগাঁও",
+    "contact": "0171000009",
+    "email": "school9@example.com"
+  },
+  {
+    "id": "10",
+    "name": "শিক্ষা প্রতিষ্ঠান 10",
+    "type": "hafeji",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "location": "ঠাকুরগাঁও সদর বাজার, ঠাকুরগাঁও",
+    "contact": "0171000010",
+    "email": "school10@example.com"
+  },
+  {
+    "id": "11",
+    "name": "শিক্ষা প্রতিষ্ঠান 11",
+    "type": "alia",
+    "upazilla": "পীরগঞ্জ",
+    "location": "পীরগঞ্জ বাজার, ঠাকুরগাঁও",
+    "contact": "0171000011",
+    "email": "school11@example.com"
+  },
+  {
+    "id": "12",
+    "name": "শিক্ষা প্রতিষ্ঠান 12",
+    "type": "collage",
+    "upazilla": "রাণীশংকৈল",
+    "location": "রাণীশংকৈল বাজার, ঠাকুরগাঁও",
+    "contact": "0171000012",
+    "email": "school12@example.com"
+  },
+  {
+    "id": "13",
+    "name": "শিক্ষা প্রতিষ্ঠান 13",
+    "type": "school",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "location": "বালিয়াডাঙ্গী বাজার, ঠাকুরগাঁও",
+    "contact": "0171000013",
+    "email": "school13@example.com"
+  },
+  {
+    "id": "14",
+    "name": "শিক্ষা প্রতিষ্ঠান 14",
+    "type": "technical",
+    "upazilla": "হরিপুর",
+    "location": "হরিপুর বাজার, ঠাকুরগাঁও",
+    "contact": "0171000014",
+    "email": "school14@example.com"
+  },
+  {
+    "id": "15",
+    "name": "শিক্ষা প্রতিষ্ঠান 15",
+    "type": "hafeji",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "location": "ঠাকুরগাঁও সদর বাজার, ঠাকুরগাঁও",
+    "contact": "0171000015",
+    "email": "school15@example.com"
+  },
+  {
+    "id": "16",
+    "name": "শিক্ষা প্রতিষ্ঠান 16",
+    "type": "alia",
+    "upazilla": "পীরগঞ্জ",
+    "location": "পীরগঞ্জ বাজার, ঠাকুরগাঁও",
+    "contact": "0171000016",
+    "email": "school16@example.com"
+  },
+  {
+    "id": "17",
+    "name": "শিক্ষা প্রতিষ্ঠান 17",
+    "type": "collage",
+    "upazilla": "রাণীশংকৈল",
+    "location": "রাণীশংকৈল বাজার, ঠাকুরগাঁও",
+    "contact": "0171000017",
+    "email": "school17@example.com"
+  },
+  {
+    "id": "18",
+    "name": "শিক্ষা প্রতিষ্ঠান 18",
+    "type": "school",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "location": "বালিয়াডাঙ্গী বাজার, ঠাকুরগাঁও",
+    "contact": "0171000018",
+    "email": "school18@example.com"
+  },
+  {
+    "id": "19",
+    "name": "শিক্ষা প্রতিষ্ঠান 19",
+    "type": "technical",
+    "upazilla": "হরিপুর",
+    "location": "হরিপুর বাজার, ঠাকুরগাঁও",
+    "contact": "0171000019",
+    "email": "school19@example.com"
+  },
+  {
+    "id": "20",
+    "name": "শিক্ষা প্রতিষ্ঠান 20",
+    "type": "hafeji",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "location": "ঠাকুরগাঁও সদর বাজার, ঠাকুরগাঁও",
+    "contact": "0171000020",
+    "email": "school20@example.com"
+  },
+  {
+    "id": "21",
+    "name": "শিক্ষা প্রতিষ্ঠান 21",
+    "type": "alia",
+    "upazilla": "পীরগঞ্জ",
+    "location": "পীরগঞ্জ বাজার, ঠাকুরগাঁও",
+    "contact": "0171000021",
+    "email": "school21@example.com"
+  },
+  {
+    "id": "22",
+    "name": "শিক্ষা প্রতিষ্ঠান 22",
+    "type": "collage",
+    "upazilla": "রাণীশংকৈল",
+    "location": "রাণীশংকৈল বাজার, ঠাকুরগাঁও",
+    "contact": "0171000022",
+    "email": "school22@example.com"
+  },
+  {
+    "id": "23",
+    "name": "শিক্ষা প্রতিষ্ঠান 23",
+    "type": "school",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "location": "বালিয়াডাঙ্গী বাজার, ঠাকুরগাঁও",
+    "contact": "0171000023",
+    "email": "school23@example.com"
+  },
+  {
+    "id": "24",
+    "name": "শিক্ষা প্রতিষ্ঠান 24",
+    "type": "technical",
+    "upazilla": "হরিপুর",
+    "location": "হরিপুর বাজার, ঠাকুরগাঁও",
+    "contact": "0171000024",
+    "email": "school24@example.com"
+  },
+  {
+    "id": "25",
+    "name": "শিক্ষা প্রতিষ্ঠান 25",
+    "type": "hafeji",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "location": "ঠাকুরগাঁও সদর বাজার, ঠাকুরগাঁও",
+    "contact": "0171000025",
+    "email": "school25@example.com"
+  },
+  {
+    "id": "26",
+    "name": "শিক্ষা প্রতিষ্ঠান 26",
+    "type": "alia",
+    "upazilla": "পীরগঞ্জ",
+    "location": "পীরগঞ্জ বাজার, ঠাকুরগাঁও",
+    "contact": "0171000026",
+    "email": "school26@example.com"
+  },
+  {
+    "id": "27",
+    "name": "শিক্ষা প্রতিষ্ঠান 27",
+    "type": "collage",
+    "upazilla": "রাণীশংকৈল",
+    "location": "রাণীশংকৈল বাজার, ঠাকুরগাঁও",
+    "contact": "0171000027",
+    "email": "school27@example.com"
+  },
+  {
+    "id": "28",
+    "name": "শিক্ষা প্রতিষ্ঠান 28",
+    "type": "school",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "location": "বালিয়াডাঙ্গী বাজার, ঠাকুরগাঁও",
+    "contact": "0171000028",
+    "email": "school28@example.com"
+  },
+  {
+    "id": "29",
+    "name": "শিক্ষা প্রতিষ্ঠান 29",
+    "type": "technical",
+    "upazilla": "হরিপুর",
+    "location": "হরিপুর বাজার, ঠাকুরগাঁও",
+    "contact": "0171000029",
+    "email": "school29@example.com"
+  },
+  {
+    "id": "30",
+    "name": "শিক্ষা প্রতিষ্ঠান 30",
+    "type": "hafeji",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "location": "ঠাকুরগাঁও সদর বাজার, ঠাকুরগাঁও",
+    "contact": "0171000030",
+    "email": "school30@example.com"
+  },
+  {
+    "id": "31",
+    "name": "শিক্ষা প্রতিষ্ঠান 31",
+    "type": "alia",
+    "upazilla": "পীরগঞ্জ",
+    "location": "পীরগঞ্জ বাজার, ঠাকুরগাঁও",
+    "contact": "0171000031",
+    "email": "school31@example.com"
+  },
+  {
+    "id": "32",
+    "name": "শিক্ষা প্রতিষ্ঠান 32",
+    "type": "collage",
+    "upazilla": "রাণীশংকৈল",
+    "location": "রাণীশংকৈল বাজার, ঠাকুরগাঁও",
+    "contact": "0171000032",
+    "email": "school32@example.com"
+  },
+  {
+    "id": "33",
+    "name": "শিক্ষা প্রতিষ্ঠান 33",
+    "type": "school",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "location": "বালিয়াডাঙ্গী বাজার, ঠাকুরগাঁও",
+    "contact": "0171000033",
+    "email": "school33@example.com"
+  },
+  {
+    "id": "34",
+    "name": "শিক্ষা প্রতিষ্ঠান 34",
+    "type": "technical",
+    "upazilla": "হরিপুর",
+    "location": "হরিপুর বাজার, ঠাকুরগাঁও",
+    "contact": "0171000034",
+    "email": "school34@example.com"
+  },
+  {
+    "id": "35",
+    "name": "শিক্ষা প্রতিষ্ঠান 35",
+    "type": "hafeji",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "location": "ঠাকুরগাঁও সদর বাজার, ঠাকুরগাঁও",
+    "contact": "0171000035",
+    "email": "school35@example.com"
+  },
+  {
+    "id": "36",
+    "name": "শিক্ষা প্রতিষ্ঠান 36",
+    "type": "alia",
+    "upazilla": "পীরগঞ্জ",
+    "location": "পীরগঞ্জ বাজার, ঠাকুরগাঁও",
+    "contact": "0171000036",
+    "email": "school36@example.com"
+  },
+  {
+    "id": "37",
+    "name": "শিক্ষা প্রতিষ্ঠান 37",
+    "type": "collage",
+    "upazilla": "রাণীশংকৈল",
+    "location": "রাণীশংকৈল বাজার, ঠাকুরগাঁও",
+    "contact": "0171000037",
+    "email": "school37@example.com"
+  },
+  {
+    "id": "38",
+    "name": "শিক্ষা প্রতিষ্ঠান 38",
+    "type": "school",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "location": "বালিয়াডাঙ্গী বাজার, ঠাকুরগাঁও",
+    "contact": "0171000038",
+    "email": "school38@example.com"
+  },
+  {
+    "id": "39",
+    "name": "শিক্ষা প্রতিষ্ঠান 39",
+    "type": "technical",
+    "upazilla": "হরিপুর",
+    "location": "হরিপুর বাজার, ঠাকুরগাঁও",
+    "contact": "0171000039",
+    "email": "school39@example.com"
+  },
+  {
+    "id": "40",
+    "name": "শিক্ষা প্রতিষ্ঠান 40",
+    "type": "hafeji",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "location": "ঠাকুরগাঁও সদর বাজার, ঠাকুরগাঁও",
+    "contact": "0171000040",
+    "email": "school40@example.com"
+  },
+  {
+    "id": "41",
+    "name": "শিক্ষা প্রতিষ্ঠান 41",
+    "type": "alia",
+    "upazilla": "পীরগঞ্জ",
+    "location": "পীরগঞ্জ বাজার, ঠাকুরগাঁও",
+    "contact": "0171000041",
+    "email": "school41@example.com"
+  },
+  {
+    "id": "42",
+    "name": "শিক্ষা প্রতিষ্ঠান 42",
+    "type": "collage",
+    "upazilla": "রাণীশংকৈল",
+    "location": "রাণীশংকৈল বাজার, ঠাকুরগাঁও",
+    "contact": "0171000042",
+    "email": "school42@example.com"
+  },
+  {
+    "id": "43",
+    "name": "শিক্ষা প্রতিষ্ঠান 43",
+    "type": "school",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "location": "বালিয়াডাঙ্গী বাজার, ঠাকুরগাঁও",
+    "contact": "0171000043",
+    "email": "school43@example.com"
+  },
+  {
+    "id": "44",
+    "name": "শিক্ষা প্রতিষ্ঠান 44",
+    "type": "technical",
+    "upazilla": "হরিপুর",
+    "location": "হরিপুর বাজার, ঠাকুরগাঁও",
+    "contact": "0171000044",
+    "email": "school44@example.com"
+  },
+  {
+    "id": "45",
+    "name": "শিক্ষা প্রতিষ্ঠান 45",
+    "type": "hafeji",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "location": "ঠাকুরগাঁও সদর বাজার, ঠাকুরগাঁও",
+    "contact": "0171000045",
+    "email": "school45@example.com"
+  },
+  {
+    "id": "46",
+    "name": "শিক্ষা প্রতিষ্ঠান 46",
+    "type": "alia",
+    "upazilla": "পীরগঞ্জ",
+    "location": "পীরগঞ্জ বাজার, ঠাকুরগাঁও",
+    "contact": "0171000046",
+    "email": "school46@example.com"
+  },
+  {
+    "id": "47",
+    "name": "শিক্ষা প্রতিষ্ঠান 47",
+    "type": "collage",
+    "upazilla": "রাণীশংকৈল",
+    "location": "রাণীশংকৈল বাজার, ঠাকুরগাঁও",
+    "contact": "0171000047",
+    "email": "school47@example.com"
+  },
+  {
+    "id": "48",
+    "name": "শিক্ষা প্রতিষ্ঠান 48",
+    "type": "school",
+    "upazilla": "বালিয়াডাঙ্গী",
+    "location": "বালিয়াডাঙ্গী বাজার, ঠাকুরগাঁও",
+    "contact": "0171000048",
+    "email": "school48@example.com"
+  },
+  {
+    "id": "49",
+    "name": "শিক্ষা প্রতিষ্ঠান 49",
+    "type": "technical",
+    "upazilla": "হরিপুর",
+    "location": "হরিপুর বাজার, ঠাকুরগাঁও",
+    "contact": "0171000049",
+    "email": "school49@example.com"
+  },
+  {
+    "id": "50",
+    "name": "শিক্ষা প্রতিষ্ঠান 50",
+    "type": "hafeji",
+    "upazilla": "ঠাকুরগাঁও সদর",
+    "location": "ঠাকুরগাঁও সদর বাজার, ঠাকুরগাঁও",
+    "contact": "0171000050",
+    "email": "school50@example.com"
+  }
+]

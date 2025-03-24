@@ -1,0 +1,198 @@
+name: thakurgaon
+description: "Thakurgaon District Online Seba"
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+# In Windows, build-name is used as the major, minor, and patch parts
+# of the product and file versions while build-number is used as the build suffix.
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.7.0
+
+# Dependencies specify other packages that your package needs in order to work.
+# To automatically upgrade your package dependencies to the latest versions
+# consider running `flutter pub upgrade --major-versions`. Alternatively,
+# dependencies can be manually updated by changing the version numbers below to
+# the latest version available on pub.dev. To see which dependencies have newer
+# versions available, run `flutter pub outdated`.
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.8
+  flutter_native_splash: ^2.4.5
+  http: ^1.3.0
+  provider: ^6.1.2
+  shared_preferences: ^2.5.2
+  photo_view: ^0.15.0
+  url_launcher: ^6.3.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  flutter_lints: ^5.0.0
+  flutter_launcher_icons: ^0.14.3
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/icon.png"
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/icon/icon.png
+    - assets/icon/android_logo.png
+    - assets/icon/android_branding.png
+    - assets/json/categories.json
+    - assets/json/education_data.json
+    - assets/json/coaching_center.json
+    - assets/json/tutors.json
+    - assets/json/lawyers.json
+    - assets/json/surveyors.json
+    - assets/json/formans.json
+    - assets/json/food_hotel.json
+    - assets/json/restaurants.json
+    - assets/json/residential_hotel.json
+    - assets/json/rest_house.json
+    - assets/json/uddokta.json
+    - assets/json/uddokta_product.json
+    - assets/json/news.json
+    - assets/json/jobs.json
+    - assets/json/district/upazilla.json
+    - assets/json/district/unions.json
+    - assets/json/district/info.json
+    - assets/json/district/traditions.json
+    - assets/json/district/tourist_place.json
+    - assets/json/health/hospital.json
+    - assets/json/health/doctors.json
+    - assets/json/health/donors.json
+    - assets/images/dashboard.png
+    - assets/images/question.png
+    - assets/images/winner.png
+    - assets/images/coin.png
+    - assets/images/village_scene.png
+    - assets/images/contact_me.png
+    - assets/images/privacy_policy.png
+    - assets/images/terms_and_conditions.png
+    - assets/images/thank_you.png
+    - assets/images/developer.png
+    - assets/images/facebook.png
+    - assets/images/linkedin.png
+    - assets/images/github.png
+    - assets/images/places/dc_park.jpeg
+    - assets/images/places/jamalpur_mosque.jpg
+    - assets/images/places/locayon.png
+    - assets/images/places/old_mosque.jpg
+    - assets/images/places/mango_tree.jpeg
+    - assets/images/places/orange_valley.jpg
+    - assets/images/places/eskon_mandir.jpg
+    - assets/images/places/opajeo_71.jpg
+    - assets/images/places/bangla_gor.jpg
+    - assets/images/places/bolaka_uddan.jpeg
+    - assets/images/places/dhol_mandir.jpg
+    - assets/images/places/fatehpur_mosqu.jpeg
+    - assets/images/places/gorokkho_nath.jpg
+    - assets/images/places/gorokkho_nath_kup.jpg
+    - assets/images/places/jogdol_rajbari.jpg
+    - assets/images/places/raja_tonknath.jpg
+    - assets/images/places/talmai_dighi.jpg
+    - assets/images/places/gedura_mosque.jpg
+    - assets/images/places/gor_vobanipur.png
+    - assets/images/home_screen/about.png
+    - assets/images/home_screen/map.png
+    - assets/images/home_screen/historical_place.png
+    - assets/images/home_screen/district_place.png
+    - assets/images/home_screen/tradition.png
+    - assets/images/home_screen/police.png
+    - assets/images/home_screen/fire_service.png
+    - assets/images/home_screen/electric_service.png
+    - assets/images/home_screen/helpline.png
+    - assets/images/home_screen/hospital.png
+    - assets/images/home_screen/diagnostic.png
+    - assets/images/home_screen/doctor.png
+    - assets/images/home_screen/homeopathy_doctor.png
+    - assets/images/home_screen/blood_donation.png
+    - assets/images/home_screen/blood.png
+    - assets/images/home_screen/ambulance.png
+    - assets/images/home_screen/institute.png
+    - assets/images/home_screen/madrasah.png
+    - assets/images/home_screen/alia_madrasa.png
+    - assets/images/home_screen/collage.png
+    - assets/images/home_screen/school.png
+    - assets/images/home_screen/technical.png
+    - assets/images/home_screen/library.png
+    - assets/images/home_screen/coaching_center.png
+    - assets/images/home_screen/tutor.png
+    - assets/images/home_screen/lawyer.png
+    - assets/images/home_screen/surveyor.png
+    - assets/images/home_screen/electrician.png
+    - assets/images/home_screen/house_rent.png
+    - assets/images/home_screen/rent_mess.png
+    - assets/images/home_screen/car_rental.png
+    - assets/images/home_screen/rent_pickup.png
+    - assets/images/home_screen/bus_stop.png
+    - assets/images/home_screen/rail_stop.png
+    - assets/images/home_screen/hotel_food.png
+    - assets/images/home_screen/restaurant.png
+    - assets/images/home_screen/hotel_residental.png
+    - assets/images/home_screen/house_rest.png
+    - assets/images/home_screen/quiz_reward.png
+    - assets/images/home_screen/learn_earn.png
+    - assets/images/home_screen/contributor.png
+    - assets/images/home_screen/raffle.png
+    - assets/images/home_screen/emergency.png
+    - assets/images/home_screen/entrepreneur.png
+    - assets/images/home_screen/newspaper.png
+    - assets/images/home_screen/job.png
+    - assets/images/home_screen/teacher.png
+    - assets/images/home_screen/district_history.png
+    - assets/images/home_screen/todays_district.png
+    - assets/images/district_info/thakurgaon_map_white.png
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/to/resolution-aware-images
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/to/asset-from-package
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  fonts:
+    - family: kalpurush
+      fonts:
+        - asset: assets/fonts/kalpurush.ttf
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/to/font-from-package
