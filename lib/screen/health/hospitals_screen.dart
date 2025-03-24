@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:thakurgaon/model/hospital_model.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import '../../provider/app_provider.dart';
 import '../../utils/app_utils.dart';
 
 class HospitalsScreen extends StatefulWidget {
@@ -62,7 +63,9 @@ class _HospitalsScreenState extends State<HospitalsScreen> {
     });
   }
 
-  void _showFilterBottomSheet() {
+  void _showFilterBottomSheet(BuildContext context) {
+    final isDarkMode = Provider.of<AppProvider>(context, listen: false).themeMode == ThemeMode.dark;
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -72,7 +75,7 @@ class _HospitalsScreenState extends State<HospitalsScreen> {
           builder: (context, setState) {
             return Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: isDarkMode ? Colors.grey[800] : Colors.white,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                 boxShadow: [
                   BoxShadow(
@@ -92,7 +95,7 @@ class _HospitalsScreenState extends State<HospitalsScreen> {
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
-                      color: Colors.teal,
+                      color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
                     ),
                   ),
                   SizedBox(height: 16),
@@ -105,10 +108,14 @@ class _HospitalsScreenState extends State<HospitalsScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
+                      color: isDarkMode ? Colors.grey[700] : Colors.teal.shade50,
                       child: CheckboxListTile(
                         title: Text(
                           upazilla,
-                          style: TextStyle(fontSize: 16),
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: isDarkMode ? Colors.white : Colors.black,
+                          ),
                         ),
                         value: _selectedUpazillas.contains(upazilla),
                         onChanged: (value) {
@@ -122,7 +129,6 @@ class _HospitalsScreenState extends State<HospitalsScreen> {
                         },
                         activeColor: Colors.teal,
                         checkColor: Colors.white,
-                        tileColor: Colors.teal.shade50,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -161,7 +167,7 @@ class _HospitalsScreenState extends State<HospitalsScreen> {
     );
   }
 
-  _makePhoneCall(String phoneNumber, BuildContext context) async {
+  Future<void> _makePhoneCall(String phoneNumber, BuildContext context) async {
     final Uri launchUri = Uri(scheme: 'tel', path: phoneNumber);
     try {
       await launchUrl(launchUri);
@@ -170,6 +176,7 @@ class _HospitalsScreenState extends State<HospitalsScreen> {
         SnackBar(
           content: Text('ফোন কল শুরু করা যায়নি: $e'),
           duration: Duration(seconds: 3),
+          backgroundColor: Colors.red,
         ),
       );
     }
@@ -177,12 +184,14 @@ class _HospitalsScreenState extends State<HospitalsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<AppProvider>(context).themeMode == ThemeMode.dark;
+    final theme = Theme.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
           'হাসপাতাল',
-          style: TextStyle(
-            fontSize: 20,
+          style: theme.textTheme.titleLarge?.copyWith(
             fontWeight: FontWeight.bold,
             color: Colors.white,
           ),
@@ -191,137 +200,195 @@ class _HospitalsScreenState extends State<HospitalsScreen> {
         flexibleSpace: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [Colors.teal, Colors.teal.shade700],
+              colors: isDarkMode
+                  ? [Colors.teal.shade800, Colors.teal.shade900]
+                  : [Colors.teal, Colors.teal.shade700],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
           ),
         ),
       ),
-      body: Column(
-        children: [
-          // Search Bar
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              controller: _searchController,
-              onChanged: _filterHospitals,
-              decoration: InputDecoration(
-                labelText: 'হাসপাতালের নামে খুঁজুন',
-                prefixIcon: Icon(Icons.search, color: Colors.teal),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(color: Colors.teal),
+      body: Container(
+        color: isDarkMode ? Colors.grey[900] : Colors.grey[100],
+        child: Column(
+          children: [
+            // Search Bar
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: TextField(
+                controller: _searchController,
+                onChanged: _filterHospitals,
+                decoration: InputDecoration(
+                  labelText: 'হাসপাতালের নামে খুঁজুন',
+                  labelStyle: TextStyle(
+                    color: isDarkMode ? Colors.grey[400] : Colors.grey[600],
+                  ),
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                      width: 2,
+                    ),
+                  ),
+                  filled: true,
+                  fillColor: isDarkMode ? Colors.grey[800] : Colors.teal.shade50,
+                  suffixIcon: _searchController.text.isNotEmpty
+                      ? IconButton(
+                          icon: Icon(
+                            Icons.clear,
+                            color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                          ),
+                          onPressed: () {
+                            _searchController.clear();
+                            _filterHospitals('');
+                          },
+                        )
+                      : null,
                 ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(color: Colors.teal, width: 2),
+                style: TextStyle(
+                  color: isDarkMode ? Colors.white : Colors.black,
                 ),
-                filled: true,
-                fillColor: Colors.teal.shade50,
-                suffixIcon: _searchController.text.isNotEmpty
-                    ? IconButton(
-                        icon: Icon(Icons.clear, color: Colors.teal),
-                        onPressed: () {
-                          _searchController.clear();
-                          _filterHospitals('');
-                        },
-                      )
-                    : null,
               ),
             ),
-          ),
 
-          // Hospital List
-          Expanded(
-            child: ListView.builder(
-              itemCount: _filteredHospitals.length,
-              itemBuilder: (context, index) {
-                final hospital = _filteredHospitals[index];
-                return Card(
-                  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  elevation: 1,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: ListTile(
-                    onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        '/hospital-details',
-                        arguments: hospital,
-                      );
-                    },
-                    title: Text(
-                      hospital.name,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.teal,
-                      ),
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 4),
-                        _buildDetailRow(Icons.location_on, hospital.address),
-                        SizedBox(height: 4),
-                        _buildDetailRow(Icons.phone, hospital.contact.join(", ")),
-                        SizedBox(height: 4),
-                        _buildDetailRow(Icons.email, hospital.email),
-                      ],
-                    ),
-                    trailing: GestureDetector(
-                      onTap: hospital.contact.isNotEmpty
-                          ? () => _makePhoneCall(hospital.contact.first.toString(), context)
-                          : null,
-                      child: AnimatedContainer(
-                        duration: Duration(milliseconds: 300),
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [Colors.teal, Colors.teal.shade700],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 4,
-                              offset: Offset(0, 2),
-                            ),
-                          ],
+            // Hospital List
+            Expanded(
+              child: _filteredHospitals.isEmpty
+                  ? Center(
+                      child: Text(
+                        'কোন হাসপাতাল পাওয়া যায়নি',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: isDarkMode ? Colors.white : Colors.black,
                         ),
-                        child: Icon(Icons.call, color: Colors.white, size: 20),
                       ),
+                    )
+                  : ListView.builder(
+                      itemCount: _filteredHospitals.length,
+                      itemBuilder: (context, index) {
+                        final hospital = _filteredHospitals[index];
+                        return Card(
+                          margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          elevation: isDarkMode ? 0 : 1,
+                          color: isDarkMode ? Colors.grey[800] : Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: ListTile(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                '/hospital-details',
+                                arguments: hospital,
+                              );
+                            },
+                            title: Text(
+                              hospital.name,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                              ),
+                            ),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(height: 4),
+                                _buildDetailRow(
+                                  Icons.location_on,
+                                  hospital.address,
+                                  isDarkMode,
+                                ),
+                                SizedBox(height: 4),
+                                _buildDetailRow(
+                                  Icons.phone,
+                                  hospital.contact.join(", "),
+                                  isDarkMode,
+                                ),
+                                SizedBox(height: 4),
+                                _buildDetailRow(
+                                  Icons.email,
+                                  hospital.email,
+                                  isDarkMode,
+                                ),
+                              ],
+                            ),
+                            trailing: GestureDetector(
+                              onTap: hospital.contact.isNotEmpty
+                                  ? () => _makePhoneCall(hospital.contact.first.toString(), context)
+                                  : null,
+                              child: AnimatedContainer(
+                                duration: Duration(milliseconds: 300),
+                                width: 40,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: isDarkMode
+                                        ? [Colors.teal.shade700, Colors.teal.shade800]
+                                        : [Colors.teal, Colors.teal.shade700],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.2),
+                                      blurRadius: 4,
+                                      offset: Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Icon(
+                                  Icons.call,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                  ),
-                );
-              },
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _showFilterBottomSheet,
+        onPressed: () => _showFilterBottomSheet(context),
         backgroundColor: Colors.teal,
         child: Icon(Icons.filter_list, color: Colors.white),
       ),
     );
   }
 
-  Widget _buildDetailRow(IconData icon, String text) {
+  Widget _buildDetailRow(IconData icon, String text, bool isDarkMode) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, size: 16, color: Colors.teal),
+        Icon(
+          icon,
+          size: 16,
+          color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+        ),
         SizedBox(width: 8),
         Expanded(
           child: Text(
             text,
-            style: TextStyle(fontSize: 14),
+            style: TextStyle(
+              fontSize: 14,
+              color: isDarkMode ? Colors.grey[300] : Colors.grey[700],
+            ),
           ),
         ),
       ],

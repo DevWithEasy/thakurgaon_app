@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-
 import '../model/category_model.dart';
+import '../provider/app_provider.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreenCategoryList extends StatelessWidget {
   final List<Category> categories;
@@ -8,6 +9,10 @@ class HomeScreenCategoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get the current theme mode
+    final appProvider = Provider.of<AppProvider>(context);
+    final isDarkMode = appProvider.themeMode == ThemeMode.dark;
+    
     return ListView.builder(
       itemCount: categories.length,
       physics: NeverScrollableScrollPhysics(),
@@ -23,7 +28,11 @@ class HomeScreenCategoryList extends StatelessWidget {
               // Category Title
               Text(
                 category.title,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,color: Colors.teal),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold, 
+                  fontSize: 16,
+                  color: Colors.teal,
+                ),
               ),
               const SizedBox(height: 8),
               SizedBox(
@@ -44,7 +53,8 @@ class HomeScreenCategoryList extends StatelessWidget {
                         padding: EdgeInsets.all(8),
                         margin: const EdgeInsets.only(right: 8.0, bottom: 8),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          // Use grey color for dark mode, white for light mode
+                          color: isDarkMode ? Colors.grey[800] : Colors.white,
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(color: Colors.black12, width: 1),
                           boxShadow: [
@@ -63,9 +73,11 @@ class HomeScreenCategoryList extends StatelessWidget {
                             Flexible(
                               child: Text(
                                 item.title,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500,
+                                  // You might want to adjust text color for dark mode too
+                                  color: isDarkMode ? Colors.white : Colors.black,
                                 ),
                                 textAlign: TextAlign.center,
                                 overflow: TextOverflow.ellipsis,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../provider/app_provider.dart';
 
 class MessRentScreen extends StatefulWidget {
   const MessRentScreen({super.key});
@@ -9,7 +11,7 @@ class MessRentScreen extends StatefulWidget {
 }
 
 class _MessRentScreenState extends State<MessRentScreen> {
-  // Demo data for houses
+  // Demo data for mess houses
   final List<Map<String, dynamic>> houses = [
     {
       'name': 'সুন্দরবন ভিলা',
@@ -86,96 +88,120 @@ class _MessRentScreenState extends State<MessRentScreen> {
       scheme: 'tel',
       path: phoneNumber,
     );
-    if (await canLaunch(launchUri.toString())) {
-      await launch(launchUri.toString());
+    if (await canLaunchUrl(launchUri)) {
+      await launchUrl(launchUri);
     } else {
-      throw 'Could not launch $phoneNumber';
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Could not make a call to $phoneNumber')),
+      );
     }
   }
 
   // Function to show details in a bottom modal sheet
   void _showHouseDetails(BuildContext context, Map<String, dynamic> house) {
+    final isDarkMode = Provider.of<AppProvider>(context).themeMode == ThemeMode.dark;
+    
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      backgroundColor: Colors.transparent,
       builder: (context) {
-        return SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                house['name'],
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                house['location'],
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.grey[600],
-                ),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                'যোগাযোগঃ ${house['phone']}',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.grey[600],
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                house['price'],
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.teal,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                house['description'],
-                style: const TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-              const SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton.icon(
-                    onPressed: () => _makePhoneCall(house['phone']),
-                    icon: const Icon(Icons.call),
-                    label: const Text('কল করুন'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.teal,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 12,
-                      ),
-                    ),
-                  ),
-                  ElevatedButton.icon(
-                    onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.close),
-                    label: const Text('বন্ধ করুন'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 12,
-                      ),
-                    ),
-                  ),
-                ],
+        return Container(
+          decoration: BoxDecoration(
+            color: isDarkMode ? Colors.grey[800] : Colors.white,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 10,
+                offset: const Offset(0, -2),
               ),
             ],
+          ),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  house['name'],
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: isDarkMode ? Colors.white : Colors.teal,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  house['location'],
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: isDarkMode ? Colors.grey[300] : Colors.grey[600],
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  'যোগাযোগঃ ${house['phone']}',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: isDarkMode ? Colors.grey[300] : Colors.grey[600],
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  house['price'],
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  house['description'],
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: isDarkMode ? Colors.grey[300] : Colors.black87,
+                  ),
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed: () => _makePhoneCall(house['phone']),
+                      icon: Icon(Icons.call, color: Colors.white),
+                      label: Text(
+                        'কল করুন',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.teal,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 12,
+                        ),
+                      ),
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: () => Navigator.pop(context),
+                      icon: Icon(Icons.close, color: Colors.white),
+                      label: Text(
+                        'বন্ধ করুন',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 12,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -184,34 +210,47 @@ class _MessRentScreenState extends State<MessRentScreen> {
 
   // Function to show filter bottom sheet
   void _showFilterBottomSheet(BuildContext context) {
+    final isDarkMode = Provider.of<AppProvider>(context).themeMode == ThemeMode.dark;
+    
     showModalBottomSheet(
       context: context,
+      backgroundColor: Colors.transparent,
       builder: (context) {
         return Container(
+          decoration: BoxDecoration(
+            color: isDarkMode ? Colors.grey[800] : Colors.white,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+          ),
           padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 'ফিল্টার করুন',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
+                  color: isDarkMode ? Colors.white : Colors.black,
                 ),
               ),
               const SizedBox(height: 16),
               ...upazillas.map((upazilla) {
                 return ListTile(
-                  title: Text(upazilla),
+                  title: Text(
+                    upazilla,
+                    style: TextStyle(
+                      color: isDarkMode ? Colors.white : Colors.black,
+                    ),
+                  ),
                   onTap: () {
                     setState(() {
                       selectedUpazilla = upazilla;
                     });
-                    Navigator.pop(context); // Close the bottom sheet
+                    Navigator.pop(context);
                   },
                   trailing: selectedUpazilla == upazilla
-                      ? const Icon(Icons.check, color: Colors.teal)
+                      ? Icon(Icons.check, color: Colors.teal)
                       : null,
                 );
               }),
@@ -220,9 +259,9 @@ class _MessRentScreenState extends State<MessRentScreen> {
                 child: ElevatedButton(
                   onPressed: () {
                     setState(() {
-                      selectedUpazilla = null; // Clear filter
+                      selectedUpazilla = null;
                     });
-                    Navigator.pop(context); // Close the bottom sheet
+                    Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
@@ -240,6 +279,9 @@ class _MessRentScreenState extends State<MessRentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeMode = Provider.of<AppProvider>(context).themeMode;
+    final isDarkMode = themeMode == ThemeMode.dark;
+
     // Filter houses based on selected upazilla
     final filteredHouses = selectedUpazilla == null
         ? houses
@@ -260,6 +302,7 @@ class _MessRentScreenState extends State<MessRentScreen> {
           return Card(
             elevation: 1,
             margin: const EdgeInsets.only(bottom: 12),
+            color: isDarkMode ? Colors.grey[800] : Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
@@ -284,9 +327,10 @@ class _MessRentScreenState extends State<MessRentScreen> {
                     children: [
                       Text(
                         house['name'],
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
+                          color: isDarkMode ? Colors.white : Colors.black,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -294,7 +338,7 @@ class _MessRentScreenState extends State<MessRentScreen> {
                         house['location'],
                         style: TextStyle(
                           fontSize: 16,
-                          color: Colors.grey[600],
+                          color: isDarkMode ? Colors.grey[300] : Colors.grey[600],
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -303,10 +347,10 @@ class _MessRentScreenState extends State<MessRentScreen> {
                         children: [
                           Text(
                             house['price'],
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: Colors.teal,
+                              color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
                             ),
                           ),
                           ElevatedButton(

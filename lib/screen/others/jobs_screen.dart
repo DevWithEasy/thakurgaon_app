@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../model/job_model.dart';
 import '../../utils/app_utils.dart';
+import '../../provider/app_provider.dart';
 
 class JobsScreen extends StatefulWidget {
   const JobsScreen({super.key});
@@ -20,21 +22,45 @@ class _JobsScreenState extends State<JobsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<AppProvider>(context).themeMode == ThemeMode.dark;
+    
     return Scaffold(
       appBar: AppBar(
-        title: const Text('চাকরি'),
+        title: const Text(
+          'চাকরি',
+          style: TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
         backgroundColor: Colors.teal,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: FutureBuilder<List<Job>>(
         future: futureJobs,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.teal),
+              ),
+            );
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+            return Center(
+              child: Text(
+                'Error: ${snapshot.error}',
+                style: TextStyle(
+                  color: isDarkMode ? Colors.white : Colors.black,
+                ),
+              ),
+            );
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('কোনো চাকরি পাওয়া যায়নি।'));
+            return Center(
+              child: Text(
+                'কোনো চাকরি পাওয়া যায়নি।',
+                style: TextStyle(
+                  color: isDarkMode ? Colors.white : Colors.black,
+                ),
+              ),
+            );
           } else {
             final jobs = snapshot.data!;
             return ListView.builder(
@@ -52,6 +78,7 @@ class _JobsScreenState extends State<JobsScreen> {
                   },
                   child: Card(
                     elevation: 2,
+                    color: isDarkMode ? Colors.grey[800] : Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -63,10 +90,10 @@ class _JobsScreenState extends State<JobsScreen> {
                           // Job Title
                           Text(
                             job.title,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: Colors.teal,
+                              color: isDarkMode ? Colors.teal[200] : Colors.teal,
                             ),
                           ),
                           const SizedBox(height: 8),
@@ -75,7 +102,7 @@ class _JobsScreenState extends State<JobsScreen> {
                             job.company,
                             style: TextStyle(
                               fontSize: 16,
-                              color: Colors.grey[600],
+                              color: isDarkMode ? Colors.grey[400] : Colors.grey[600],
                             ),
                           ),
                           const SizedBox(height: 4),
@@ -85,13 +112,17 @@ class _JobsScreenState extends State<JobsScreen> {
                             children: [
                               Row(
                                 children: [
-                                  Icon(Icons.location_on, size: 16, color: Colors.teal),
+                                  Icon(
+                                    Icons.location_on,
+                                    size: 16,
+                                    color: isDarkMode ? Colors.teal[200] : Colors.teal,
+                                  ),
                                   const SizedBox(width: 4),
                                   Text(
                                     job.location,
                                     style: TextStyle(
                                       fontSize: 14,
-                                      color: Colors.grey[600],
+                                      color: isDarkMode ? Colors.grey[400] : Colors.grey[600],
                                     ),
                                   ),
                                 ],
@@ -100,7 +131,7 @@ class _JobsScreenState extends State<JobsScreen> {
                                 'ডেডলাইন: ${job.deadline}',
                                 style: TextStyle(
                                   fontSize: 14,
-                                  color: Colors.grey[600],
+                                  color: isDarkMode ? Colors.grey[400] : Colors.grey[600],
                                 ),
                               ),
                             ],
@@ -109,14 +140,18 @@ class _JobsScreenState extends State<JobsScreen> {
                           // Salary
                           Row(
                             children: [
-                              Icon(Icons.attach_money, size: 16, color: Colors.teal),
+                              Icon(
+                                Icons.attach_money,
+                                size: 16,
+                                color: isDarkMode ? Colors.teal[200] : Colors.teal,
+                              ),
                               const SizedBox(width: 4),
                               Text(
                                 job.salary,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.teal,
+                                  color: isDarkMode ? Colors.teal[200] : Colors.teal,
                                 ),
                               ),
                             ],

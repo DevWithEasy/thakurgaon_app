@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:thakurgaon/screen/app_info_screen/contact_screen.dart';
 import 'package:thakurgaon/screen/app_info_screen/developer_screen.dart';
 import 'package:thakurgaon/screen/app_info_screen/privacy_policy_screen.dart';
@@ -31,6 +32,7 @@ import 'package:thakurgaon/screen/service_man/forman_screen.dart';
 import 'package:thakurgaon/screen/service_man/lawyer_screen.dart';
 import 'package:thakurgaon/screen/service_man/surveyor_screen.dart';
 
+import 'provider/app_provider.dart';
 import 'screen/app_info_screen/terms_screen.dart';
 import 'screen/app_info_screen/thanks_screen.dart';
 import 'screen/district_info/about_screen.dart';
@@ -67,102 +69,120 @@ import 'screen/user_screen/settings_screen.dart';
 import 'utils/app_colors.dart';
 import 'utils/app_routes.dart';
 
+// app.dart
 class ThakurgaonApp extends StatelessWidget {
   const ThakurgaonApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Thakurgaon',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.teal,
-        scaffoldBackgroundColor: Colors.white,
-        fontFamily: 'kalpurush',
-        appBarTheme: AppBarTheme(
-          color: AppColors.primary,
-          foregroundColor: Colors.white,
-        ),
-      ),
-      initialRoute: '/',
-      routes: {
-        Routes.home: (context) => MainScreen(),
-        //user_routes
-        Routes.login: (context) => LoginScreen(),
-        Routes.register: (context) => RegisterScreen(),
-        Routes.forgotPassword: (context) => ForgetPasswordScreen(),
-        Routes.changePassword: (context) => ChangePasswordScreen(),
-        Routes.profile: (context) => ProfileScreen(),
-        Routes.settings: (context) => SettingsScreen(),
-        Routes.notification: (context) => NotificationsScreen(),
-        //info_routes
-        Routes.about: (context) => AboutScreen(),
-        Routes.map: (context) => MapviewScreen(),
-        Routes.historicalPlace: (context) => PlacesScreen(),
-        Routes.place: (context) => PlaceScreen(),
-        Routes.upazilla: (context) => AreasScreen(),
-        Routes.traditions: (context) => TraditionsScreen(),
-        Routes.tradition: (context) => TraditionScreen(),
-        //emergency_routes
-        Routes.police: (context) => PoliceScreen(),
-        Routes.fireService: (context) => FireServiceScreen(),
-        Routes.electricity: (context) => ElectricityScreen(),
-        Routes.helpline: (context) => HelplineScreen(),
-        //health
-        Routes.hospital: (context) => HospitalsScreen(),
-        Routes.diagnostic: (context) => DiagnosticsScreen(),
-        Routes.hospitalDetails: (context) => HospitalDetailsScreen(),
-        Routes.doctors: (context) => DoctorsScreen(),
-        Routes.doctor: (context) => DoctorDetailsScreen(),
-        Routes.homeoDoctors: (context) => HomeopathyScreen(),
-        Routes.bloodOrg: (context) => BloodOrgsScreen(),
-        Routes.blood: (context) => BloodDonarsScreen(),
-        Routes.ambulance: (context) => AmbulanceScreen(),
-        //education
-        Routes.institute: (context) => InstituteScreen(),
-        Routes.instituteList: (context) => InstituteListScreen(),
-        Routes.library: (context) => LibraryScreen(),
-        Routes.coachingCenter: (context) => CoachingCenterScreen(),
-        Routes.tutor: (context) => TutorScreen(),
-        //service_man
-        Routes.lawyer: (context) => LawyerScreen(),
-        Routes.surveyor: (context) => SurveyorScreen(),
-        Routes.foreman: (context) => FormanScreen(),
-        //rent
-        Routes.rentHouse: (context) => HouseRentScreen(),
-        Routes.rentMess: (context) => MessRentScreen(),
-        Routes.rentCar: (context) => CarRentScreen(),
-        Routes.busService: (context) => BusServiceScreen(),
-        Routes.trainService: (context) => TrainSheduleScreen(),
-        //hotel & food
-        Routes.hotelFood: (context) => FoodHotelScreen(),
-        Routes.restaurant: (context) => RestaurantScreen(),
-        Routes.residentalHotel: (context) => ResidentialHotelScreen(),
-        Routes.restHouse: (context) => RestHouseScreen(),
-        //others
-        Routes.uddokta: (context) => UddoktaScreen(),
-        Routes.uddoktaDetails: (context) => UddoktaDetailsScreen(),
-        Routes.news: (context) => NewsScreen(),
-        Routes.newsDetails: (context) => NewsDetailsScreen(),
-        Routes.jobs: (context) => JobsScreen(),
-        Routes.jobDetails: (context) => JobDetailsScreen(),
-        //earn
-        Routes.quiz: (context) => WeeklyQuizScreen(),
-        Routes.quizDashboard: (context) => WeeklyQuizDashboad(),
-        Routes.quizQuestion: (context) => WeeklyQuizQuestionScreen(),
-        Routes.quizWinner: (context) => WeeklyQuizWinnerScreen(),
-        Routes.videoEarn: (context) => VideoEarnScreen(),
-        Routes.contributor: (context) => ContributionScreen(),
-        Routes.monthlyReward: (context) => MonthlyRewardScreen(),
-        //app-info
-        Routes.contact: (context) => ContactScreen(),
-        Routes.privacy: (context) => PrivacyPolicyScreen(),
-        Routes.trems: (context) => TermsScreen(),
-        Routes.thnaks: (context) => ThanksScreen(),
-        Routes.developer: (context) => DeveloperScreen(),
-      },
-      onUnknownRoute: (settings) {
-        return MaterialPageRoute(builder: (context) => const NotFoundScreen());
+    return Consumer<AppProvider>(
+      builder: (context, appProvider, child) {
+        return MaterialApp(
+          title: 'Thakurgaon',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            primarySwatch: Colors.teal,
+            scaffoldBackgroundColor: Colors.white,
+            fontFamily: 'kalpurush',
+            appBarTheme: AppBarTheme(
+              color: AppColors.primary,
+              foregroundColor: Colors.white,
+            ),
+          ),
+          darkTheme: ThemeData(
+            primarySwatch: Colors.teal,
+            scaffoldBackgroundColor: Colors.grey[900],
+            fontFamily: 'kalpurush',
+            appBarTheme: AppBarTheme(
+              color: Colors.grey[850],
+              foregroundColor: Colors.white,
+            ),
+            cardColor: Colors.grey[850],
+          ),
+          themeMode: appProvider.themeMode,
+          initialRoute: '/',
+          routes: {
+            Routes.home: (context) => MainScreen(),
+            //user_routes
+            Routes.login: (context) => LoginScreen(),
+            Routes.register: (context) => RegisterScreen(),
+            Routes.forgotPassword: (context) => ForgetPasswordScreen(),
+            Routes.changePassword: (context) => ChangePasswordScreen(),
+            Routes.profile: (context) => ProfileScreen(),
+            Routes.settings: (context) => SettingsScreen(),
+            Routes.notification: (context) => NotificationsScreen(),
+            //info_routes
+            Routes.about: (context) => AboutScreen(),
+            Routes.map: (context) => MapviewScreen(),
+            Routes.historicalPlace: (context) => PlacesScreen(),
+            Routes.place: (context) => PlaceScreen(),
+            Routes.upazilla: (context) => AreasScreen(),
+            Routes.traditions: (context) => TraditionsScreen(),
+            Routes.tradition: (context) => TraditionScreen(),
+            //emergency_routes
+            Routes.police: (context) => PoliceScreen(),
+            Routes.fireService: (context) => FireServiceScreen(),
+            Routes.electricity: (context) => ElectricityScreen(),
+            Routes.helpline: (context) => HelplineScreen(),
+            //health
+            Routes.hospital: (context) => HospitalsScreen(),
+            Routes.diagnostic: (context) => DiagnosticsScreen(),
+            Routes.hospitalDetails: (context) => HospitalDetailsScreen(),
+            Routes.doctors: (context) => DoctorsScreen(),
+            Routes.doctor: (context) => DoctorDetailsScreen(),
+            Routes.homeoDoctors: (context) => HomeopathyScreen(),
+            Routes.bloodOrg: (context) => BloodOrgsScreen(),
+            Routes.blood: (context) => BloodDonarsScreen(),
+            Routes.ambulance: (context) => AmbulanceScreen(),
+            //education
+            Routes.institute: (context) => InstituteScreen(),
+            Routes.instituteList: (context) => InstituteListScreen(),
+            Routes.library: (context) => LibraryScreen(),
+            Routes.coachingCenter: (context) => CoachingCenterScreen(),
+            Routes.tutor: (context) => TutorScreen(),
+            //service_man
+            Routes.lawyer: (context) => LawyerScreen(),
+            Routes.surveyor: (context) => SurveyorScreen(),
+            Routes.foreman: (context) => FormanScreen(),
+            //rent
+            Routes.rentHouse: (context) => HouseRentScreen(),
+            Routes.rentMess: (context) => MessRentScreen(),
+            Routes.rentCar: (context) => CarRentScreen(),
+            Routes.busService: (context) => BusServiceScreen(),
+            Routes.trainService: (context) => TrainSheduleScreen(),
+            //hotel & food
+            Routes.hotelFood: (context) => FoodHotelScreen(),
+            Routes.restaurant: (context) => RestaurantScreen(),
+            Routes.residentalHotel: (context) => ResidentialHotelScreen(),
+            Routes.restHouse: (context) => RestHouseScreen(),
+            //others
+            Routes.uddokta: (context) => UddoktaScreen(),
+            Routes.uddoktaDetails: (context) => UddoktaDetailsScreen(),
+            Routes.news: (context) => NewsScreen(),
+            Routes.newsDetails: (context) => NewsDetailsScreen(),
+            Routes.jobs: (context) => JobsScreen(),
+            Routes.jobDetails: (context) => JobDetailsScreen(),
+            //earn
+            Routes.quiz: (context) => WeeklyQuizScreen(),
+            Routes.quizDashboard: (context) => WeeklyQuizDashboad(),
+            Routes.quizQuestion: (context) => WeeklyQuizQuestionScreen(),
+            Routes.quizWinner: (context) => WeeklyQuizWinnerScreen(),
+            Routes.videoEarn: (context) => VideoEarnScreen(),
+            Routes.contributor: (context) => ContributionScreen(),
+            Routes.monthlyReward: (context) => MonthlyRewardScreen(),
+            //app-info
+            Routes.contact: (context) => ContactScreen(),
+            Routes.privacy: (context) => PrivacyPolicyScreen(),
+            Routes.trems: (context) => TermsScreen(),
+            Routes.thnaks: (context) => ThanksScreen(),
+            Routes.developer: (context) => DeveloperScreen(),
+          },
+          onUnknownRoute: (settings) {
+            return MaterialPageRoute(
+              builder: (context) => const NotFoundScreen(),
+            );
+          },
+        );
       },
     );
   }

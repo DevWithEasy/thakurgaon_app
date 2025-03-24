@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../model/blood_donar_model.dart';
+import '../../provider/app_provider.dart';
 import '../../utils/app_utils.dart';
 import '../../utils/bengali_numerals.dart';
 
@@ -79,6 +80,8 @@ class _BloodDonarsScreenState extends State<BloodDonarsScreen> {
   }
 
   void _openSearchModal(BuildContext context) {
+    final isDarkMode = Provider.of<AppProvider>(context, listen: false).themeMode == ThemeMode.dark;
+    
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -86,15 +89,14 @@ class _BloodDonarsScreenState extends State<BloodDonarsScreen> {
       builder: (context) {
         return Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: isDarkMode ? Colors.grey[800] : Colors.white,
             borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
             boxShadow: [
               BoxShadow(
                 color: Colors.black26,
                 blurRadius: 10,
                 offset: Offset(0, -2),
-              ),
-            ],
+          )],
           ),
           padding: EdgeInsets.all(20),
           child: Column(
@@ -106,7 +108,7 @@ class _BloodDonarsScreenState extends State<BloodDonarsScreen> {
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: Colors.teal,
+                  color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
                 ),
               ),
               SizedBox(height: 16),
@@ -115,12 +117,17 @@ class _BloodDonarsScreenState extends State<BloodDonarsScreen> {
               Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Colors.teal.shade50, Colors.blue.shade50],
+                    colors: isDarkMode 
+                      ? [Colors.grey[700]!, Colors.grey[800]!]
+                      : [Colors.teal.shade50, Colors.blue.shade50],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.teal.shade200, width: 1),
+                  border: Border.all(
+                    color: isDarkMode ? Colors.teal.shade400 : Colors.teal.shade200,
+                    width: 1,
+                  ),
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: DropdownButtonFormField<String>(
@@ -128,7 +135,9 @@ class _BloodDonarsScreenState extends State<BloodDonarsScreen> {
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     labelText: 'রক্তের গ্রুপ',
-                    labelStyle: TextStyle(color: Colors.teal),
+                    labelStyle: TextStyle(
+                      color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                    ),
                   ),
                   items: const [
                     DropdownMenuItem(value: 'এ+', child: Text('এ+')),
@@ -145,8 +154,14 @@ class _BloodDonarsScreenState extends State<BloodDonarsScreen> {
                       _selectedBloodGroup = value ?? '';
                     });
                   },
-                  dropdownColor: Colors.teal.shade50,
-                  icon: Icon(Icons.arrow_drop_down, color: Colors.teal),
+                  dropdownColor: isDarkMode ? Colors.grey[800] : Colors.teal.shade50,
+                  icon: Icon(
+                    Icons.arrow_drop_down,
+                    color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                  ),
+                  style: TextStyle(
+                    color: isDarkMode ? Colors.white : Colors.black,
+                  ),
                 ),
               ),
               SizedBox(height: 16),
@@ -155,12 +170,17 @@ class _BloodDonarsScreenState extends State<BloodDonarsScreen> {
               Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Colors.teal.shade50, Colors.blue.shade50],
+                    colors: isDarkMode
+                      ? [Colors.grey[700]!, Colors.grey[800]!]
+                      : [Colors.teal.shade50, Colors.blue.shade50],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.teal.shade200, width: 1),
+                  border: Border.all(
+                    color: isDarkMode ? Colors.teal.shade400 : Colors.teal.shade200,
+                    width: 1,
+                  ),
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: DropdownButtonFormField<String>(
@@ -168,12 +188,19 @@ class _BloodDonarsScreenState extends State<BloodDonarsScreen> {
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     labelText: 'উপজেলা',
-                    labelStyle: TextStyle(color: Colors.teal),
+                    labelStyle: TextStyle(
+                      color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                    ),
                   ),
                   items: _upazillas.map((upazilla) {
                     return DropdownMenuItem(
                       value: upazilla,
-                      child: Text(upazilla),
+                      child: Text(
+                        upazilla,
+                        style: TextStyle(
+                          color: isDarkMode ? Colors.white : Colors.black,
+                        ),
+                      ),
                     );
                   }).toList(),
                   onChanged: (value) {
@@ -181,8 +208,14 @@ class _BloodDonarsScreenState extends State<BloodDonarsScreen> {
                       _selectedUpazilla = value ?? '';
                     });
                   },
-                  dropdownColor: Colors.teal.shade50,
-                  icon: Icon(Icons.arrow_drop_down, color: Colors.teal),
+                  dropdownColor: isDarkMode ? Colors.grey[800] : Colors.teal.shade50,
+                  icon: Icon(
+                    Icons.arrow_drop_down,
+                    color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                  ),
+                  style: TextStyle(
+                    color: isDarkMode ? Colors.white : Colors.black,
+                  ),
                 ),
               ),
               SizedBox(height: 20),
@@ -217,7 +250,7 @@ class _BloodDonarsScreenState extends State<BloodDonarsScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 16), // Space between buttons
+                  SizedBox(width: 16),
                   // Reset Button
                   Expanded(
                     child: ElevatedButton(
@@ -257,6 +290,8 @@ class _BloodDonarsScreenState extends State<BloodDonarsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<AppProvider>(context).themeMode == ThemeMode.dark;
+    
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -298,7 +333,7 @@ class _BloodDonarsScreenState extends State<BloodDonarsScreen> {
                   borderSide: BorderSide(color: Colors.teal, width: 2),
                 ),
                 filled: true,
-                fillColor: Colors.teal.shade50,
+                fillColor: isDarkMode ? Colors.grey[800] : Colors.teal.shade50,
                 suffixIcon: _searchController.text.isNotEmpty
                     ? IconButton(
                         icon: Icon(Icons.clear, color: Colors.teal),
@@ -308,6 +343,12 @@ class _BloodDonarsScreenState extends State<BloodDonarsScreen> {
                         },
                       )
                     : null,
+                hintStyle: TextStyle(
+                  color: isDarkMode ? Colors.white70 : Colors.black54,
+                ),
+              ),
+              style: TextStyle(
+                color: isDarkMode ? Colors.white : Colors.black,
               ),
             ),
           ),
@@ -321,6 +362,7 @@ class _BloodDonarsScreenState extends State<BloodDonarsScreen> {
                 return Card(
                   margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   elevation: 1,
+                  color: isDarkMode ? Colors.grey[800] : Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -352,13 +394,16 @@ class _BloodDonarsScreenState extends State<BloodDonarsScreen> {
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.teal,
+                                      color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
                                     ),
                                   ),
                                   SizedBox(height: 4),
                                   Text(
                                     donor.upazilla,
-                                    style: TextStyle(fontSize: 14),
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: isDarkMode ? Colors.white70 : Colors.black87,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -381,8 +426,7 @@ class _BloodDonarsScreenState extends State<BloodDonarsScreen> {
                                       color: Colors.black12,
                                       blurRadius: 4,
                                       offset: Offset(0, 2),
-                                    ),
-                                  ],
+                                )],
                                 ),
                                 child: Icon(
                                   Icons.call,
@@ -394,11 +438,26 @@ class _BloodDonarsScreenState extends State<BloodDonarsScreen> {
                           ],
                         ),
                         SizedBox(height: 16),
-                        _buildDetailRow(Icons.location_on, donor.address),
+                        _buildDetailRow(
+                          context,
+                          Icons.location_on, 
+                          donor.address,
+                          isDarkMode: isDarkMode,
+                        ),
                         SizedBox(height: 8),
-                        _buildDetailRow(Icons.cake, 'জন্ম তারিখ: ${enToBnNumerals(donor.dob)}'),
+                        _buildDetailRow(
+                          context,
+                          Icons.cake, 
+                          'জন্ম তারিখ: ${enToBnNumerals(donor.dob)}',
+                          isDarkMode: isDarkMode,
+                        ),
                         SizedBox(height: 8),
-                        _buildDetailRow(Icons.bloodtype, 'সর্বশেষ রক্তদান: ${enToBnNumerals(donor.lastDonate)} (${donor.daysSinceLastDonation()})'),
+                        _buildDetailRow(
+                          context,
+                          Icons.bloodtype, 
+                          'সর্বশেষ রক্তদান: ${enToBnNumerals(donor.lastDonate)} (${donor.daysSinceLastDonation()})',
+                          isDarkMode: isDarkMode,
+                        ),
                         SizedBox(height: 8),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -407,7 +466,7 @@ class _BloodDonarsScreenState extends State<BloodDonarsScreen> {
                               'রক্তদানে করতে পারবেন:',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Colors.black54,
+                                color: isDarkMode ? Colors.white70 : Colors.black54,
                               ),
                             ),
                             SizedBox(width: 8),
@@ -441,16 +500,28 @@ class _BloodDonarsScreenState extends State<BloodDonarsScreen> {
     );
   }
 
-  Widget _buildDetailRow(IconData icon, String text) {
+  Widget _buildDetailRow(
+    BuildContext context,
+    IconData icon, 
+    String text, {
+    required bool isDarkMode,
+  }) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, size: 20, color: Colors.teal),
+        Icon(
+          icon, 
+          size: 20, 
+          color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+        ),
         SizedBox(width: 8),
         Expanded(
           child: Text(
             text,
-            style: TextStyle(fontSize: 14),
+            style: TextStyle(
+              fontSize: 14,
+              color: isDarkMode ? Colors.white70 : Colors.black87,
+            ),
           ),
         ),
       ],

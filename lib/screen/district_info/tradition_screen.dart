@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../model/Info_model.dart';
+import '../../provider/app_provider.dart';
 
 class TraditionScreen extends StatefulWidget {
   const TraditionScreen({super.key});
@@ -23,6 +25,8 @@ class _TraditionScreenState extends State<TraditionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<AppProvider>(context).themeMode == ThemeMode.dark;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -37,74 +41,64 @@ class _TraditionScreenState extends State<TraditionScreen> {
         flexibleSpace: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [Colors.teal, Colors.teal.shade700],
+              colors: isDarkMode
+                  ? [Colors.teal.shade800, Colors.teal.shade900]
+                  : [Colors.teal, Colors.teal.shade700],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
           ),
         ),
+        iconTheme: IconThemeData(color: Colors.white),
       ),
-      body: PageView.builder(
-        itemCount: _traditions.length,
-        controller: PageController(initialPage: _currentIndex),
-        onPageChanged: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        itemBuilder: (context, index) {
-          final tradition = _traditions[index];
-          return SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Hero Image (if available)
-                // if (tradition.image != null)
-                //   ClipRRect(
-                //     borderRadius: BorderRadius.only(
-                //       bottomLeft: Radius.circular(20),
-                //       bottomRight: Radius.circular(20),
-                //     ),
-                //     child: Image.asset(
-                //       tradition.image!,
-                //       width: double.infinity,
-                //       height: 300,
-                //       fit: BoxFit.cover,
-                //     ),
-                //   ),
-                const SizedBox(height: 20),
-
-                // Tradition Title
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(
-                    tradition.title,
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.teal.shade700,
+      body: Container(
+        color: isDarkMode ? Colors.grey[900] : Colors.grey[100],
+        child: PageView.builder(
+          itemCount: _traditions.length,
+          controller: PageController(initialPage: _currentIndex),
+          onPageChanged: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+          itemBuilder: (context, index) {
+            final tradition = _traditions[index];
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Text(
+                      tradition.title,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: isDarkMode ? Colors.teal.shade200 : Colors.teal.shade700,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 8),
+                  const SizedBox(height: 8),
 
-                // Tradition Description
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(
-                    tradition.description,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey[700],
-                      fontFamily: 'kalpurush',
+                  // Tradition Description
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Text(
+                      tradition.description,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: isDarkMode ? Colors.grey[300] : Colors.grey[700],
+                        fontFamily: 'kalpurush',
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 20),
-              ],
-            ),
-          );
-        },
+                  const SizedBox(height: 20),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }

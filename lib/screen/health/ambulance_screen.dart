@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../provider/app_provider.dart';
 
 class AmbulanceScreen extends StatefulWidget {
   const AmbulanceScreen({super.key});
@@ -57,6 +60,11 @@ class _AmbulanceScreenState extends State<AmbulanceScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<AppProvider>(context).themeMode == ThemeMode.dark;
+    final filteredAmbulances = selectedUpazilla == null
+        ? ambulances
+        : ambulances.where((a) => a['upazilla'] == selectedUpazilla).toList();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -78,188 +86,245 @@ class _AmbulanceScreenState extends State<AmbulanceScreen> {
           ),
         ),
       ),
-      body: ListView.builder(
-        itemCount: ambulances.length,
-        itemBuilder: (context, index) {
-          final ambulance = ambulances[index];
-          if (selectedUpazilla != null &&
-              ambulance['upazilla'] != selectedUpazilla) {
-            return const SizedBox.shrink();
-          }
-
-          return Card(
-            margin: const EdgeInsets.all(8.0),
-            elevation: 1,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
+      body: filteredAmbulances.isEmpty
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(
-                    Icons.local_hospital,
-                    size: 40,
-                    color: Colors.teal,
+                  Icon(
+                    Icons.airport_shuttle,
+                    size: 60,
+                    color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
                   ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  const SizedBox(height: 16),
+                  Text(
+                    'কোন এম্বুল্যান্স পাওয়া যায়নি',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: isDarkMode ? Colors.white70 : Colors.black54,
+                    ),
+                  ),
+                  if (selectedUpazilla != null)
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          selectedUpazilla = null;
+                        });
+                      },
+                      child: const Text('ফিল্টার সরান'),
+                    ),
+                ],
+              ),
+            )
+          : ListView.builder(
+              itemCount: filteredAmbulances.length,
+              itemBuilder: (context, index) {
+                final ambulance = filteredAmbulances[index];
+                return Card(
+                  margin: const EdgeInsets.all(8.0),
+                  elevation: 2,
+                  color: isDarkMode ? Colors.grey[800] : Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
                       children: [
-                        Text(
-                          ambulance['name']!,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                        Icon(
+                          Icons.local_hospital,
+                          size: 40,
+                          color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                ambulance['name']!,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  color: isDarkMode ? Colors.white : Colors.black,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                'যোগাযোগ: ${ambulance['phone']}',
+                                style: TextStyle(
+                                  color: isDarkMode ? Colors.white70 : Colors.grey.shade700,
+                                ),
+                              ),
+                              Text(
+                                'অবস্থান: ${ambulance['location']}',
+                                style: TextStyle(
+                                  color: isDarkMode ? Colors.white70 : Colors.grey.shade700,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                'উপজেলা: ${ambulance['upazilla']}',
+                                style: TextStyle(
+                                  color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        const SizedBox(height: 8),
-                        Text(
-                          'যোগাযোগ: ${ambulance['phone']}',
-                          style: TextStyle(color: Colors.grey.shade700),
-                        ),
-                        Text(
-                          'অবস্থান: ${ambulance['location']}',
-                          style: TextStyle(color: Colors.grey.shade700),
+                        GestureDetector(
+                          onTap: () => _makePhoneCall(ambulance['phone']!),
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 200),
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [Colors.teal, Colors.teal.shade700],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: const Icon(
+                              Icons.call,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  // Attractive Call Button
-                  GestureDetector(
-                    onTap: () => _makePhoneCall(ambulance['phone']!),
-                    child: AnimatedContainer(
-                      duration: Duration(milliseconds: 300),
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [Colors.teal, Colors.teal.shade700],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 4,
-                            offset: Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: Icon(Icons.call, color: Colors.white, size: 20),
-                    ),
-                  ),
-                ],
-              ),
+                );
+              },
             ),
-          );
-        },
-      ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _showFilterBottomSheet(context);
-        },
+        onPressed: () => _showFilterBottomSheet(context),
         backgroundColor: Colors.teal,
-        foregroundColor: Colors.white,
-        elevation: 8,
-        child: const Icon(Icons.filter_list),
+        child: const Icon(Icons.filter_list, color: Colors.white),
       ),
     );
   }
 
-  void _makePhoneCall(String phoneNumber) async {
+  Future<void> _makePhoneCall(String phoneNumber) async {
     final Uri phoneUri = Uri(scheme: 'tel', path: phoneNumber);
-    if (await canLaunch(phoneUri.toString())) {
-      await launch(phoneUri.toString());
-    } else {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('কল করতে ব্যর্থ হয়েছে')));
+    try {
+      if (await canLaunchUrl(phoneUri)) {
+        await launchUrl(phoneUri);
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('কল করতে ব্যর্থ হয়েছে'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
     }
   }
 
   void _showFilterBottomSheet(BuildContext context) {
+    final isDarkMode = Provider.of<AppProvider>(context, listen: false).themeMode == ThemeMode.dark;
+
     showModalBottomSheet(
       context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
       builder: (context) {
         return Container(
-          padding: const EdgeInsets.all(16.0),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: isDarkMode ? Colors.grey[900] : Colors.white,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withOpacity(0.2),
                 blurRadius: 10,
                 spreadRadius: 5,
               ),
             ],
           ),
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  margin: const EdgeInsets.only(bottom: 16),
+                  decoration: BoxDecoration(
+                    color: isDarkMode ? Colors.grey[700] : Colors.grey[300],
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              Text(
                 'ফিল্টার করুন',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: isDarkMode ? Colors.white : Colors.black,
+                ),
               ),
               const SizedBox(height: 16),
-              ...upazillas.map((upazilla) {
-                return Card(
-                  margin: const EdgeInsets.symmetric(vertical: 4),
-                  elevation: 2,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: ListTile(
-                    title: Text(
-                      upazilla,
-                      style: const TextStyle(fontWeight: FontWeight.w500),
-                    ),
-                    trailing:
-                        selectedUpazilla == upazilla
-                            ? const Icon(Icons.check, color: Colors.teal)
-                            : null,
-                    onTap: () {
-                      setState(() {
-                        selectedUpazilla = upazilla;
-                      });
-                      Navigator.pop(context); // Close the bottom sheet
-                    },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                );
-              }),
+              Expanded(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: upazillas.length,
+                  itemBuilder: (context, index) {
+                    final upazilla = upazillas[index];
+                    return ListTile(
+                      title: Text(
+                        upazilla,
+                        style: TextStyle(
+                          color: isDarkMode ? Colors.white : Colors.black,
+                        ),
+                      ),
+                      trailing: selectedUpazilla == upazilla
+                          ? Icon(Icons.check, color: Colors.teal)
+                          : null,
+                      onTap: () {
+                        setState(() {
+                          selectedUpazilla = upazilla;
+                        });
+                        Navigator.pop(context);
+                      },
+                    );
+                  },
+                ),
+              ),
               const SizedBox(height: 16),
-              Center(
+              SizedBox(
+                width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
                     setState(() {
-                      selectedUpazilla = null; // Clear filter
+                      selectedUpazilla = null;
                     });
-                    Navigator.pop(context); // Close the bottom sheet
+                    Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.teal,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 32,
-                      vertical: 12,
-                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(12),
                     ),
                   ),
                   child: const Text(
-                    'ফিল্টার সরান',
+                    'সব ফিল্টার সরান',
                     style: TextStyle(
                       color: Colors.white,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

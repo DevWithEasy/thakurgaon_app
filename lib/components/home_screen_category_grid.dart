@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-
 import '../model/category_model.dart';
+import '../provider/app_provider.dart'; // Import your provider
+import 'package:provider/provider.dart'; // Import provider package
 
 class HomeScreenCategoryGrid extends StatelessWidget {
   final List<CategoryItem> items;
@@ -8,6 +9,10 @@ class HomeScreenCategoryGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get the current theme mode
+    final appProvider = Provider.of<AppProvider>(context);
+    final isDarkMode = appProvider.themeMode == ThemeMode.dark;
+
     return GridView.builder(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
@@ -30,7 +35,8 @@ class HomeScreenCategoryGrid extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
-              color: Colors.white,
+              // Use grey color for dark mode, white for light mode
+              color: isDarkMode ? Colors.grey[800] : Colors.white,
               boxShadow: [
                 BoxShadow(
                   offset: Offset(0, 2),
@@ -52,9 +58,11 @@ class HomeScreenCategoryGrid extends StatelessWidget {
                 Flexible(
                   child: Text(
                     item.title,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
+                      // Adjust text color for dark mode
+                      color: isDarkMode ? Colors.white : Colors.black,
                     ),
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,

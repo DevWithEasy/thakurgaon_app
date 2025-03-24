@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart'; // Add this import
 import 'package:thakurgaon/model/news_model.dart';
 import '../../utils/app_utils.dart';
+import '../../provider/app_provider.dart'; // Import your AppProvider
 
 class NewsScreen extends StatefulWidget {
   const NewsScreen({super.key});
@@ -20,21 +22,45 @@ class _NewsScreenState extends State<NewsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<AppProvider>(context).themeMode == ThemeMode.dark;
+    
     return Scaffold(
       appBar: AppBar(
-        title: const Text('সংবাদ'),
+        title: const Text(
+          'সংবাদ',
+          style: TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
         backgroundColor: Colors.teal,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: FutureBuilder<List<News>>(
         future: futureNews,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.teal),
+              ),
+            );
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+            return Center(
+              child: Text(
+                'Error: ${snapshot.error}',
+                style: TextStyle(
+                  color: isDarkMode ? Colors.white : Colors.black,
+                ),
+              ),
+            );
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No news available.'));
+            return Center(
+              child: Text(
+                'No news available.',
+                style: TextStyle(
+                  color: isDarkMode ? Colors.white : Colors.black,
+                ),
+              ),
+            );
           } else {
             final newsList = snapshot.data!;
             return ListView.builder(
@@ -47,11 +73,12 @@ class _NewsScreenState extends State<NewsScreen> {
                     Navigator.pushNamed(
                       context,
                       '/news-details',
-                      arguments: news, // Pass the selected news item
+                      arguments: news,
                     );
                   },
                   child: Card(
                     elevation: 2,
+                    color: isDarkMode ? Colors.grey[800] : Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -67,6 +94,17 @@ class _NewsScreenState extends State<NewsScreen> {
                               width: 100,
                               height: 100,
                               fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Container(
+                                  width: 100,
+                                  height: 100,
+                                  color: isDarkMode ? Colors.grey[700] : Colors.grey[200],
+                                  child: Icon(
+                                    Icons.broken_image,
+                                    color: isDarkMode ? Colors.grey[400] : Colors.grey[600],
+                                  ),
+                                );
+                              },
                             ),
                           ),
                           const SizedBox(width: 12),
@@ -76,9 +114,10 @@ class _NewsScreenState extends State<NewsScreen> {
                               children: [
                                 Text(
                                   news.title,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
+                                    color: isDarkMode ? Colors.white : Colors.black,
                                   ),
                                 ),
                                 const SizedBox(height: 4),
@@ -86,7 +125,7 @@ class _NewsScreenState extends State<NewsScreen> {
                                   news.category,
                                   style: TextStyle(
                                     fontSize: 14,
-                                    color: Colors.grey[600],
+                                    color: isDarkMode ? Colors.grey[400] : Colors.grey[600],
                                   ),
                                 ),
                                 const SizedBox(height: 4),
@@ -94,7 +133,7 @@ class _NewsScreenState extends State<NewsScreen> {
                                   news.date,
                                   style: TextStyle(
                                     fontSize: 14,
-                                    color: Colors.grey[600],
+                                    color: isDarkMode ? Colors.grey[400] : Colors.grey[600],
                                   ),
                                 ),
                               ],

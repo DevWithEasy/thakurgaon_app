@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../model/rest_house_model.dart'; // Assuming you have a RestHouse model class
-import '../../utils/app_utils.dart'; // Assuming AppUtils loads JSON data
+import '../../model/rest_house_model.dart';
+import '../../utils/app_utils.dart';
+import '../../provider/app_provider.dart';
 
 class RestHouseScreen extends StatefulWidget {
   const RestHouseScreen({super.key});
@@ -11,17 +13,11 @@ class RestHouseScreen extends StatefulWidget {
 }
 
 class _RestHouseScreenState extends State<RestHouseScreen> {
-  // List of all rest houses
   List<RestHouse> allRestHouses = [];
   List<RestHouse> filteredRestHouses = [];
-
-  // Search query
   String searchQuery = '';
-
-  // Applied upazilla filter
   String? appliedUpazilla;
-
-  // List of upazillas for filtering
+  
   final List<String> upazillas = [
     'ঠাকুরগাঁও সদর',
     'পীরগঞ্জ',
@@ -36,15 +32,12 @@ class _RestHouseScreenState extends State<RestHouseScreen> {
     _loadData();
   }
 
-  // Load rest house data using AppUtils
   void _loadData() async {
     try {
-      // Fetch all rest houses from JSON using AppUtils
       List<RestHouse> data = await AppUtils.restHouses();
-
       setState(() {
         allRestHouses = data;
-        filteredRestHouses = data; // Initially show all rest houses
+        filteredRestHouses = data;
       });
     } catch (error) {
       if (mounted) {
@@ -54,24 +47,18 @@ class _RestHouseScreenState extends State<RestHouseScreen> {
     }
   }
 
-  // Update filtered list based on search query and upazilla filter
   void _updateFilteredList() {
     setState(() {
       filteredRestHouses = allRestHouses.where((restHouse) {
-        // Match search query
         final matchesName =
             restHouse.name.toLowerCase().contains(searchQuery.toLowerCase());
-
-        // Match selected upazilla
         final matchesUpazilla =
             appliedUpazilla == null || restHouse.upazilla == appliedUpazilla;
-
         return matchesName && matchesUpazilla;
       }).toList();
     });
   }
 
-  // Function to launch phone dialer
   void _makePhoneCall(String phoneNumber) async {
     final Uri launchUri = Uri(scheme: 'tel', path: phoneNumber);
     if (await canLaunchUrl(launchUri)) {
@@ -82,16 +69,17 @@ class _RestHouseScreenState extends State<RestHouseScreen> {
     }
   }
 
-  // Open filter modal
   void _openFilterModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) {
+        final isDarkMode = Provider.of<AppProvider>(context).themeMode == ThemeMode.dark;
+        
         return Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: isDarkMode ? Colors.grey[800] : Colors.white,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
             boxShadow: [
               BoxShadow(
@@ -105,7 +93,6 @@ class _RestHouseScreenState extends State<RestHouseScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Header
               Text(
                 'ফিল্টার করুন',
                 style: TextStyle(
@@ -115,46 +102,45 @@ class _RestHouseScreenState extends State<RestHouseScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              // Upazilla Buttons
               Wrap(
-                spacing: 8.0, // Horizontal spacing between buttons
-                runSpacing: 8.0, // Vertical spacing between buttons
+                spacing: 8.0,
+                runSpacing: 8.0,
                 children: upazillas.map((upazilla) {
                   bool isSelected = appliedUpazilla == upazilla;
                   return ElevatedButton(
                     onPressed: () {
                       setState(() {
-                        appliedUpazilla =
-                            isSelected ? null : upazilla; // Toggle selection
+                        appliedUpazilla = isSelected ? null : upazilla;
                       });
-                      Navigator.pop(context); // Close the bottom sheet
-                      _updateFilteredList(); // Update filtered list
+                      Navigator.pop(context);
+                      _updateFilteredList();
                     },
                     style: ElevatedButton.styleFrom(
                       elevation: 0.5,
-                      backgroundColor:
-                          isSelected ? Colors.teal : Colors.grey.shade50,
-                      foregroundColor:
-                          isSelected ? Colors.white : Colors.teal,
+                      backgroundColor: isSelected
+                          ? Colors.teal
+                          : (isDarkMode ? Colors.grey[700] : Colors.grey.shade50),
+                      foregroundColor: isSelected
+                          ? Colors.white
+                          : (isDarkMode ? Colors.white : Colors.teal),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 8),
+                        horizontal: 12, vertical: 8),
                     ),
                     child: Text(upazilla),
                   );
                 }).toList(),
               ),
               const SizedBox(height: 20),
-              // Reset Button
               ElevatedButton(
                 onPressed: () {
                   setState(() {
-                    appliedUpazilla = null; // Clear applied upazilla
+                    appliedUpazilla = null;
                   });
-                  Navigator.pop(context); // Close the bottom sheet
-                  _updateFilteredList(); // Update filtered list
+                  Navigator.pop(context);
+                  _updateFilteredList();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red.shade400,
@@ -185,6 +171,9 @@ class _RestHouseScreenState extends State<RestHouseScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeMode = Provider.of<AppProvider>(context).themeMode;
+    final isDarkMode = themeMode == ThemeMode.dark;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('রেস্ট হাউজ'),
@@ -201,14 +190,13 @@ class _RestHouseScreenState extends State<RestHouseScreen> {
       ),
       body: Column(
         children: [
-          // Search Bar
           Padding(
             padding: const EdgeInsets.all(12),
             child: TextField(
               onChanged: (value) {
                 setState(() {
                   searchQuery = value;
-                  _updateFilteredList(); // Update filtered list
+                  _updateFilteredList();
                 });
               },
               decoration: InputDecoration(
@@ -218,12 +206,16 @@ class _RestHouseScreenState extends State<RestHouseScreen> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 filled: true,
-                fillColor: Colors.teal.shade50,
+                fillColor: isDarkMode ? Colors.grey[800] : Colors.teal.shade50,
+                labelStyle: TextStyle(
+                  color: isDarkMode ? Colors.grey.shade400 : Colors.grey.shade600,
+                ),
+              ),
+              style: TextStyle(
+                color: isDarkMode ? Colors.white : Colors.black,
               ),
             ),
           ),
-
-          // Rest House List
           Expanded(
             child: ListView.builder(
               itemCount: filteredRestHouses.length,
@@ -232,6 +224,7 @@ class _RestHouseScreenState extends State<RestHouseScreen> {
                 return Card(
                   margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   elevation: 1,
+                  color: isDarkMode ? Colors.grey[800] : Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -241,7 +234,7 @@ class _RestHouseScreenState extends State<RestHouseScreen> {
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Colors.teal,
+                        color: isDarkMode ? Colors.white : Colors.teal,
                       ),
                     ),
                     subtitle: Column(
@@ -253,57 +246,93 @@ class _RestHouseScreenState extends State<RestHouseScreen> {
                             Icon(
                               Icons.location_on,
                               size: 16,
-                              color: Colors.teal,
+                              color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
                             ),
                             const SizedBox(width: 4),
                             Text(
                               restHouse.location,
-                              style: TextStyle(color: Colors.grey.shade600),
+                              style: TextStyle(
+                                color: isDarkMode 
+                                    ? Colors.grey.shade300 
+                                    : Colors.grey.shade600,
+                              ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 4),
                         Row(
                           children: [
-                            Icon(Icons.phone, size: 16, color: Colors.teal),
+                            Icon(
+                              Icons.phone,
+                              size: 16,
+                              color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                            ),
                             const SizedBox(width: 4),
                             Text(
                               'যোগাযোগ: ${restHouse.contact}',
-                              style: TextStyle(color: Colors.grey.shade600),
+                              style: TextStyle(
+                                color: isDarkMode 
+                                    ? Colors.grey.shade300 
+                                    : Colors.grey.shade600,
+                              ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 4),
                         Row(
                           children: [
-                            Icon(Icons.email, size: 16, color: Colors.teal),
+                            Icon(
+                              Icons.email,
+                              size: 16,
+                              color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                            ),
                             const SizedBox(width: 4),
                             Text(
                               'ই-মেইল: ${restHouse.email}',
-                              style: TextStyle(color: Colors.grey.shade600),
+                              style: TextStyle(
+                                color: isDarkMode 
+                                    ? Colors.grey.shade300 
+                                    : Colors.grey.shade600,
+                              ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 4),
                         Row(
                           children: [
-                            Icon(Icons.bed, size: 16, color: Colors.teal),
+                            Icon(
+                              Icons.bed,
+                              size: 16,
+                              color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                            ),
                             const SizedBox(width: 4),
                             Text(
                               'রুম: ${restHouse.rooms}',
-                              style: TextStyle(color: Colors.grey.shade600),
+                              style: TextStyle(
+                                color: isDarkMode 
+                                    ? Colors.grey.shade300 
+                                    : Colors.grey.shade600,
+                              ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 4),
                         Row(
                           children: [
-                            Icon(Icons.room_service, size: 16, color: Colors.teal),
+                            Icon(
+                              Icons.room_service,
+                              size: 16,
+                              color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                            ),
                             const SizedBox(width: 4),
                             Expanded(
                               child: Text(
                                 'সুবিধাসমূহ: ${restHouse.amenities.join(", ")}',
-                                style: TextStyle(color: Colors.grey.shade600),
+                                style: TextStyle(
+                                  color: isDarkMode 
+                                      ? Colors.grey.shade300 
+                                      : Colors.grey.shade600,
+                                ),
                               ),
                             ),
                           ],
@@ -338,7 +367,7 @@ class _RestHouseScreenState extends State<RestHouseScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _openFilterModal(context); // Open filter modal
+          _openFilterModal(context);
         },
         backgroundColor: Colors.teal,
         foregroundColor: Colors.white,

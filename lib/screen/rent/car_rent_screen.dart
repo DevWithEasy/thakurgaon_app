@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../provider/app_provider.dart';
 
 class CarRentScreen extends StatefulWidget {
   const CarRentScreen({super.key});
@@ -81,10 +83,9 @@ class _CarRentScreenState extends State<CarRentScreen> {
   @override
   void initState() {
     super.initState();
-    filteredCars = cars; // Initialize filtered list with all cars
+    filteredCars = cars;
   }
 
-  // Function to apply filters
   void _applyFilters() {
     setState(() {
       filteredCars = cars.where((car) {
@@ -99,7 +100,6 @@ class _CarRentScreenState extends State<CarRentScreen> {
     });
   }
 
-  // Function to reset filters
   void _resetFilters() {
     setState(() {
       selectedUpazilla = null;
@@ -108,8 +108,9 @@ class _CarRentScreenState extends State<CarRentScreen> {
     });
   }
 
-  // Function to show filter bottom sheet
   void _showFilterBottomSheet(BuildContext context) {
+    final isDarkMode = Provider.of<AppProvider>(context).themeMode == ThemeMode.dark;
+    
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -117,7 +118,7 @@ class _CarRentScreenState extends State<CarRentScreen> {
       builder: (context) {
         return Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: isDarkMode ? Colors.grey[800] : Colors.white,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
             boxShadow: [
               BoxShadow(
@@ -131,7 +132,6 @@ class _CarRentScreenState extends State<CarRentScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Header
               Text(
                 'ফিল্টার',
                 style: TextStyle(
@@ -145,21 +145,32 @@ class _CarRentScreenState extends State<CarRentScreen> {
               // Upazilla Dropdown
               Container(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Colors.teal.shade50, Colors.blue.shade50],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
+                  gradient: isDarkMode 
+                    ? LinearGradient(
+                        colors: [Colors.grey[700]!, Colors.grey[800]!],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      )
+                    : LinearGradient(
+                        colors: [Colors.teal.shade50, Colors.blue.shade50],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.teal.shade200, width: 1),
+                  border: Border.all(
+                    color: isDarkMode ? Colors.grey[600]! : Colors.teal.shade200, 
+                    width: 1
+                  ),
                 ),
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: DropdownButtonFormField<String>(
                   value: selectedUpazilla,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     border: InputBorder.none,
                     labelText: 'উপজেলা',
-                    labelStyle: TextStyle(color: Colors.teal),
+                    labelStyle: TextStyle(
+                      color: isDarkMode ? Colors.grey[300] : Colors.teal,
+                    ),
                   ),
                   items: [
                     'ঠাকুরগাঁও সদর',
@@ -170,7 +181,12 @@ class _CarRentScreenState extends State<CarRentScreen> {
                   ].map((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
-                      child: Text(value),
+                      child: Text(
+                        value,
+                        style: TextStyle(
+                          color: isDarkMode ? Colors.white : Colors.black,
+                        ),
+                      ),
                     );
                   }).toList(),
                   onChanged: (value) {
@@ -178,8 +194,14 @@ class _CarRentScreenState extends State<CarRentScreen> {
                       selectedUpazilla = value;
                     });
                   },
-                  dropdownColor: Colors.teal.shade50,
-                  icon: const Icon(Icons.arrow_drop_down, color: Colors.teal),
+                  dropdownColor: isDarkMode ? Colors.grey[800] : Colors.teal.shade50,
+                  icon: Icon(
+                    Icons.arrow_drop_down, 
+                    color: isDarkMode ? Colors.grey[300] : Colors.teal
+                  ),
+                  style: TextStyle(
+                    color: isDarkMode ? Colors.white : Colors.black,
+                  ),
                 ),
               ),
               const SizedBox(height: 16),
@@ -187,26 +209,42 @@ class _CarRentScreenState extends State<CarRentScreen> {
               // Type Dropdown
               Container(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Colors.teal.shade50, Colors.blue.shade50],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
+                  gradient: isDarkMode 
+                    ? LinearGradient(
+                        colors: [Colors.grey[700]!, Colors.grey[800]!],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      )
+                    : LinearGradient(
+                        colors: [Colors.teal.shade50, Colors.blue.shade50],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.teal.shade200, width: 1),
+                  border: Border.all(
+                    color: isDarkMode ? Colors.grey[600]! : Colors.teal.shade200, 
+                    width: 1
+                  ),
                 ),
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: DropdownButtonFormField<String>(
                   value: selectedType,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     border: InputBorder.none,
                     labelText: 'গাড়ির ধরন',
-                    labelStyle: TextStyle(color: Colors.teal),
+                    labelStyle: TextStyle(
+                      color: isDarkMode ? Colors.grey[300] : Colors.teal,
+                    ),
                   ),
                   items: ['কার', 'মোটর বাইক', 'ট্রাক', 'পিকআপ', 'ইজি বাইক'].map((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
-                      child: Text(value),
+                      child: Text(
+                        value,
+                        style: TextStyle(
+                          color: isDarkMode ? Colors.white : Colors.black,
+                        ),
+                      ),
                     );
                   }).toList(),
                   onChanged: (value) {
@@ -214,8 +252,14 @@ class _CarRentScreenState extends State<CarRentScreen> {
                       selectedType = value;
                     });
                   },
-                  dropdownColor: Colors.teal.shade50,
-                  icon: const Icon(Icons.arrow_drop_down, color: Colors.teal),
+                  dropdownColor: isDarkMode ? Colors.grey[800] : Colors.teal.shade50,
+                  icon: Icon(
+                    Icons.arrow_drop_down, 
+                    color: isDarkMode ? Colors.grey[300] : Colors.teal
+                  ),
+                  style: TextStyle(
+                    color: isDarkMode ? Colors.white : Colors.black,
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
@@ -250,7 +294,7 @@ class _CarRentScreenState extends State<CarRentScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 16), // Space between buttons
+                  const SizedBox(width: 16),
                   // Reset Button
                   Expanded(
                     child: ElevatedButton(
@@ -288,8 +332,9 @@ class _CarRentScreenState extends State<CarRentScreen> {
     );
   }
 
-  // Function to show car details bottom modal
   void _showCarDetailsModal(BuildContext context, Map<String, dynamic> car) {
+    final isDarkMode = Provider.of<AppProvider>(context).themeMode == ThemeMode.dark;
+    
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -297,7 +342,7 @@ class _CarRentScreenState extends State<CarRentScreen> {
       builder: (context) {
         return Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: isDarkMode ? Colors.grey[800] : Colors.white,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
             boxShadow: [
               BoxShadow(
@@ -312,42 +357,34 @@ class _CarRentScreenState extends State<CarRentScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Car Name
                 Text(
                   car['name'],
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Colors.teal,
+                    color: isDarkMode ? Colors.white : Colors.teal,
                   ),
                 ),
                 const SizedBox(height: 8),
-
-                // Car Price
                 Text(
                   car['price'],
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 18,
-                    color: Colors.teal,
+                    color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
                   ),
                 ),
                 const SizedBox(height: 16),
-
-                // Car Description
                 Text(
                   car['description'],
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
-                    color: Colors.black87,
+                    color: isDarkMode ? Colors.grey[300] : Colors.black87,
                   ),
                 ),
                 const SizedBox(height: 24),
-
-                // Buttons
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    // Call Button
                     ElevatedButton.icon(
                       onPressed: () {
                         final Uri launchUri = Uri(
@@ -356,26 +393,28 @@ class _CarRentScreenState extends State<CarRentScreen> {
                         );
                         launchUrl(launchUri);
                       },
-                      icon: const Icon(Icons.call),
-                      label: const Text('কল করুন'),
+                      icon: const Icon(Icons.call, color: Colors.white),
+                      label: const Text(
+                        'কল করুন',
+                        style: TextStyle(color: Colors.white),
+                      ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.teal,
-                        foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(
                           horizontal: 24,
                           vertical: 12,
                         ),
                       ),
                     ),
-
-                    // Close Button
                     ElevatedButton.icon(
                       onPressed: () => Navigator.pop(context),
-                      icon: const Icon(Icons.close),
-                      label: const Text('বন্ধ করুন'),
+                      icon: const Icon(Icons.close, color: Colors.white),
+                      label: const Text(
+                        'বন্ধ করুন',
+                        style: TextStyle(color: Colors.white),
+                      ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.red,
-                        foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(
                           horizontal: 24,
                           vertical: 12,
@@ -394,6 +433,9 @@ class _CarRentScreenState extends State<CarRentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeMode = Provider.of<AppProvider>(context).themeMode;
+    final isDarkMode = themeMode == ThemeMode.dark;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('কার ভাড়া'),
@@ -402,10 +444,10 @@ class _CarRentScreenState extends State<CarRentScreen> {
       ),
       body: GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, // 2 items per row
-          crossAxisSpacing: 10, // Spacing between columns
-          mainAxisSpacing: 10, // Spacing between rows
-          childAspectRatio: 0.75, // Adjust the aspect ratio as needed
+          crossAxisCount: 2,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          childAspectRatio: 0.75,
         ),
         padding: const EdgeInsets.all(10),
         itemCount: filteredCars.length,
@@ -413,6 +455,7 @@ class _CarRentScreenState extends State<CarRentScreen> {
           final car = filteredCars[index];
           return Card(
             elevation: 1,
+            color: isDarkMode ? Colors.grey[800] : Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             ),
@@ -437,17 +480,18 @@ class _CarRentScreenState extends State<CarRentScreen> {
                     children: [
                       Text(
                         car['name'],
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
+                          color: isDarkMode ? Colors.white : Colors.black,
                         ),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         car['price'],
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 14,
-                          color: Colors.teal,
+                          color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
                         ),
                       ),
                       const SizedBox(height: 8),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart'; // Add this import
 import 'package:url_launcher/url_launcher.dart';
 import '../../model/uddokta_model.dart';
 import '../../model/uddokta_product_model.dart';
+import '../../provider/app_provider.dart';
 import '../../utils/app_utils.dart';
 
 class UddoktaDetailsScreen extends StatefulWidget {
@@ -66,6 +68,8 @@ class _UddoktaDetailsScreenState extends State<UddoktaDetailsScreen> {
   }
 
   void _showProductDetails(BuildContext context, UddoktaProduct product) {
+    final isDarkMode = Provider.of<AppProvider>(context, listen: false).themeMode == ThemeMode.dark;
+    
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -78,7 +82,7 @@ class _UddoktaDetailsScreenState extends State<UddoktaDetailsScreen> {
           builder: (context, scrollController) {
             return Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: isDarkMode ? Colors.grey[800] : Colors.white,
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
                 boxShadow: [
                   BoxShadow(
@@ -89,22 +93,20 @@ class _UddoktaDetailsScreenState extends State<UddoktaDetailsScreen> {
                 ],
               ),
               child: SingleChildScrollView(
-                controller: scrollController, // Attach scroll controller
+                controller: scrollController,
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Close Button
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         IconButton(
                           onPressed: () => Navigator.pop(context),
-                          icon: const Icon(Icons.close, color: Colors.teal),
+                          icon: Icon(Icons.close, color: isDarkMode ? Colors.white : Colors.teal),
                         ),
                       ],
                     ),
-                    // Product Image
                     Center(
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(12),
@@ -117,47 +119,42 @@ class _UddoktaDetailsScreenState extends State<UddoktaDetailsScreen> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    // Product Name
                     Text(
                       product.name,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Colors.teal,
+                        color: isDarkMode ? Colors.white : Colors.teal,
                       ),
                     ),
                     const SizedBox(height: 8),
-                    // Product Category
                     Text(
                       product.category,
                       style: TextStyle(
                         fontSize: 16,
-                        color: Colors.grey[600],
+                        color: isDarkMode ? Colors.grey[400] : Colors.grey[600],
                       ),
                     ),
                     const SizedBox(height: 8),
-                    // Product Price
                     Text(
                       '৳ ${product.price}',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Colors.teal,
+                        color: isDarkMode ? Colors.teal[200] : Colors.teal,
                       ),
                     ),
                     const SizedBox(height: 16),
-                    // Product Description
                     Text(
                       product.description,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 16,
+                        color: isDarkMode ? Colors.white : Colors.black,
                       ),
                     ),
                     const SizedBox(height: 24),
-                    // Order Button
                     ElevatedButton.icon(
                       onPressed: () {
-                        // Handle order functionality here
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Order placed successfully!')),
                         );
@@ -168,7 +165,7 @@ class _UddoktaDetailsScreenState extends State<UddoktaDetailsScreen> {
                         style: TextStyle(color: Colors.white),
                       ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.teal,
+                        backgroundColor: isDarkMode ? Colors.teal[700] : Colors.teal,
                         padding: const EdgeInsets.symmetric(
                           horizontal: 24,
                           vertical: 12,
@@ -187,6 +184,8 @@ class _UddoktaDetailsScreenState extends State<UddoktaDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<AppProvider>(context).themeMode == ThemeMode.dark;
+    
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -213,7 +212,7 @@ class _UddoktaDetailsScreenState extends State<UddoktaDetailsScreen> {
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: isDarkMode ? Colors.grey[800] : Colors.white,
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
@@ -238,10 +237,10 @@ class _UddoktaDetailsScreenState extends State<UddoktaDetailsScreen> {
                         Text(
                           selectedUddokta.name,
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
-                            color: Colors.teal,
+                            color: isDarkMode ? Colors.white : Colors.teal,
                           ),
                         ),
                         const SizedBox(height: 8),
@@ -250,20 +249,20 @@ class _UddoktaDetailsScreenState extends State<UddoktaDetailsScreen> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 16,
-                            color: Colors.grey[700],
+                            color: isDarkMode ? Colors.grey[400] : Colors.grey[700],
                           ),
                         ),
                         const SizedBox(height: 8),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.location_on, size: 18, color: Colors.teal),
+                            Icon(Icons.location_on, size: 18, color: isDarkMode ? Colors.teal[200] : Colors.teal),
                             const SizedBox(width: 4),
                             Text(
                               selectedUddokta.location,
                               style: TextStyle(
                                 fontSize: 14,
-                                color: Colors.grey[700],
+                                color: isDarkMode ? Colors.grey[400] : Colors.grey[700],
                               ),
                             ),
                           ],
@@ -280,7 +279,7 @@ class _UddoktaDetailsScreenState extends State<UddoktaDetailsScreen> {
                                 style: TextStyle(color: Colors.white),
                               ),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.teal,
+                                backgroundColor: isDarkMode ? Colors.teal[700] : Colors.teal,
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 24,
                                   vertical: 12,
@@ -300,7 +299,7 @@ class _UddoktaDetailsScreenState extends State<UddoktaDetailsScreen> {
                                 style: TextStyle(color: Colors.white),
                               ),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.teal,
+                                backgroundColor: isDarkMode ? Colors.teal[700] : Colors.teal,
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 24,
                                   vertical: 12,
@@ -323,7 +322,7 @@ class _UddoktaDetailsScreenState extends State<UddoktaDetailsScreen> {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Colors.teal,
+                      color: isDarkMode ? Colors.white : Colors.teal,
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -340,9 +339,10 @@ class _UddoktaDetailsScreenState extends State<UddoktaDetailsScreen> {
                     itemBuilder: (context, index) {
                       final product = filteredProducts[index];
                       return InkWell(
-                        onTap: () => _showProductDetails(context, product), // Open bottom sheet
+                        onTap: () => _showProductDetails(context, product),
                         child: Card(
                           elevation: 4,
+                          color: isDarkMode ? Colors.grey[800] : Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -369,9 +369,10 @@ class _UddoktaDetailsScreenState extends State<UddoktaDetailsScreen> {
                                       product.name,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
+                                        color: isDarkMode ? Colors.white : Colors.black,
                                       ),
                                     ),
                                     const SizedBox(height: 4),
@@ -379,16 +380,16 @@ class _UddoktaDetailsScreenState extends State<UddoktaDetailsScreen> {
                                       product.category,
                                       style: TextStyle(
                                         fontSize: 14,
-                                        color: Colors.grey[600],
+                                        color: isDarkMode ? Colors.grey[400] : Colors.grey[600],
                                       ),
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
                                       '৳ ${product.price}',
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.teal,
+                                        color: isDarkMode ? Colors.teal[200] : Colors.teal,
                                       ),
                                     ),
                                   ],

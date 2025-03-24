@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../model/lawyer_model.dart'; // Assuming you have a Lawyer model class
-import '../../utils/app_utils.dart'; // Assuming AppUtils loads JSON data
+import '../../model/lawyer_model.dart';
+import '../../utils/app_utils.dart';
+import '../../provider/app_provider.dart';
 
 class LawyerScreen extends StatefulWidget {
   const LawyerScreen({super.key});
@@ -11,17 +13,11 @@ class LawyerScreen extends StatefulWidget {
 }
 
 class _LawyerScreenState extends State<LawyerScreen> {
-  // List of all lawyers
   List<Lawyer> allLawyers = [];
   List<Lawyer> filteredLawyers = [];
-
-  // Search query
   String searchQuery = '';
-
-  // Applied upazilla filter
   String? appliedUpazilla;
-
-  // List of upazillas for filtering
+  
   final List<String> upazillas = [
     'ঠাকুরগাঁও সদর',
     'পীরগঞ্জ',
@@ -36,15 +32,12 @@ class _LawyerScreenState extends State<LawyerScreen> {
     _loadData();
   }
 
-  // Load lawyer data using AppUtils
   void _loadData() async {
     try {
-      // Fetch all lawyers from JSON using AppUtils
       List<Lawyer> data = await AppUtils.lawyers();
-
       setState(() {
         allLawyers = data;
-        filteredLawyers = data; // Initially show all lawyers
+        filteredLawyers = data;
       });
     } catch (error) {
       if (mounted) {
@@ -54,24 +47,18 @@ class _LawyerScreenState extends State<LawyerScreen> {
     }
   }
 
-  // Update filtered list based on search query and upazilla filter
   void _updateFilteredList() {
     setState(() {
       filteredLawyers = allLawyers.where((lawyer) {
-        // Match search query
         final matchesName =
             lawyer.name.toLowerCase().contains(searchQuery.toLowerCase());
-
-        // Match selected upazilla
         final matchesUpazilla =
             appliedUpazilla == null || lawyer.upazilla == appliedUpazilla;
-
         return matchesName && matchesUpazilla;
       }).toList();
     });
   }
 
-  // Function to launch phone dialer
   void _makePhoneCall(String phoneNumber) async {
     final Uri launchUri = Uri(scheme: 'tel', path: phoneNumber);
     if (await canLaunchUrl(launchUri)) {
@@ -82,16 +69,17 @@ class _LawyerScreenState extends State<LawyerScreen> {
     }
   }
 
-  // Open filter modal
   void _openFilterModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) {
+        final isDarkMode = Provider.of<AppProvider>(context).themeMode == ThemeMode.dark;
+        
         return Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: isDarkMode ? Colors.grey[800] : Colors.white,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
             boxShadow: [
               BoxShadow(
@@ -105,7 +93,6 @@ class _LawyerScreenState extends State<LawyerScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Header
               Text(
                 'ফিল্টার করুন',
                 style: TextStyle(
@@ -115,46 +102,45 @@ class _LawyerScreenState extends State<LawyerScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              // Upazilla Buttons
               Wrap(
-                spacing: 8.0, // Horizontal spacing between buttons
-                runSpacing: 8.0, // Vertical spacing between buttons
+                spacing: 8.0,
+                runSpacing: 8.0,
                 children: upazillas.map((upazilla) {
                   bool isSelected = appliedUpazilla == upazilla;
                   return ElevatedButton(
                     onPressed: () {
                       setState(() {
-                        appliedUpazilla =
-                            isSelected ? null : upazilla; // Toggle selection
+                        appliedUpazilla = isSelected ? null : upazilla;
                       });
-                      Navigator.pop(context); // Close the bottom sheet
-                      _updateFilteredList(); // Update filtered list
+                      Navigator.pop(context);
+                      _updateFilteredList();
                     },
                     style: ElevatedButton.styleFrom(
                       elevation: 0.5,
-                      backgroundColor:
-                          isSelected ? Colors.teal : Colors.grey.shade50,
-                      foregroundColor:
-                          isSelected ? Colors.white : Colors.teal,
+                      backgroundColor: isSelected
+                          ? Colors.teal
+                          : (isDarkMode ? Colors.grey[700] : Colors.grey.shade50),
+                      foregroundColor: isSelected
+                          ? Colors.white
+                          : (isDarkMode ? Colors.white : Colors.teal),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 8),
+                        horizontal: 12, vertical: 8),
                     ),
                     child: Text(upazilla),
                   );
                 }).toList(),
               ),
               const SizedBox(height: 20),
-              // Reset Button
               ElevatedButton(
                 onPressed: () {
                   setState(() {
-                    appliedUpazilla = null; // Clear applied upazilla
+                    appliedUpazilla = null;
                   });
-                  Navigator.pop(context); // Close the bottom sheet
-                  _updateFilteredList(); // Update filtered list
+                  Navigator.pop(context);
+                  _updateFilteredList();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red.shade400,
@@ -185,6 +171,9 @@ class _LawyerScreenState extends State<LawyerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeMode = Provider.of<AppProvider>(context).themeMode;
+    final isDarkMode = themeMode == ThemeMode.dark;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Lawyer Details'),
@@ -201,14 +190,13 @@ class _LawyerScreenState extends State<LawyerScreen> {
       ),
       body: Column(
         children: [
-          // Search Bar
           Padding(
             padding: const EdgeInsets.all(12),
             child: TextField(
               onChanged: (value) {
                 setState(() {
                   searchQuery = value;
-                  _updateFilteredList(); // Update filtered list
+                  _updateFilteredList();
                 });
               },
               decoration: InputDecoration(
@@ -218,12 +206,16 @@ class _LawyerScreenState extends State<LawyerScreen> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 filled: true,
-                fillColor: Colors.teal.shade50,
+                fillColor: isDarkMode ? Colors.grey[800] : Colors.teal.shade50,
+                labelStyle: TextStyle(
+                  color: isDarkMode ? Colors.grey[400] : Colors.grey[600],
+                ),
+              ),
+              style: TextStyle(
+                color: isDarkMode ? Colors.white : Colors.black,
               ),
             ),
           ),
-
-          // Lawyer List
           Expanded(
             child: ListView.builder(
               itemCount: filteredLawyers.length,
@@ -232,6 +224,7 @@ class _LawyerScreenState extends State<LawyerScreen> {
                 return Card(
                   margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   elevation: 1,
+                  color: isDarkMode ? Colors.grey[800] : Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -241,7 +234,7 @@ class _LawyerScreenState extends State<LawyerScreen> {
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Colors.teal,
+                        color: isDarkMode ? Colors.white : Colors.teal,
                       ),
                     ),
                     subtitle: Column(
@@ -253,45 +246,73 @@ class _LawyerScreenState extends State<LawyerScreen> {
                             Icon(
                               Icons.location_on,
                               size: 16,
-                              color: Colors.teal,
+                              color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
                             ),
                             const SizedBox(width: 4),
                             Text(
                               lawyer.location,
-                              style: TextStyle(color: Colors.grey.shade600),
+                              style: TextStyle(
+                                color: isDarkMode 
+                                    ? Colors.grey[300] 
+                                    : Colors.grey[600],
+                              ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 4),
                         Row(
                           children: [
-                            Icon(Icons.phone, size: 16, color: Colors.teal),
+                            Icon(
+                              Icons.phone,
+                              size: 16,
+                              color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                            ),
                             const SizedBox(width: 4),
                             Text(
                               'Contact: ${lawyer.contact}',
-                              style: TextStyle(color: Colors.grey.shade600),
+                              style: TextStyle(
+                                color: isDarkMode 
+                                    ? Colors.grey[300] 
+                                    : Colors.grey[600],
+                              ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 4),
                         Row(
                           children: [
-                            Icon(Icons.email, size: 16, color: Colors.teal),
+                            Icon(
+                              Icons.email,
+                              size: 16,
+                              color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                            ),
                             const SizedBox(width: 4),
                             Text(
                               'Email: ${lawyer.email}',
-                              style: TextStyle(color: Colors.grey.shade600),
+                              style: TextStyle(
+                                color: isDarkMode 
+                                    ? Colors.grey[300] 
+                                    : Colors.grey[600],
+                              ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 4),
                         Row(
                           children: [
-                            Icon(Icons.work, size: 16, color: Colors.teal),
+                            Icon(
+                              Icons.work,
+                              size: 16,
+                              color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                            ),
                             const SizedBox(width: 4),
                             Text(
                               'Specialization: ${lawyer.specialization}',
-                              style: TextStyle(color: Colors.grey.shade600),
+                              style: TextStyle(
+                                color: isDarkMode 
+                                    ? Colors.grey[300] 
+                                    : Colors.grey[600],
+                              ),
                             ),
                           ],
                         ),
@@ -325,7 +346,7 @@ class _LawyerScreenState extends State<LawyerScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _openFilterModal(context); // Open filter modal
+          _openFilterModal(context);
         },
         backgroundColor: Colors.teal,
         foregroundColor: Colors.white,

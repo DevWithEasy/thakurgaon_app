@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../model/surveyor_model.dart'; // Assuming you have a Surveyor model class
-import '../../utils/app_utils.dart'; // Assuming AppUtils loads JSON data
+import '../../model/surveyor_model.dart';
+import '../../utils/app_utils.dart';
+import '../../provider/app_provider.dart';
 
 class SurveyorScreen extends StatefulWidget {
   const SurveyorScreen({super.key});
@@ -11,17 +13,11 @@ class SurveyorScreen extends StatefulWidget {
 }
 
 class _SurveyorScreenState extends State<SurveyorScreen> {
-  // List of all surveyors
   List<Surveyor> allSurveyors = [];
   List<Surveyor> filteredSurveyors = [];
-
-  // Search query
   String searchQuery = '';
-
-  // Applied upazilla filter
   String? appliedUpazilla;
-
-  // List of upazillas for filtering
+  
   final List<String> upazillas = [
     'ঠাকুরগাঁও সদর',
     'পীরগঞ্জ',
@@ -36,15 +32,12 @@ class _SurveyorScreenState extends State<SurveyorScreen> {
     _loadData();
   }
 
-  // Load surveyor data using AppUtils
   void _loadData() async {
     try {
-      // Fetch all surveyors from JSON using AppUtils
       List<Surveyor> data = await AppUtils.surveyors();
-
       setState(() {
         allSurveyors = data;
-        filteredSurveyors = data; // Initially show all surveyors
+        filteredSurveyors = data;
       });
     } catch (error) {
       if (mounted) {
@@ -54,24 +47,18 @@ class _SurveyorScreenState extends State<SurveyorScreen> {
     }
   }
 
-  // Update filtered list based on search query and upazilla filter
   void _updateFilteredList() {
     setState(() {
       filteredSurveyors = allSurveyors.where((surveyor) {
-        // Match search query
         final matchesName =
             surveyor.name.toLowerCase().contains(searchQuery.toLowerCase());
-
-        // Match selected upazilla
         final matchesUpazilla =
             appliedUpazilla == null || surveyor.upazilla == appliedUpazilla;
-
         return matchesName && matchesUpazilla;
       }).toList();
     });
   }
 
-  // Function to launch phone dialer
   void _makePhoneCall(String phoneNumber) async {
     final Uri launchUri = Uri(scheme: 'tel', path: phoneNumber);
     if (await canLaunchUrl(launchUri)) {
@@ -82,16 +69,17 @@ class _SurveyorScreenState extends State<SurveyorScreen> {
     }
   }
 
-  // Open filter modal
   void _openFilterModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) {
+        final isDarkMode = Provider.of<AppProvider>(context).themeMode == ThemeMode.dark;
+        
         return Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: isDarkMode ? Colors.grey[800] : Colors.white,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
             boxShadow: [
               BoxShadow(
@@ -105,7 +93,6 @@ class _SurveyorScreenState extends State<SurveyorScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Header
               Text(
                 'ফিল্টার করুন',
                 style: TextStyle(
@@ -115,46 +102,45 @@ class _SurveyorScreenState extends State<SurveyorScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              // Upazilla Buttons
               Wrap(
-                spacing: 8.0, // Horizontal spacing between buttons
-                runSpacing: 8.0, // Vertical spacing between buttons
+                spacing: 8.0,
+                runSpacing: 8.0,
                 children: upazillas.map((upazilla) {
                   bool isSelected = appliedUpazilla == upazilla;
                   return ElevatedButton(
                     onPressed: () {
                       setState(() {
-                        appliedUpazilla =
-                            isSelected ? null : upazilla; // Toggle selection
+                        appliedUpazilla = isSelected ? null : upazilla;
                       });
-                      Navigator.pop(context); // Close the bottom sheet
-                      _updateFilteredList(); // Update filtered list
+                      Navigator.pop(context);
+                      _updateFilteredList();
                     },
                     style: ElevatedButton.styleFrom(
                       elevation: 0.5,
-                      backgroundColor:
-                          isSelected ? Colors.teal : Colors.grey.shade50,
-                      foregroundColor:
-                          isSelected ? Colors.white : Colors.teal,
+                      backgroundColor: isSelected
+                          ? Colors.teal
+                          : (isDarkMode ? Colors.grey[700] : Colors.grey.shade50),
+                      foregroundColor: isSelected
+                          ? Colors.white
+                          : (isDarkMode ? Colors.white : Colors.teal),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 8),
+                        horizontal: 12, vertical: 8),
                     ),
                     child: Text(upazilla),
                   );
                 }).toList(),
               ),
               const SizedBox(height: 20),
-              // Reset Button
               ElevatedButton(
                 onPressed: () {
                   setState(() {
-                    appliedUpazilla = null; // Clear applied upazilla
+                    appliedUpazilla = null;
                   });
-                  Navigator.pop(context); // Close the bottom sheet
-                  _updateFilteredList(); // Update filtered list
+                  Navigator.pop(context);
+                  _updateFilteredList();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red.shade400,
@@ -185,6 +171,9 @@ class _SurveyorScreenState extends State<SurveyorScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeMode = Provider.of<AppProvider>(context).themeMode;
+    final isDarkMode = themeMode == ThemeMode.dark;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Surveyor Control'),
@@ -201,14 +190,13 @@ class _SurveyorScreenState extends State<SurveyorScreen> {
       ),
       body: Column(
         children: [
-          // Search Bar
           Padding(
             padding: const EdgeInsets.all(12),
             child: TextField(
               onChanged: (value) {
                 setState(() {
                   searchQuery = value;
-                  _updateFilteredList(); // Update filtered list
+                  _updateFilteredList();
                 });
               },
               decoration: InputDecoration(
@@ -218,12 +206,16 @@ class _SurveyorScreenState extends State<SurveyorScreen> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 filled: true,
-                fillColor: Colors.teal.shade50,
+                fillColor: isDarkMode ? Colors.grey[800] : Colors.teal.shade50,
+                labelStyle: TextStyle(
+                  color: isDarkMode ? Colors.grey[400] : Colors.grey[600],
+                ),
+              ),
+              style: TextStyle(
+                color: isDarkMode ? Colors.white : Colors.black,
               ),
             ),
           ),
-
-          // Surveyor List
           Expanded(
             child: ListView.builder(
               itemCount: filteredSurveyors.length,
@@ -232,6 +224,7 @@ class _SurveyorScreenState extends State<SurveyorScreen> {
                 return Card(
                   margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   elevation: 1,
+                  color: isDarkMode ? Colors.grey[800] : Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -241,7 +234,7 @@ class _SurveyorScreenState extends State<SurveyorScreen> {
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Colors.teal,
+                        color: isDarkMode ? Colors.white : Colors.teal,
                       ),
                     ),
                     subtitle: Column(
@@ -253,45 +246,73 @@ class _SurveyorScreenState extends State<SurveyorScreen> {
                             Icon(
                               Icons.work,
                               size: 16,
-                              color: Colors.teal,
+                              color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
                             ),
                             const SizedBox(width: 4),
                             Text(
                               surveyor.specialization,
-                              style: TextStyle(color: Colors.grey.shade600),
+                              style: TextStyle(
+                                color: isDarkMode 
+                                    ? Colors.grey[300] 
+                                    : Colors.grey[600],
+                              ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 4),
                         Row(
                           children: [
-                            Icon(Icons.location_on, size: 16, color: Colors.teal),
+                            Icon(
+                              Icons.location_on,
+                              size: 16,
+                              color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                            ),
                             const SizedBox(width: 4),
                             Text(
                               surveyor.location,
-                              style: TextStyle(color: Colors.grey.shade600),
+                              style: TextStyle(
+                                color: isDarkMode 
+                                    ? Colors.grey[300] 
+                                    : Colors.grey[600],
+                              ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 4),
                         Row(
                           children: [
-                            Icon(Icons.phone, size: 16, color: Colors.teal),
+                            Icon(
+                              Icons.phone,
+                              size: 16,
+                              color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                            ),
                             const SizedBox(width: 4),
                             Text(
                               'Contact: ${surveyor.contact}',
-                              style: TextStyle(color: Colors.grey.shade600),
+                              style: TextStyle(
+                                color: isDarkMode 
+                                    ? Colors.grey[300] 
+                                    : Colors.grey[600],
+                              ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 4),
                         Row(
                           children: [
-                            Icon(Icons.email, size: 16, color: Colors.teal),
+                            Icon(
+                              Icons.email,
+                              size: 16,
+                              color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                            ),
                             const SizedBox(width: 4),
                             Text(
                               'Email: ${surveyor.email}',
-                              style: TextStyle(color: Colors.grey.shade600),
+                              style: TextStyle(
+                                color: isDarkMode 
+                                    ? Colors.grey[300] 
+                                    : Colors.grey[600],
+                              ),
                             ),
                           ],
                         ),
@@ -325,7 +346,7 @@ class _SurveyorScreenState extends State<SurveyorScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _openFilterModal(context); // Open filter modal
+          _openFilterModal(context);
         },
         backgroundColor: Colors.teal,
         foregroundColor: Colors.white,

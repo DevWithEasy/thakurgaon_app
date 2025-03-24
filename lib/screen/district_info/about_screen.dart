@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../model/Info_model.dart';
+import '../../provider/app_provider.dart';
 import '../../utils/app_utils.dart';
 
 class AboutScreen extends StatefulWidget {
@@ -30,6 +32,8 @@ class _AboutScreenState extends State<AboutScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<AppProvider>(context).themeMode == ThemeMode.dark;
+    
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -45,89 +49,105 @@ class _AboutScreenState extends State<AboutScreen> {
         flexibleSpace: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [Colors.teal, Colors.teal.shade700],
+              colors: isDarkMode 
+                  ? [Colors.teal.shade800, Colors.teal.shade900]
+                  : [Colors.teal, Colors.teal.shade700],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
           ),
         ),
+        iconTheme: IconThemeData(color: Colors.white),
       ),
-      body: ListView.builder(
-        itemCount: _infos.length,
-        padding: const EdgeInsets.all(16),
-        itemBuilder: (context, index) {
-          final info = _infos[index];
-          final isExpanded = _expandedStates[index] ?? false;
+      body: Container(
+        color: isDarkMode ? Colors.grey[900] : Colors.grey[100],
+        child: ListView.builder(
+          itemCount: _infos.length,
+          padding: const EdgeInsets.all(16),
+          itemBuilder: (context, index) {
+            final info = _infos[index];
+            final isExpanded = _expandedStates[index] ?? false;
 
-          return Card(
-            elevation: 0.5,
-            margin: EdgeInsets.symmetric(vertical: 8),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Theme(
-              data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-              child: AnimatedContainer(
-                duration: Duration(milliseconds: 300),
-                decoration: BoxDecoration(
-                  gradient: isExpanded
-                      ? LinearGradient(
-                          colors: [Colors.teal.shade100, Colors.teal.shade50],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        )
-                      : LinearGradient(
-                          colors: [Colors.white, Colors.white],
-                        ),
-                  borderRadius: BorderRadius.circular(12),
+            return Card(
+              elevation: isDarkMode ? 0 : 0.5,
+              margin: EdgeInsets.symmetric(vertical: 8),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              color: isDarkMode ? Colors.grey[800] : null,
+              child: Theme(
+                data: Theme.of(context).copyWith(
+                  dividerColor: Colors.transparent,
+                  cardColor: isDarkMode ? Colors.grey[800] : Colors.white,
                 ),
-                child: ExpansionTile(
-                  initiallyExpanded: isExpanded,
-                  onExpansionChanged: (expanded) {
-                    setState(() {
-                      _expandedStates[index] = expanded;
-                    });
-                  },
-                  title: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                child: AnimatedContainer(
+                  duration: Duration(milliseconds: 300),
+                  decoration: BoxDecoration(
+                    gradient: isExpanded
+                        ? isDarkMode
+                            ? LinearGradient(
+                                colors: [Colors.teal.shade900, Colors.teal.shade800],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              )
+                            : LinearGradient(
+                                colors: [Colors.teal.shade100, Colors.teal.shade50],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              )
+                        : null,
+                    borderRadius: BorderRadius.circular(12),
+                    color: isDarkMode ? Colors.grey[800] : Colors.white,
+                  ),
+                  child: ExpansionTile(
+                    initiallyExpanded: isExpanded,
+                    onExpansionChanged: (expanded) {
+                      setState(() {
+                        _expandedStates[index] = expanded;
+                      });
+                    },
+                    title: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.info_outline,
+                          color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          info.title,
+                          style: TextStyle(
+                            fontFamily: 'kalpurush',
+                            fontWeight: FontWeight.bold,
+                            color: isDarkMode ? Colors.teal.shade200 : Colors.teal.shade700,
+                          ),
+                        ),
+                      ],
+                    ),
+                    iconColor: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                    collapsedIconColor: isDarkMode ? Colors.teal.shade200 : Colors.teal,
                     children: [
-                      Icon(
-                        Icons.info_outline,
-                        color: Colors.teal,
-                      ),
-                      SizedBox(width: 8),
-                      Text(
-                        info.title,
-                        style: TextStyle(
-                          fontFamily: 'kalpurush',
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.teal.shade700,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        child: Text(
+                          info.description,
+                          style: TextStyle(
+                            fontFamily: 'kalpurush',
+                            fontSize: 14,
+                            color: isDarkMode ? Colors.grey[300] : Colors.grey[700],
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      child: Text(
-                        info.description,
-                        style: TextStyle(
-                          fontFamily: 'kalpurush',
-                          fontSize: 14,
-                          color: Colors.grey[700],
-                        ),
-                      ),
-                    ),
-                  ],
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

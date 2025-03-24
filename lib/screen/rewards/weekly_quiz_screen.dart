@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../provider/app_provider.dart';
 
 class WeeklyQuizScreen extends StatefulWidget {
   const WeeklyQuizScreen({super.key});
@@ -29,6 +31,8 @@ class _WeeklyQuizScreenState extends State<WeeklyQuizScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<AppProvider>(context).themeMode == ThemeMode.dark;
+    
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -50,6 +54,7 @@ class _WeeklyQuizScreenState extends State<WeeklyQuizScreen> {
           ),
         ),
         elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -62,7 +67,7 @@ class _WeeklyQuizScreenState extends State<WeeklyQuizScreen> {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Colors.teal,
+                color: isDarkMode ? Colors.teal[200] : Colors.teal,
               ),
             ),
             const SizedBox(height: 16),
@@ -90,7 +95,9 @@ class _WeeklyQuizScreenState extends State<WeeklyQuizScreen> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
                           gradient: LinearGradient(
-                            colors: [Colors.teal.shade50, Colors.teal.shade100],
+                            colors: isDarkMode
+                                ? [Colors.teal[900]!, Colors.teal[800]!]
+                                : [Colors.teal.shade50, Colors.teal.shade100],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),
@@ -106,6 +113,7 @@ class _WeeklyQuizScreenState extends State<WeeklyQuizScreen> {
                                 width: 50,
                                 height: 50,
                                 fit: BoxFit.cover,
+                                color: isDarkMode ? Colors.white : null,
                               ),
                             ),
                             const SizedBox(height: 16),
@@ -115,7 +123,7 @@ class _WeeklyQuizScreenState extends State<WeeklyQuizScreen> {
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.teal.shade800,
+                                color: isDarkMode ? Colors.white : Colors.teal.shade800,
                               ),
                             ),
                           ],

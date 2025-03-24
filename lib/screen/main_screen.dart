@@ -46,10 +46,15 @@ class _MainScreenState extends State<MainScreen> {
         provider.toggleGridView();
         break;
       case 'settings':
+        Navigator.pushNamed(context, '/settings');
         break;
       case 'about':
         break;
       case 'logout':
+        break;
+      case 'theme':
+        final provider = Provider.of<AppProvider>(context, listen: false);
+        provider.toggleTheme(provider.themeMode != ThemeMode.dark);
         break;
     }
   }
@@ -57,6 +62,8 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
+    final isDarkMode = provider.themeMode == ThemeMode.dark;
+    
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -65,102 +72,152 @@ class _MainScreenState extends State<MainScreen> {
         ),
         centerTitle: true,
         leading: Builder(
-          builder:
-              (context) => IconButton(
-                icon: const Icon(Icons.menu),
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                },
-              ),
+          builder: (context) => IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+          ),
         ),
         actions: [
           PopupMenuButton<String>(
-            color: Colors.white,
+            color: isDarkMode ? Colors.grey[800] : Colors.white,
             elevation: 0.1,
             onSelected: _onMenuItemSelected,
-            itemBuilder:
-                (BuildContext context) => [
-                  PopupMenuItem<String>(
-                    value: 'view',
-                    child: Row(
-                      children:[
-                        Icon(
-                          provider.gridView ? Icons.grid_view : Icons.list,
-                          size: 20,
-                          color: Colors.black,
-                        ),
-                        SizedBox(width: 8),
-                        Text('হোম ভিউ পরিবর্তন'),
-                      ],
+            itemBuilder: (BuildContext context) => [
+              PopupMenuItem<String>(
+                value: 'view',
+                child: Row(
+                  children: [
+                    Icon(
+                      provider.gridView ? Icons.grid_view : Icons.list,
+                      size: 20,
+                      color: isDarkMode ? Colors.white : Colors.black,
                     ),
-                  ),
-                  PopupMenuItem<String>(
-                    value: 'settings',
-                    child: Row(
-                      children: const [
-                        Icon(
-                          Icons.settings,
-                          size: 20,
-                          color: Colors.black,
-                        ), // Icon
-                        SizedBox(width: 8), // Add spacing between icon and text
-                        Text('সেটিংস'), // Text
-                      ],
+                    const SizedBox(width: 8),
+                    Text(
+                      'হোম ভিউ পরিবর্তন',
+                      style: TextStyle(
+                        color: isDarkMode ? Colors.white : Colors.black,
+                      ),
                     ),
-                  ),
-                  PopupMenuItem<String>(
-                    value: 'about',
-                    child: Row(
-                      children: const [
-                        Icon(Icons.info, size: 20, color: Colors.black), // Icon
-                        SizedBox(width: 8), // Add spacing between icon and text
-                        Text('অ্যাপ সম্পর্কে'), // Text
-                      ],
+                  ],
+                ),
+              ),
+              PopupMenuItem<String>(
+                value: 'theme',
+                child: Row(
+                  children: [
+                    Icon(
+                      isDarkMode ? Icons.light_mode : Icons.dark_mode,
+                      size: 20,
+                      color: isDarkMode ? Colors.white : Colors.black,
                     ),
-                  ),
-                  PopupMenuItem<String>(
-                    value: 'logout',
-                    child: Row(
-                      children: const [
-                        Icon(
-                          Icons.logout,
-                          size: 20,
-                          color: Colors.black,
-                        ), // Icon
-                        SizedBox(width: 8), // Add spacing between icon and text
-                        Text('লগ আউট'), // Text
-                      ],
+                    const SizedBox(width: 8),
+                    Text(
+                      isDarkMode ? 'লাইট থিম' : 'ডার্ক থিম',
+                      style: TextStyle(
+                        color: isDarkMode ? Colors.white : Colors.black,
+                      ),
                     ),
-                  ),
-                ],
-            icon: const Icon(Icons.more_vert),
+                  ],
+                ),
+              ),
+              PopupMenuItem<String>(
+                value: 'settings',
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.settings,
+                      size: 20,
+                      color: isDarkMode ? Colors.white : Colors.black,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      'সেটিংস',
+                      style: TextStyle(
+                        color: isDarkMode ? Colors.white : Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              PopupMenuItem<String>(
+                value: 'about',
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.info,
+                      size: 20,
+                      color: isDarkMode ? Colors.white : Colors.black,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      'অ্যাপ সম্পর্কে',
+                      style: TextStyle(
+                        color: isDarkMode ? Colors.white : Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              PopupMenuItem<String>(
+                value: 'logout',
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.logout,
+                      size: 20,
+                      color: isDarkMode ? Colors.white : Colors.black,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      'লগ আউট',
+                      style: TextStyle(
+                        color: isDarkMode ? Colors.white : Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+            icon: Icon(
+              Icons.more_vert,
+              color: Colors.white,
+            ),
           ),
         ],
       ),
       drawer: Drawer(
-        backgroundColor: Colors.white,
+        backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            const DrawerHeader(
+            DrawerHeader(
               decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images/village_scene.png'),
-                  fit: BoxFit.cover,
-                ),
+                color: isDarkMode ? Colors.grey[800] : Colors.teal,
+                image: const DecorationImage(
+                        image: AssetImage('assets/images/village_scene.png'),
+                        fit: BoxFit.cover,
+                      ),
               ),
               child: Text(
                 'ঠাকুরগাঁও জেলা',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: isDarkMode ? Colors.white : Colors.white,
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
             ListTile(
-              leading: const Icon(Icons.home, color: Colors.teal),
-              title: const Text('হোম'),
+              leading: Icon(Icons.home, color: Colors.teal),
+              title: Text(
+                'হোম',
+                style: TextStyle(
+                  color: isDarkMode ? Colors.white : Colors.black,
+                ),
+              ),
               onTap: () {
                 Navigator.pop(context);
                 setState(() {
@@ -171,7 +228,12 @@ class _MainScreenState extends State<MainScreen> {
             ..._options.map((option) {
               return ListTile(
                 leading: Icon(option['icon'], color: Colors.teal),
-                title: Text(option['title']),
+                title: Text(
+                  option['title'],
+                  style: TextStyle(
+                    color: isDarkMode ? Colors.white : Colors.black,
+                  ),
+                ),
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.pushNamed(context, option['route']);
@@ -193,30 +255,30 @@ class _MainScreenState extends State<MainScreen> {
           ],
         ),
         child: BottomNavigationBar(
-          backgroundColor: Colors.white,
+          backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
           selectedItemColor: Colors.teal,
-          unselectedItemColor: Colors.grey,
+          unselectedItemColor: isDarkMode ? Colors.grey[400] : Colors.grey,
           showUnselectedLabels: true,
-          elevation: 0, // Remove elevation (we're using shadow)
+          elevation: 0,
           type: BottomNavigationBarType.fixed,
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
-              label: 'হোম', // Home
+              label: 'হোম',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.attach_money),
-              label: 'ফ্রি রিচার্জ', // Earn
+              label: 'ফ্রি রিচার্জ',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.notifications),
-              label: 'নোটিফিকেশন', // Notifications
+              label: 'নোটিফিকেশন',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
-              label: 'প্রোফাইল', // Profile
+              label: 'প্রোফাইল',
             ),
           ],
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 import '../model/doctor_model.dart';
+import '../../provider/app_provider.dart';
 
 class DoctorCard extends StatelessWidget {
   final Doctor doctor;
@@ -8,6 +9,8 @@ class DoctorCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<AppProvider>(context).themeMode == ThemeMode.dark;
+
     return InkWell(
       onTap: () {
         Navigator.pushNamed(
@@ -17,19 +20,26 @@ class DoctorCard extends StatelessWidget {
         );
       },
       child: Card(
-        elevation: 1,
+        elevation: isDarkMode ? 0 : 1,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
         margin: EdgeInsets.only(bottom: 12),
+        color: isDarkMode ? Colors.grey[800] : null,
         child: Container(
           padding: EdgeInsets.all(16),
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.teal.shade50, Colors.white],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+            gradient: isDarkMode
+                ? LinearGradient(
+                    colors: [Colors.grey.shade900.withOpacity(0.3), Colors.grey[800]!],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  )
+                : LinearGradient(
+                    colors: [Colors.teal.shade50, Colors.white],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Row(
@@ -38,10 +48,15 @@ class DoctorCard extends StatelessWidget {
               // Doctor Image
               CircleAvatar(
                 radius: 30,
-                // backgroundImage: NetworkImage(doctor.image),
-                backgroundImage: AssetImage('assets/images/home_screen/doctor.png'),
+                backgroundColor: isDarkMode ? Colors.teal.shade800 : Colors.teal.shade50,
+                backgroundImage: doctor.image.isNotEmpty
+                    ? NetworkImage(doctor.image)
+                    : AssetImage('assets/images/home_screen/doctor.png') as ImageProvider,
                 child: doctor.image.isEmpty
-                    ? Icon(Icons.person, size: 30, color: Colors.teal)
+                    ? Icon(
+                        Icons.person,
+                        size: 30,
+                      )
                     : null,
               ),
               SizedBox(width: 16),
@@ -57,7 +72,7 @@ class DoctorCard extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Colors.teal,
+                        color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
                       ),
                     ),
                     SizedBox(height: 8),
@@ -67,6 +82,7 @@ class DoctorCard extends StatelessWidget {
                       _buildDetailRow(
                         Icons.medical_services,
                         doctor.specialization.join(", "),
+                        isDarkMode,
                       ),
                     SizedBox(height: 4),
 
@@ -75,6 +91,7 @@ class DoctorCard extends StatelessWidget {
                       _buildDetailRow(
                         Icons.school,
                         doctor.qualifications.join(", "),
+                        isDarkMode,
                       ),
                     SizedBox(height: 4),
 
@@ -82,6 +99,7 @@ class DoctorCard extends StatelessWidget {
                     _buildDetailRow(
                       Icons.work,
                       '${doctor.designation}, ${doctor.department}',
+                      isDarkMode,
                     ),
                     SizedBox(height: 4),
 
@@ -89,6 +107,7 @@ class DoctorCard extends StatelessWidget {
                     _buildDetailRow(
                       Icons.local_hospital,
                       doctor.hospital,
+                      isDarkMode,
                     ),
                     SizedBox(height: 4),
 
@@ -96,6 +115,7 @@ class DoctorCard extends StatelessWidget {
                     _buildDetailRow(
                       Icons.timeline,
                       'অভিজ্ঞতাঃ ${doctor.experience}',
+                      isDarkMode,
                     ),
                     SizedBox(height: 4),
 
@@ -103,6 +123,7 @@ class DoctorCard extends StatelessWidget {
                     _buildDetailRow(
                       Icons.monetization_on,
                       'কনসাল্টেশন ফিঃ ${doctor.consultationFee}',
+                      isDarkMode,
                     ),
                   ],
                 ),
@@ -114,16 +135,23 @@ class DoctorCard extends StatelessWidget {
     );
   }
 
-  Widget _buildDetailRow(IconData icon, String text) {
+  Widget _buildDetailRow(IconData icon, String text, bool isDarkMode) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, size: 16, color: Colors.teal),
+        Icon(
+          icon,
+          size: 16,
+          color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+        ),
         SizedBox(width: 8),
         Expanded(
           child: Text(
             text,
-            style: TextStyle(fontSize: 14),
+            style: TextStyle(
+              fontSize: 14,
+              color: isDarkMode ? Colors.grey[300] : Colors.black87,
+            ),
           ),
         ),
       ],

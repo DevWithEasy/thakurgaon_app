@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../provider/app_provider.dart';
 
 class BloodOrgsScreen extends StatefulWidget {
   const BloodOrgsScreen({super.key});
@@ -85,9 +88,11 @@ class _BloodOrgsScreenState extends State<BloodOrgsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<AppProvider>(context).themeMode == ThemeMode.dark;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'রক্ত সংগঠন',
           style: TextStyle(
             fontSize: 20,
@@ -116,7 +121,7 @@ class _BloodOrgsScreenState extends State<BloodOrgsScreen> {
               onChanged: _filterOrgs,
               decoration: InputDecoration(
                 hintText: 'রক্ত সংগঠন খুঁজুন...',
-                prefixIcon: const Icon(Icons.search, color: Colors.teal),
+                prefixIcon: Icon(Icons.search, color: Colors.teal),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide: BorderSide(color: Colors.teal),
@@ -126,7 +131,7 @@ class _BloodOrgsScreenState extends State<BloodOrgsScreen> {
                   borderSide: BorderSide(color: Colors.teal, width: 2),
                 ),
                 filled: true,
-                fillColor: Colors.teal.shade50,
+                fillColor: isDarkMode ? Colors.grey[800] : Colors.teal.shade50,
                 suffixIcon: _searchController.text.isNotEmpty
                     ? IconButton(
                         icon: Icon(Icons.clear, color: Colors.teal),
@@ -136,6 +141,12 @@ class _BloodOrgsScreenState extends State<BloodOrgsScreen> {
                         },
                       )
                     : null,
+                hintStyle: TextStyle(
+                  color: isDarkMode ? Colors.white70 : Colors.black54,
+                ),
+              ),
+              style: TextStyle(
+                color: isDarkMode ? Colors.white : Colors.black,
               ),
             ),
           ),
@@ -149,6 +160,7 @@ class _BloodOrgsScreenState extends State<BloodOrgsScreen> {
                 return Card(
                   margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   elevation: 1,
+                  color: isDarkMode ? Colors.grey[800] : Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -163,17 +175,27 @@ class _BloodOrgsScreenState extends State<BloodOrgsScreen> {
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: Colors.teal,
+                            color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
                           ),
                         ),
                         SizedBox(height: 8),
 
                         // Email
-                        _buildDetailRow(Icons.email, org["email"]!),
+                        _buildDetailRow(
+                          context,
+                          Icons.email, 
+                          org["email"]!,
+                          isDarkMode: isDarkMode,
+                        ),
                         SizedBox(height: 8),
 
                         // Phone
-                        _buildDetailRow(Icons.phone, org["phone"]!),
+                        _buildDetailRow(
+                          context,
+                          Icons.phone, 
+                          org["phone"]!,
+                          isDarkMode: isDarkMode,
+                        ),
                         SizedBox(height: 16),
 
                         // Call and Email Buttons
@@ -186,7 +208,10 @@ class _BloodOrgsScreenState extends State<BloodOrgsScreen> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 12, 
+                                  horizontal: 16,
+                                ),
                               ),
                               child: Row(
                                 children: [
@@ -210,7 +235,10 @@ class _BloodOrgsScreenState extends State<BloodOrgsScreen> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 12, 
+                                  horizontal: 16,
+                                ),
                               ),
                               child: Row(
                                 children: [
@@ -240,16 +268,28 @@ class _BloodOrgsScreenState extends State<BloodOrgsScreen> {
     );
   }
 
-  Widget _buildDetailRow(IconData icon, String text) {
+  Widget _buildDetailRow(
+    BuildContext context,
+    IconData icon, 
+    String text, {
+    required bool isDarkMode,
+  }) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, size: 20, color: Colors.teal),
+        Icon(
+          icon, 
+          size: 20, 
+          color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+        ),
         SizedBox(width: 8),
         Expanded(
           child: Text(
             text,
-            style: TextStyle(fontSize: 14),
+            style: TextStyle(
+              fontSize: 14,
+              color: isDarkMode ? Colors.white : Colors.black87,
+            ),
           ),
         ),
       ],

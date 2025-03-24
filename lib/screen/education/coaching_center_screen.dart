@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../model/coaching_center_model.dart';
+import '../../provider/app_provider.dart';
 import '../../utils/app_utils.dart';
 
 class CoachingCenterScreen extends StatefulWidget {
@@ -11,17 +13,12 @@ class CoachingCenterScreen extends StatefulWidget {
 }
 
 class _CoachingCenterScreenState extends State<CoachingCenterScreen> {
-  // List of all coaching centers
   List<CoachingCenter> allCenters = [];
   List<CoachingCenter> filteredCenters = [];
-
-  // Search query
   String searchQuery = '';
-
-  // Applied upazilla filter
   String? appliedUpazilla;
+  bool isLoading = true;
 
-  // List of upazillas for filtering
   final List<String> upazillas = [
     'ঠাকুরগাঁও সদর',
     'পীরগঞ্জ',
@@ -38,50 +35,50 @@ class _CoachingCenterScreenState extends State<CoachingCenterScreen> {
 
   void _loadData() async {
     try {
-      // Load all coaching centers from JSON
       List<CoachingCenter> data = await AppUtils.coachingCenters();
       setState(() {
         allCenters = data;
-        filteredCenters = data; // Initially show all centers
+        filteredCenters = data;
+        isLoading = false;
       });
     } catch (error) {
       if (mounted) {
+        setState(() => isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Failed to load data: $error')));
+          SnackBar(content: Text('Failed to load data: $error')),
+        );
       }
     }
   }
 
-  // Update filtered list based on search query and upazilla filter
   void _updateFilteredList() {
     setState(() {
       filteredCenters = allCenters.where((center) {
-        // Match search query
         final matchesName =
             center.name.toLowerCase().contains(searchQuery.toLowerCase());
-
-        // Match selected upazilla
         final matchesUpazilla =
             appliedUpazilla == null || center.upazilla == appliedUpazilla;
-
         return matchesName && matchesUpazilla;
       }).toList();
     });
   }
 
-  // Function to launch phone dialer
   void _makePhoneCall(String phoneNumber) async {
     final Uri launchUri = Uri(scheme: 'tel', path: phoneNumber);
     if (await canLaunchUrl(launchUri)) {
       await launchUrl(launchUri);
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Could not make a call to $phoneNumber')));
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Could not make a call to $phoneNumber')),
+        );
+      }
     }
   }
 
-  // Open filter modal
   void _openFilterModal(BuildContext context) {
+    final isDarkMode = Provider.of<AppProvider>(context, listen: false).themeMode == ThemeMode.dark;
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -89,11 +86,11 @@ class _CoachingCenterScreenState extends State<CoachingCenterScreen> {
       builder: (context) {
         return Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: isDarkMode ? Colors.grey[900] : Colors.white,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
             boxShadow: [
               BoxShadow(
-                color: Colors.black26,
+                color: Colors.black.withOpacity(0.2),
                 blurRadius: 10,
                 offset: const Offset(0, -2),
               ),
@@ -103,37 +100,47 @@ class _CoachingCenterScreenState extends State<CoachingCenterScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Header
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  margin: const EdgeInsets.only(bottom: 16),
+                  decoration: BoxDecoration(
+                    color: isDarkMode ? Colors.grey[700] : Colors.grey[300],
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
               Text(
                 'ফিল্টার করুন',
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: Colors.teal,
+                  color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
                 ),
               ),
               const SizedBox(height: 16),
-              // Upazilla Buttons
               Wrap(
-                spacing: 8.0, // Horizontal spacing between buttons
-                runSpacing: 8.0, // Vertical spacing between buttons
+                spacing: 8.0,
+                runSpacing: 8.0,
                 children: upazillas.map((upazilla) {
                   bool isSelected = appliedUpazilla == upazilla;
                   return ElevatedButton(
                     onPressed: () {
                       setState(() {
-                        appliedUpazilla =
-                            isSelected ? null : upazilla; // Toggle selection
+                        appliedUpazilla = isSelected ? null : upazilla;
                       });
-                      Navigator.pop(context); // Close the bottom sheet
-                      _updateFilteredList(); // Update filtered list
+                      Navigator.pop(context);
+                      _updateFilteredList();
                     },
                     style: ElevatedButton.styleFrom(
                       elevation: 0.5,
-                      backgroundColor:
-                          isSelected ? Colors.teal : Colors.grey.shade50,
-                      foregroundColor:
-                          isSelected ? Colors.white : Colors.teal,
+                      backgroundColor: isSelected 
+                          ? Colors.teal 
+                          : (isDarkMode ? Colors.grey[800] : Colors.grey.shade50),
+                      foregroundColor: isSelected 
+                          ? Colors.white 
+                          : (isDarkMode ? Colors.white : Colors.teal),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -145,14 +152,13 @@ class _CoachingCenterScreenState extends State<CoachingCenterScreen> {
                 }).toList(),
               ),
               const SizedBox(height: 20),
-              // Reset Button
               ElevatedButton(
                 onPressed: () {
                   setState(() {
-                    appliedUpazilla = null; // Clear applied upazilla
+                    appliedUpazilla = null;
                   });
-                  Navigator.pop(context); // Close the bottom sheet
-                  _updateFilteredList(); // Update filtered list
+                  Navigator.pop(context);
+                  _updateFilteredList();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red.shade400,
@@ -183,135 +189,218 @@ class _CoachingCenterScreenState extends State<CoachingCenterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<AppProvider>(context).themeMode == ThemeMode.dark;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('কোচিং সেন্টার সমুহ'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {},
+        title: const Text(
+          'কোচিং সেন্টার সমুহ',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
-        ],
+        ),
+        centerTitle: true,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.teal, Colors.teal.shade700],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
       ),
       body: Column(
         children: [
-          // Search Bar
           Padding(
-            padding: const EdgeInsets.all(12),
-            child: TextField(
-              onChanged: (value) {
-                setState(() {
-                  searchQuery = value;
-                  _updateFilteredList(); // Update filtered list
-                });
-              },
-              decoration: InputDecoration(
-                labelText: 'কোচিং সেন্টার খুঁজুন (নাম,ঠিকানা)',
-                prefixIcon: const Icon(Icons.search, color: Colors.teal),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
+            padding: const EdgeInsets.all(16),
+            child: Container(
+              decoration: BoxDecoration(
+                color: isDarkMode ? Colors.grey[800] : Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 5,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: TextField(
+                onChanged: (value) {
+                  setState(() {
+                    searchQuery = value;
+                    _updateFilteredList();
+                  });
+                },
+                style: TextStyle(
+                  color: isDarkMode ? Colors.white : Colors.black,
                 ),
-                filled: true,
-                fillColor: Colors.teal.shade50,
+                decoration: InputDecoration(
+                  labelText: 'কোচিং সেন্টার খুঁজুন (নাম,ঠিকানা)',
+                  labelStyle: TextStyle(
+                    color: isDarkMode ? Colors.white70 : Colors.black54,
+                  ),
+                  prefixIcon: Icon(Icons.search, color: Colors.teal),
+                  border: InputBorder.none,
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                  suffixIcon: searchQuery.isNotEmpty
+                      ? IconButton(
+                          icon: const Icon(Icons.clear, color: Colors.teal),
+                          onPressed: () {
+                            setState(() {
+                              searchQuery = '';
+                              _updateFilteredList();
+                            });
+                          },
+                        )
+                      : null,
+                ),
               ),
             ),
           ),
-          // Coaching Center List
-          Expanded(
-            child: ListView.builder(
-              itemCount: filteredCenters.length,
-              itemBuilder: (context, index) {
-                final center = filteredCenters[index];
-                return Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  elevation: 1,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: ListTile(
-                    title: Text(
-                      center.name,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.teal,
-                      ),
+          
+          if (appliedUpazilla != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Chip(
+                  label: Text(
+                    'উপজেলা: $appliedUpazilla',
+                    style: TextStyle(
+                      color: isDarkMode ? Colors.white : Colors.teal,
                     ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 4),
-                        Row(
+                  ),
+                  backgroundColor: isDarkMode ? Colors.teal[800] : Colors.teal.shade50,
+                  deleteIcon: Icon(
+                    Icons.close,
+                    size: 18,
+                    color: isDarkMode ? Colors.white : Colors.teal,
+                  ),
+                  onDeleted: () {
+                    setState(() {
+                      appliedUpazilla = null;
+                      _updateFilteredList();
+                    });
+                  },
+                ),
+              ),
+            ),
+            
+          const SizedBox(height: 8),
+          
+          Expanded(
+            child: isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : filteredCenters.isEmpty
+                    ? Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(
-                              Icons.location_on,
-                              size: 16,
-                              color: Colors.teal,
+                              Icons.school,
+                              size: 60,
+                              color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
                             ),
-                            const SizedBox(width: 4),
+                            const SizedBox(height: 16),
                             Text(
-                              center.location,
-                              style: TextStyle(color: Colors.grey.shade600),
+                              'কোন কোচিং সেন্টার পাওয়া যায়নি',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: isDarkMode ? Colors.white70 : Colors.grey.shade600,
+                              ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 4),
-                        Row(
-                          children: [
-                            Icon(Icons.phone, size: 16, color: Colors.teal),
-                            const SizedBox(width: 4),
-                            Text(
-                              'Contact: ${center.contact}',
-                              style: TextStyle(color: Colors.grey.shade600),
+                      )
+                    : ListView.builder(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        itemCount: filteredCenters.length,
+                        itemBuilder: (context, index) {
+                          final center = filteredCenters[index];
+                          return Container(
+                            margin: const EdgeInsets.only(bottom: 12),
+                            decoration: BoxDecoration(
+                              color: isDarkMode ? Colors.grey[800] : Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        const SizedBox(height: 4),
-                        Row(
-                          children: [
-                            Icon(Icons.email, size: 16, color: Colors.teal),
-                            const SizedBox(width: 4),
-                            Text(
-                              'Email: ${center.email}',
-                              style: TextStyle(color: Colors.grey.shade600),
+                            child: ListTile(
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 12,
+                              ),
+                              title: Text(
+                                center.name,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  color: isDarkMode 
+                                      ? Colors.teal.shade200 
+                                      : Colors.teal,
+                                ),
+                              ),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    center.location,
+                                    style: TextStyle(
+                                      color: isDarkMode 
+                                          ? Colors.white70 
+                                          : Colors.grey.shade600,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    'উপজেলা: ${center.upazilla}',
+                                    style: TextStyle(
+                                      color: isDarkMode 
+                                          ? Colors.white70 
+                                          : Colors.grey.shade600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              trailing: IconButton(
+                                icon: Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    color: Colors.teal,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: const Icon(
+                                    Icons.call,
+                                    color: Colors.white,
+                                    size: 20,
+                                  ),
+                                ),
+                                onPressed: () => _makePhoneCall(center.contact),
+                              ),
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    trailing: GestureDetector(
-                      onTap: () => _makePhoneCall(center.contact),
-                      child: Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: Colors.teal,
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 4,
-                              offset: Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        child: Icon(Icons.call, color: Colors.white, size: 20),
+                          );
+                        },
                       ),
-                    ),
-                  ),
-                );
-              },
-            ),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _openFilterModal(context); // Open filter modal
+          _openFilterModal(context);
         },
         backgroundColor: Colors.teal,
         foregroundColor: Colors.white,
-        elevation: 1,
         child: const Icon(Icons.filter_list),
       ),
     );

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../model/food_hotel_model.dart'; // Assuming you have a FoodHotel model class
-import '../../utils/app_utils.dart'; // Assuming AppUtils loads JSON data
+import '../../model/food_hotel_model.dart';
+import '../../utils/app_utils.dart';
+import '../../provider/app_provider.dart';
 
 class FoodHotelScreen extends StatefulWidget {
   const FoodHotelScreen({super.key});
@@ -11,17 +13,11 @@ class FoodHotelScreen extends StatefulWidget {
 }
 
 class _FoodHotelScreenState extends State<FoodHotelScreen> {
-  // List of all restaurants
   List<FoodHotel> allRestaurants = [];
   List<FoodHotel> filteredRestaurants = [];
-
-  // Search query
   String searchQuery = '';
-
-  // Applied upazilla filter
   String? appliedUpazilla;
-
-  // List of upazillas for filtering
+  
   final List<String> upazillas = [
     'ঠাকুরগাঁও সদর',
     'পীরগঞ্জ',
@@ -36,15 +32,12 @@ class _FoodHotelScreenState extends State<FoodHotelScreen> {
     _loadData();
   }
 
-  // Load restaurant data using AppUtils
   void _loadData() async {
     try {
-      // Fetch all restaurants from JSON using AppUtils
       List<FoodHotel> data = await AppUtils.foodHotels();
-
       setState(() {
         allRestaurants = data;
-        filteredRestaurants = data; // Initially show all restaurants
+        filteredRestaurants = data;
       });
     } catch (error) {
       if (mounted) {
@@ -54,24 +47,18 @@ class _FoodHotelScreenState extends State<FoodHotelScreen> {
     }
   }
 
-  // Update filtered list based on search query and upazilla filter
   void _updateFilteredList() {
     setState(() {
       filteredRestaurants = allRestaurants.where((restaurant) {
-        // Match search query
         final matchesName =
             restaurant.name.toLowerCase().contains(searchQuery.toLowerCase());
-
-        // Match selected upazilla
         final matchesUpazilla =
             appliedUpazilla == null || restaurant.upazilla == appliedUpazilla;
-
         return matchesName && matchesUpazilla;
       }).toList();
     });
   }
 
-  // Function to launch phone dialer
   void _makePhoneCall(String phoneNumber) async {
     final Uri launchUri = Uri(scheme: 'tel', path: phoneNumber);
     if (await canLaunchUrl(launchUri)) {
@@ -82,109 +69,120 @@ class _FoodHotelScreenState extends State<FoodHotelScreen> {
     }
   }
 
-  // Open filter modal
   void _openFilterModal(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) {
-        return Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black26,
-                blurRadius: 10,
-                offset: const Offset(0, -2),
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    builder: (context) {
+      // Get the theme mode inside the builder
+      final isDarkMode = Provider.of<AppProvider>(context).themeMode == ThemeMode.dark;
+      
+      return Container(
+        decoration: BoxDecoration(
+          color: isDarkMode ? Colors.grey[800] : Colors.white,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 10,
+              offset: const Offset(0, -2),
+            ),
+          ],
+        ),
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'ফিল্টার করুন',
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Colors.teal,
               ),
-            ],
-          ),
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Header
-              Text(
-                'ফিল্টার করুন',
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.teal,
-                ),
-              ),
-              const SizedBox(height: 16),
-              // Upazilla Buttons
-              Wrap(
-                spacing: 8.0, // Horizontal spacing between buttons
-                runSpacing: 8.0, // Vertical spacing between buttons
-                children: upazillas.map((upazilla) {
-                  bool isSelected = appliedUpazilla == upazilla;
-                  return ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        appliedUpazilla =
-                            isSelected ? null : upazilla; // Toggle selection
-                      });
-                      Navigator.pop(context); // Close the bottom sheet
-                      _updateFilteredList(); // Update filtered list
-                    },
-                    style: ElevatedButton.styleFrom(
-                      elevation: 0.5,
-                      backgroundColor:
-                          isSelected ? Colors.teal : Colors.grey.shade50,
-                      foregroundColor:
-                          isSelected ? Colors.white : Colors.teal,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 8),
+            ),
+            const SizedBox(height: 16),
+            Wrap(
+              spacing: 8.0,
+              runSpacing: 8.0,
+              children: upazillas.map((upazilla) {
+                bool isSelected = appliedUpazilla == upazilla;
+                return ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      appliedUpazilla = isSelected ? null : upazilla;
+                    });
+                    Navigator.pop(context);
+                    _updateFilteredList();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0.5,
+                    backgroundColor: isSelected
+                        ? Colors.teal
+                        : (isDarkMode ? Colors.grey[700] : Colors.grey.shade50),
+                    foregroundColor: isSelected
+                        ? Colors.white
+                        : (isDarkMode ? Colors.white : Colors.teal),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Text(upazilla),
-                  );
-                }).toList(),
-              ),
-              const SizedBox(height: 20),
-              // Reset Button
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    appliedUpazilla = null; // Clear applied upazilla
-                  });
-                  Navigator.pop(context); // Close the bottom sheet
-                  _updateFilteredList(); // Update filtered list
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red.shade400,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12, vertical: 8),
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.refresh, color: Colors.white),
-                    const SizedBox(width: 8),
-                    Text(
-                      'রিসেট করুন',
-                      style: TextStyle(color: Colors.white, fontSize: 16),
+                  child: Text(
+                    upazilla,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: isSelected
+                          ? Colors.white
+                          : (isDarkMode ? Colors.white : Colors.teal),
                     ),
-                  ],
+                  ),
+                );
+              }).toList(),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  appliedUpazilla = null;
+                });
+                Navigator.pop(context);
+                _updateFilteredList();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red.shade400,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
                 ),
+                padding: const EdgeInsets.symmetric(vertical: 12),
               ),
-              const SizedBox(height: 10),
-            ],
-          ),
-        );
-      },
-    );
-  }
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.refresh, color: Colors.white),
+                  const SizedBox(width: 8),
+                  Text(
+                    'রিসেট করুন',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 10),
+          ],
+        ),
+      );
+    },
+  );
+}
 
   @override
   Widget build(BuildContext context) {
+    final themeMode = Provider.of<AppProvider>(context).themeMode;
+    final isDarkMode = themeMode == ThemeMode.dark;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Food & Hotel'),
@@ -201,14 +199,13 @@ class _FoodHotelScreenState extends State<FoodHotelScreen> {
       ),
       body: Column(
         children: [
-          // Search Bar
           Padding(
             padding: const EdgeInsets.all(12),
             child: TextField(
               onChanged: (value) {
                 setState(() {
                   searchQuery = value;
-                  _updateFilteredList(); // Update filtered list
+                  _updateFilteredList();
                 });
               },
               decoration: InputDecoration(
@@ -218,12 +215,16 @@ class _FoodHotelScreenState extends State<FoodHotelScreen> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 filled: true,
-                fillColor: Colors.teal.shade50,
+                fillColor: isDarkMode ? Colors.grey[800] : Colors.teal.shade50,
+                labelStyle: TextStyle(
+                  color: isDarkMode ? Colors.grey.shade400 : Colors.grey.shade600,
+                ),
+              ),
+              style: TextStyle(
+                color: isDarkMode ? Colors.white : Colors.black,
               ),
             ),
           ),
-
-          // Restaurant List
           Expanded(
             child: ListView.builder(
               itemCount: filteredRestaurants.length,
@@ -232,6 +233,7 @@ class _FoodHotelScreenState extends State<FoodHotelScreen> {
                 return Card(
                   margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   elevation: 1,
+                  color: isDarkMode ? Colors.grey[800] : Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -241,7 +243,7 @@ class _FoodHotelScreenState extends State<FoodHotelScreen> {
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Colors.teal,
+                        color: isDarkMode ? Colors.white : Colors.teal,
                       ),
                     ),
                     subtitle: Column(
@@ -253,45 +255,73 @@ class _FoodHotelScreenState extends State<FoodHotelScreen> {
                             Icon(
                               Icons.restaurant,
                               size: 16,
-                              color: Colors.teal,
+                              color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
                             ),
                             const SizedBox(width: 4),
                             Text(
                               restaurant.cuisine,
-                              style: TextStyle(color: Colors.grey.shade600),
+                              style: TextStyle(
+                                color: isDarkMode 
+                                    ? Colors.grey.shade300 
+                                    : Colors.grey.shade600,
+                              ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 4),
                         Row(
                           children: [
-                            Icon(Icons.location_on, size: 16, color: Colors.teal),
+                            Icon(
+                              Icons.location_on,
+                              size: 16,
+                              color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                            ),
                             const SizedBox(width: 4),
                             Text(
                               restaurant.location,
-                              style: TextStyle(color: Colors.grey.shade600),
+                              style: TextStyle(
+                                color: isDarkMode 
+                                    ? Colors.grey.shade300 
+                                    : Colors.grey.shade600,
+                              ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 4),
                         Row(
                           children: [
-                            Icon(Icons.phone, size: 16, color: Colors.teal),
+                            Icon(
+                              Icons.phone,
+                              size: 16,
+                              color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                            ),
                             const SizedBox(width: 4),
                             Text(
                               'Contact: ${restaurant.contact}',
-                              style: TextStyle(color: Colors.grey.shade600),
+                              style: TextStyle(
+                                color: isDarkMode 
+                                    ? Colors.grey.shade300 
+                                    : Colors.grey.shade600,
+                              ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 4),
                         Row(
                           children: [
-                            Icon(Icons.email, size: 16, color: Colors.teal),
+                            Icon(
+                              Icons.email,
+                              size: 16,
+                              color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                            ),
                             const SizedBox(width: 4),
                             Text(
                               'Email: ${restaurant.email}',
-                              style: TextStyle(color: Colors.grey.shade600),
+                              style: TextStyle(
+                                color: isDarkMode 
+                                    ? Colors.grey.shade300 
+                                    : Colors.grey.shade600,
+                              ),
                             ),
                           ],
                         ),
@@ -325,7 +355,7 @@ class _FoodHotelScreenState extends State<FoodHotelScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _openFilterModal(context); // Open filter modal
+          _openFilterModal(context);
         },
         backgroundColor: Colors.teal,
         foregroundColor: Colors.white,

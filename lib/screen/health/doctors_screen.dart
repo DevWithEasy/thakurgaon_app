@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 import '../../components/doctor_card.dart';
 import '../../model/doctor_model.dart';
+import '../../provider/app_provider.dart';
 import '../../utils/app_utils.dart';
 
 class DoctorsScreen extends StatefulWidget {
@@ -14,7 +15,8 @@ class DoctorsScreen extends StatefulWidget {
 class _DoctorsScreenState extends State<DoctorsScreen> {
   List<Doctor> _doctors = [];
   List<Doctor> _filteredDoctors = [];
-  String? _selectedUpazilla; // Selected upazilla for filtering
+  String? _selectedUpazilla;
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -32,46 +34,46 @@ class _DoctorsScreenState extends State<DoctorsScreen> {
 
   void _searchDoctors(String query) {
     setState(() {
-      _filteredDoctors =
-          _doctors.where((doctor) {
-            final nameMatch = doctor.name.toLowerCase().contains(
-              query.toLowerCase(),
-            );
-            final specializationMatch = doctor.specialization.any(
-              (specialization) =>
-                  specialization.toLowerCase().contains(query.toLowerCase()),
-            );
-            final qualificationMatch = doctor.qualifications.any(
-              (qualification) =>
-                  qualification.toLowerCase().contains(query.toLowerCase()),
-            );
-            return nameMatch || specializationMatch || qualificationMatch;
-          }).toList();
+      _filteredDoctors = _doctors.where((doctor) {
+        final nameMatch = doctor.name.toLowerCase().contains(query.toLowerCase());
+        final specializationMatch = doctor.specialization.any(
+          (specialization) => specialization.toLowerCase().contains(query.toLowerCase()),
+        );
+        final qualificationMatch = doctor.qualifications.any(
+          (qualification) => qualification.toLowerCase().contains(query.toLowerCase()),
+        );
+        final upazillaMatch = _selectedUpazilla == null || 
+            doctor.upazilla == _selectedUpazilla;
+        return (nameMatch || specializationMatch || qualificationMatch) && upazillaMatch;
+      }).toList();
     });
   }
 
   void _filterByUpazilla(String? upazilla) {
     setState(() {
       _selectedUpazilla = upazilla;
-      if (upazilla == null || upazilla.isEmpty) {
-        _filteredDoctors = _doctors; // Reset filter if no upazilla is selected
-      } else {
-        _filteredDoctors =
-            _doctors.where((doctor) {
-              return doctor.upazilla == upazilla;
-            }).toList();
-      }
+      _searchDoctors(_searchController.text);
     });
   }
 
   void _resetFilter() {
     setState(() {
       _selectedUpazilla = null;
-      _filteredDoctors = _doctors; // Reset to the full list
+      _searchController.clear();
+      _filteredDoctors = _doctors;
     });
   }
 
-  void _showFilterBottomSheet() {
+  void _showFilterBottomSheet(BuildContext context) {
+    final isDarkMode = Provider.of<AppProvider>(context, listen: false).themeMode == ThemeMode.dark;
+    final upazillas = [
+      'ঠাকুরগাঁও সদর',
+      'পীরগঞ্জ',
+      'রাণীশংকৈল',
+      'বালিয়াডাঙ্গী',
+      'হরিপুর',
+    ];
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -79,85 +81,93 @@ class _DoctorsScreenState extends State<DoctorsScreen> {
       builder: (context) {
         return Container(
           decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+            color: isDarkMode ? Colors.grey[900] : Colors.white,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
             boxShadow: [
               BoxShadow(
-                color: Colors.black26,
+                color: Colors.black.withOpacity(0.2),
                 blurRadius: 10,
-                offset: Offset(0, -2),
+                offset: const Offset(0, -2),
               ),
             ],
           ),
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Header
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  margin: const EdgeInsets.only(bottom: 16),
+                  decoration: BoxDecoration(
+                    color: isDarkMode ? Colors.grey[700] : Colors.grey[300],
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
               Text(
                 'ফিল্টার করুন',
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: Colors.teal,
+                  color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
                 ),
               ),
-              SizedBox(height: 16),
-
-              // Dropdown for Upazilla
+              const SizedBox(height: 16),
               Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Colors.teal.shade50, Colors.blue.shade50],
+                    colors: isDarkMode
+                      ? [Colors.grey[800]!, Colors.grey[700]!]
+                      : [Colors.teal.shade50, Colors.blue.shade50],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.teal.shade200, width: 1),
+                  border: Border.all(
+                    color: isDarkMode ? Colors.teal.shade400 : Colors.teal.shade200,
+                    width: 1,
+                  ),
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: DropdownButtonFormField<String>(
                   value: _selectedUpazilla,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     labelText: 'উপজেলা নির্বাচন করুন',
-                    labelStyle: TextStyle(color: Colors.teal),
+                    labelStyle: TextStyle(
+                      color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                    ),
                   ),
-                  items:
-                      [
-                        'ঠাকুরগাঁও সদর',
-                        'পীরগঞ্জ',
-                        'রাণীশংকৈল',
-                        'বালিয়াডাঙ্গী',
-                        'হরিপুর',
-                      ].map((String upazilla) {
-                        return DropdownMenuItem<String>(
-                          value: upazilla,
-                          child: Text(
-                            upazilla,
-                            style: TextStyle(color: Colors.teal.shade800),
-                          ),
-                        );
-                      }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedUpazilla = value;
-                    });
-                  },
-                  dropdownColor: Colors.teal.shade50,
-                  icon: Icon(Icons.arrow_drop_down, color: Colors.teal),
+                  items: upazillas.map((upazilla) {
+                    return DropdownMenuItem<String>(
+                      value: upazilla,
+                      child: Text(
+                        upazilla,
+                        style: TextStyle(
+                          color: isDarkMode ? Colors.white : Colors.teal.shade800,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: _filterByUpazilla,
+                  dropdownColor: isDarkMode ? Colors.grey[800] : Colors.teal.shade50,
+                  icon: Icon(
+                    Icons.arrow_drop_down,
+                    color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                  ),
+                  style: TextStyle(
+                    color: isDarkMode ? Colors.white : Colors.black,
+                  ),
                 ),
               ),
-              SizedBox(height: 20),
-
-              // Buttons
+              const SizedBox(height: 20),
               Row(
                 children: [
-                  // Search Button
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
-                        _filterByUpazilla(_selectedUpazilla);
                         Navigator.pop(context);
                       },
                       style: ElevatedButton.styleFrom(
@@ -165,23 +175,22 @@ class _DoctorsScreenState extends State<DoctorsScreen> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        padding: EdgeInsets.symmetric(vertical: 12),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.search, color: Colors.white),
-                          SizedBox(width: 8),
+                          const Icon(Icons.search, color: Colors.white),
+                          const SizedBox(width: 8),
                           Text(
-                            'খুঁজুন',
+                            'ফিল্টার প্রয়োগ',
                             style: TextStyle(color: Colors.white, fontSize: 16),
                           ),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(width: 16), // Space between buttons
-                  // Reset Button
+                  const SizedBox(width: 16),
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
@@ -193,13 +202,13 @@ class _DoctorsScreenState extends State<DoctorsScreen> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        padding: EdgeInsets.symmetric(vertical: 12),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.refresh, color: Colors.white),
-                          SizedBox(width: 8),
+                          const Icon(Icons.refresh, color: Colors.white),
+                          const SizedBox(width: 8),
                           Text(
                             'রিসেট করুন',
                             style: TextStyle(color: Colors.white, fontSize: 16),
@@ -210,7 +219,7 @@ class _DoctorsScreenState extends State<DoctorsScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
             ],
           ),
         );
@@ -220,18 +229,35 @@ class _DoctorsScreenState extends State<DoctorsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<AppProvider>(context).themeMode == ThemeMode.dark;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('ডাক্তারগণ'),
-        backgroundColor: Colors.teal,
-        elevation: 0,
+        title: const Text(
+          'ডাক্তারগণ',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        centerTitle: true,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.teal, Colors.teal.shade700],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
       ),
       body: Column(
         children: [
-          // Search Bar
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: TextField(
+              controller: _searchController,
               onChanged: _searchDoctors,
               decoration: InputDecoration(
                 labelText: 'ডাক্তার খুঁজুন',
@@ -245,29 +271,99 @@ class _DoctorsScreenState extends State<DoctorsScreen> {
                   borderSide: BorderSide(color: Colors.teal, width: 2),
                 ),
                 filled: true,
-                fillColor: Colors.teal.shade50,
+                fillColor: isDarkMode ? Colors.grey[800] : Colors.teal.shade50,
+                suffixIcon: _searchController.text.isNotEmpty
+                    ? IconButton(
+                        icon: Icon(Icons.clear, color: Colors.teal),
+                        onPressed: () {
+                          _searchController.clear();
+                          _searchDoctors('');
+                        },
+                      )
+                    : null,
+                labelStyle: TextStyle(
+                  color: isDarkMode ? Colors.white70 : Colors.black54,
+                ),
+              ),
+              style: TextStyle(
+                color: isDarkMode ? Colors.white : Colors.black,
               ),
             ),
           ),
-
-          // Doctor List
-          Expanded(
-            child: ListView.builder(
-              itemCount: _filteredDoctors.length,
-              padding: EdgeInsets.all(8),
-              itemBuilder: (context, index) {
-                final doctor = _filteredDoctors[index];
-                return DoctorCard(doctor: doctor);
-              },
+          if (_selectedUpazilla != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
+                children: [
+                  Chip(
+                    label: Text(
+                      'উপজেলা: $_selectedUpazilla',
+                      style: TextStyle(
+                        color: isDarkMode ? Colors.white : Colors.teal,
+                      ),
+                    ),
+                    backgroundColor: isDarkMode ? Colors.teal.shade800 : Colors.teal.shade100,
+                    deleteIcon: Icon(
+                      Icons.close,
+                      size: 18,
+                      color: isDarkMode ? Colors.white : Colors.teal,
+                    ),
+                    onDeleted: () => _filterByUpazilla(null),
+                  ),
+                ],
+              ),
             ),
+          Expanded(
+            child: _filteredDoctors.isEmpty
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.medical_services,
+                          size: 60,
+                          color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          'কোন ডাক্তার পাওয়া যায়নি',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: isDarkMode ? Colors.white70 : Colors.black54,
+                          ),
+                        ),
+                        if (_selectedUpazilla != null || _searchController.text.isNotEmpty)
+                          TextButton(
+                            onPressed: _resetFilter,
+                            child: const Text('ফিল্টার সরান'),
+                          ),
+                      ],
+                    ),
+                  )
+                : ListView.builder(
+                    itemCount: _filteredDoctors.length,
+                    padding: const EdgeInsets.all(8),
+                    itemBuilder: (context, index) {
+                      final doctor = _filteredDoctors[index];
+                      return DoctorCard(
+                        doctor: doctor,
+                      );
+                    },
+                  ),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _showFilterBottomSheet,
+        onPressed: () => _showFilterBottomSheet(context),
         backgroundColor: Colors.teal,
-        child: Icon(Icons.filter_list, color: Colors.white),
+        child: const Icon(Icons.filter_list, color: Colors.white),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 }

@@ -1,7 +1,8 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:thakurgaon/utils/bengali_numerals.dart';
+import '../../provider/app_provider.dart';
 
 class WeeklyQuizQuestionScreen extends StatefulWidget {
   const WeeklyQuizQuestionScreen({super.key});
@@ -12,8 +13,7 @@ class WeeklyQuizQuestionScreen extends StatefulWidget {
 }
 
 class _WeeklyQuizQuestionScreenState extends State<WeeklyQuizQuestionScreen> {
-  // List of questions and answers
-  final List<Map<String, dynamic>> _questions = [
+  final List<Map<String, dynamic>> _questions =  [
     {
       "question": "ফ্রান্সের রাজধানী কোনটি?",
       "options": ["প্যারিস", "লন্ডন", "বার্লিন", "মাদ্রিদ"],
@@ -71,86 +71,63 @@ class _WeeklyQuizQuestionScreenState extends State<WeeklyQuizQuestionScreen> {
     },
   ];
 
-  // Track the current question index
   int _currentQuestionIndex = 0;
-
-  // Track the user's selected answers
   final List<String?> _userAnswers = [];
-
-  // Track the user's score
   int _score = 0;
-
-  // Timer variables
   Timer? _questionTimer;
-  int _timeLeftForQuestion = 10; // 10 seconds per question
-
-  // Track if the quiz has started
+  int _timeLeftForQuestion = 10;
   bool _quizStarted = false;
-
-  // Track if the quiz is completed
   bool _quizCompleted = false;
 
   @override
   void initState() {
     super.initState();
-    // Initialize user answers list
     _userAnswers.addAll(List.filled(_questions.length, null));
   }
 
   @override
   void dispose() {
-    _questionTimer?.cancel(); // Cancel the timer when the widget is disposed
+    _questionTimer?.cancel();
     super.dispose();
   }
 
-  // Handle option selection (only allow one selection per question)
   void _onOptionSelected(String option) {
-    if (_userAnswers[_currentQuestionIndex] != null) {
-      // If an answer is already selected, do nothing
-      return;
-    }
+    if (_userAnswers[_currentQuestionIndex] != null) return;
+    
     setState(() {
       _userAnswers[_currentQuestionIndex] = option;
     });
 
-    // Cancel the current question timer
     _questionTimer?.cancel();
-
-    // Automatically move to the next question after 1 second
-    Timer(const Duration(seconds: 1), () {
-      _nextQuestion();
-    });
+    Timer(const Duration(seconds: 1), _nextQuestion);
   }
 
-  // Navigate to the next question
   void _nextQuestion() {
     if (_currentQuestionIndex < _questions.length - 1) {
       setState(() {
         _currentQuestionIndex++;
-        _timeLeftForQuestion = 10; // Reset the timer for the next question
-        _startQuestionTimer(); // Start the timer for the next question
+        _timeLeftForQuestion = 10;
+        _startQuestionTimer();
       });
     } else {
-      _completeQuiz(); // Complete the quiz if it's the last question
+      _completeQuiz();
     }
   }
 
-  // Start the timer for the current question
   void _startQuestionTimer() {
-    _questionTimer?.cancel(); // Cancel any existing timer
+    _questionTimer?.cancel();
     _questionTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         if (_timeLeftForQuestion > 0) {
           _timeLeftForQuestion--;
         } else {
-          _questionTimer?.cancel(); // Stop the timer
-          _nextQuestion(); // Move to the next question
+          _questionTimer?.cancel();
+          _nextQuestion();
         }
       });
     });
   }
 
-  // Calculate the user's score
   void _calculateScore() {
     _score = 0;
     for (int i = 0; i < _questions.length; i++) {
@@ -160,27 +137,31 @@ class _WeeklyQuizQuestionScreenState extends State<WeeklyQuizQuestionScreen> {
     }
   }
 
-  // Complete the quiz
   void _completeQuiz() {
     _calculateScore();
-    _questionTimer?.cancel(); // Ensure the timer is stopped
+    _questionTimer?.cancel();
     setState(() {
-      _quizCompleted = true; // Mark the quiz as completed
+      _quizCompleted = true;
     });
   }
 
-  // Cancel the quiz and complete it immediately
   void _cancelQuiz() {
-    _completeQuiz(); // Complete the quiz with the current answers
+    _completeQuiz();
   }
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<AppProvider>(context).themeMode == ThemeMode.dark;
+    final themeColor = isDarkMode ? Colors.teal[200]! : Colors.teal;
+    final bgColor = isDarkMode ? Colors.grey[900]! : Colors.white;
+    final cardColor = isDarkMode ? Colors.grey[800]! : Colors.grey[200]!;
+    final textColor = isDarkMode ? Colors.white : Colors.black;
+    final secondaryTextColor = isDarkMode ? Colors.grey[400]! : Colors.grey[700]!;
+
     if (!_quizStarted) {
-      // Show the "Start Quiz" button and rules initially
       return Scaffold(
         appBar: AppBar(
-          title: const Text('সাপ্তাহিক কুইজ'),
+          title: const Text('সাপ্তাহিক কুইজ', style: TextStyle(color: Colors.white)),
           centerTitle: true,
           flexibleSpace: Container(
             decoration: BoxDecoration(
@@ -192,19 +173,18 @@ class _WeeklyQuizQuestionScreenState extends State<WeeklyQuizQuestionScreen> {
             ),
           ),
         ),
+        backgroundColor: bgColor,
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Rules Section
               Text(
                 'গেমের নিয়মাবলী',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Colors.teal,
+                  color: themeColor,
                 ),
               ),
               const SizedBox(height: 8),
@@ -214,8 +194,7 @@ class _WeeklyQuizQuestionScreenState extends State<WeeklyQuizQuestionScreen> {
                 '৩. ভুল উত্তরের জন্য কোনো নেগেটিভ মার্কিং নেই।\n'
                 '৪. আপনি একটি উত্তর একটবারই বাচাই করতে পারবেন। বাছাই করার পর পুনরায় বাছাইয়ের সুযোগ থাকবে না\n'
                 '৫. সময় শেষ হওয়ার আগে সবগুলো প্রশ্নের উত্তর দিন।',
-                style: TextStyle(fontSize: 16, color: Colors.grey[700]),
-                textAlign: TextAlign.left,
+                style: TextStyle(fontSize: 16, color: secondaryTextColor),
               ),
               const SizedBox(height: 16),
               Text(
@@ -223,7 +202,7 @@ class _WeeklyQuizQuestionScreenState extends State<WeeklyQuizQuestionScreen> {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Colors.teal,
+                  color: themeColor,
                 ),
               ),
               const SizedBox(height: 8),
@@ -231,33 +210,23 @@ class _WeeklyQuizQuestionScreenState extends State<WeeklyQuizQuestionScreen> {
                 '১. সর্বোচ্চ সঠিক উত্তর দাতা বিজয়ী বলে ঘোষিত হবে।\n'
                 '২. সমান স্কোর হলে লটারির মাধ্যমে বিজয়ী নির্ধারন।\n'
                 '৩. বিজয়ী ৩ জন পাবে মোবাইল রিচার্জ যথাক্রমে (৩০,২০,২০) টাকা।',
-                style: TextStyle(fontSize: 16, color: Colors.grey[700]),
-                textAlign: TextAlign.left,
+                style: TextStyle(fontSize: 16, color: secondaryTextColor),
               ),
-              const SizedBox(height: 24),
-
-              // Start Quiz Button
+              const Spacer(),
               ElevatedButton.icon(
                 onPressed: () {
                   setState(() {
                     _quizStarted = true;
-                    _startQuestionTimer(); // Start the timer for the first question
+                    _startQuestionTimer();
                   });
                 },
                 icon: const Icon(Icons.play_arrow, color: Colors.white),
-                label: const Text(
-                  'শুরু করুন',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
+                label: const Text('শুরু করুন', style: TextStyle(color: Colors.white)),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.teal,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 12,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
+                  backgroundColor: themeColor,
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  minimumSize: const Size(double.infinity, 50),
                 ),
               ),
             ],
@@ -269,7 +238,7 @@ class _WeeklyQuizQuestionScreenState extends State<WeeklyQuizQuestionScreen> {
     if (_quizCompleted) {
       return Scaffold(
         appBar: AppBar(
-          title: const Text('আপনার কুইজের রেজাল্ট'),
+          title: const Text('আপনার কুইজের রেজাল্ট', style: TextStyle(color: Colors.white)),
           centerTitle: true,
           flexibleSpace: Container(
             decoration: BoxDecoration(
@@ -281,43 +250,33 @@ class _WeeklyQuizQuestionScreenState extends State<WeeklyQuizQuestionScreen> {
             ),
           ),
         ),
+        backgroundColor: bgColor,
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 'কুইজ সম্পন্ন হয়েছে!',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: Colors.teal,
+                  color: themeColor,
                 ),
               ),
               const SizedBox(height: 20),
               Text(
                 'আপনার স্কোর ${enToBnNumerals(_score)} এর মধ্যে ${enToBnNumerals(_questions.length)}',
-                style: TextStyle(fontSize: 20, color: Colors.grey[700]),
+                style: TextStyle(fontSize: 20, color: secondaryTextColor),
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/quiz-dashboard');
-                },
+                onPressed: () => Navigator.pushReplacementNamed(context, '/quiz-dashboard'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.teal,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 12,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
+                  backgroundColor: themeColor,
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
-                child: const Text(
-                  'ড্যাশবোর্ডে ফিরে যান',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
+                child: const Text('ড্যাশবোর্ডে ফিরে যান', style: TextStyle(color: Colors.white)),
               ),
             ],
           ),
@@ -331,7 +290,7 @@ class _WeeklyQuizQuestionScreenState extends State<WeeklyQuizQuestionScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('সাপ্তাহিক কুইজের প্রশ্ন'),
+        title: const Text('সাপ্তাহিক কুইজের প্রশ্ন', style: TextStyle(color: Colors.white)),
         centerTitle: true,
         flexibleSpace: Container(
           decoration: BoxDecoration(
@@ -343,11 +302,11 @@ class _WeeklyQuizQuestionScreenState extends State<WeeklyQuizQuestionScreen> {
           ),
         ),
       ),
+      backgroundColor: bgColor,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            // Timer display
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -356,7 +315,7 @@ class _WeeklyQuizQuestionScreenState extends State<WeeklyQuizQuestionScreen> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Colors.teal,
+                    color: themeColor,
                   ),
                 ),
                 Text(
@@ -364,25 +323,21 @@ class _WeeklyQuizQuestionScreenState extends State<WeeklyQuizQuestionScreen> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Colors.teal,
+                    color: themeColor,
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 20),
-
-            // Question text
             Text(
               currentQuestion['question'],
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Colors.teal,
+                color: themeColor,
               ),
             ),
             const SizedBox(height: 20),
-
-            // Options
             Expanded(
               child: ListView.builder(
                 itemCount: currentQuestion['options'].length,
@@ -391,17 +346,12 @@ class _WeeklyQuizQuestionScreenState extends State<WeeklyQuizQuestionScreen> {
                   final isSelected = selectedAnswer == option;
                   final isCorrect = option == correctAnswer;
 
-                  // Determine the color based on selection and correctness
-                  Color backgroundColor = Colors.grey[200]!;
-                  Color textColor = Colors.black;
+                  Color backgroundColor = cardColor;
+                  Color optionTextColor = textColor;
+                  
                   if (isSelected) {
-                    if (isCorrect) {
-                      backgroundColor = Colors.green;
-                      textColor = Colors.white;
-                    } else {
-                      backgroundColor = Colors.red;
-                      textColor = Colors.white;
-                    }
+                    backgroundColor = isCorrect ? Colors.green : Colors.red;
+                    optionTextColor = Colors.white;
                   }
 
                   return GestureDetector(
@@ -412,25 +362,26 @@ class _WeeklyQuizQuestionScreenState extends State<WeeklyQuizQuestionScreen> {
                       decoration: BoxDecoration(
                         color: backgroundColor,
                         borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
+                        boxShadow: isDarkMode ? null : [
                           BoxShadow(
                             color: Colors.black12,
                             blurRadius: 4,
-                            offset: Offset(0, 2),
-                      )],
+                            offset: const Offset(0, 2),
+                          )
+                        ],
                       ),
                       child: Row(
                         children: [
                           Expanded(
                             child: Text(
                               option,
-                              style: TextStyle(fontSize: 16, color: textColor),
+                              style: TextStyle(fontSize: 16, color: optionTextColor),
                             ),
                           ),
                           if (isSelected)
                             Icon(
                               isCorrect ? Icons.check_circle : Icons.cancel,
-                              color: textColor,
+                              color: optionTextColor,
                             ),
                         ],
                       ),
@@ -439,49 +390,30 @@ class _WeeklyQuizQuestionScreenState extends State<WeeklyQuizQuestionScreen> {
                 },
               ),
             ),
-
-            const Spacer(),
-
-            // Cancel Button
+            const SizedBox(height: 10),
             ElevatedButton(
               onPressed: _cancelQuiz,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
-                padding: const EdgeInsets.symmetric(
-                  vertical: 16,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 minimumSize: const Size(double.infinity, 50),
               ),
-              child: const Text(
-                'কুইজ বাতিল করুন',
-                style: TextStyle(fontSize: 16, color: Colors.white),
-              ),
+              child: const Text('কুইজ বাতিল করুন', style: TextStyle(color: Colors.white)),
             ),
-
             const SizedBox(height: 10),
-
-            // Next button (full width with icon)
             ElevatedButton.icon(
               onPressed: _nextQuestion,
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.teal,
-                padding: const EdgeInsets.symmetric(
-                  vertical: 16,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+                backgroundColor: themeColor,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 minimumSize: const Size(double.infinity, 50),
               ),
               icon: const Icon(Icons.arrow_forward, color: Colors.white),
               label: Text(
-                _currentQuestionIndex == _questions.length - 1
-                    ? 'শেষ করুন'
-                    : 'পরবর্তী প্রশ্ন',
-                style: const TextStyle(fontSize: 16, color: Colors.white),
+                _currentQuestionIndex == _questions.length - 1 ? 'শেষ করুন' : 'পরবর্তী প্রশ্ন',
+                style: const TextStyle(color: Colors.white),
               ),
             ),
           ],

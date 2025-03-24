@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../provider/app_provider.dart';
 
 class LibraryScreen extends StatefulWidget {
   const LibraryScreen({super.key});
@@ -9,8 +11,7 @@ class LibraryScreen extends StatefulWidget {
 }
 
 class _LibraryScreenState extends State<LibraryScreen> {
-  // Demo data for libraries
-  final List<Map<String, String>> libraries = [
+  final List<Map<String, String>> _libraries = [
     {
       'name': 'ঢাকা পাবলিক লাইব্রেরী',
       'location': 'ঢাকা, বাংলাদেশ',
@@ -48,58 +49,68 @@ class _LibraryScreenState extends State<LibraryScreen> {
     },
   ];
 
-  // Search query
-  String searchQuery = '';
-
-  // Filter variables
-  String? selectedUpazilla;
-  String? selectedType;
-
-  // Applied filters
-  String? appliedUpazilla;
-  String? appliedType;
-
-  // List of upazillas and types for filtering
-  final List<String> upazillas = [
+  String _searchQuery = '';
+  String? _selectedUpazilla;
+  String? _selectedType;
+  final List<String> _upazillas = [
     'ঠাকুরগাঁও সদর',
     'পীরগঞ্জ',
     'রাণীশংকৈল',
     'বালিয়াডাঙ্গী',
     'হরিপুর',
   ];
+  final List<String> _types = ['পাবলিক', 'সিটি', 'কেন্দ্রীয়'];
 
-  final List<String> types = ['পাবলিক', 'সিটি', 'কেন্দ্রীয়'];
+  List<Map<String, String>> get _filteredLibraries {
+    return _libraries.where((library) {
+      final matchesName = library['name']!.toLowerCase().contains(
+            _searchQuery.toLowerCase(),
+          );
+      final matchesUpazilla = _selectedUpazilla == null || 
+          library['upazilla'] == _selectedUpazilla;
+      final matchesType = _selectedType == null || 
+          library['type'] == _selectedType;
+      return matchesName && matchesUpazilla && matchesType;
+    }).toList();
+  }
 
-  // Function to launch phone dialer
-  void _makePhoneCall(String phoneNumber) async {
+  Future<void> _makePhoneCall(String phoneNumber) async {
     final Uri launchUri = Uri(scheme: 'tel', path: phoneNumber);
-    if (await canLaunchUrl(launchUri)) {
-      await launchUrl(launchUri);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Could not make a call to $phoneNumber')),
-      );
+    try {
+      if (await canLaunchUrl(launchUri)) {
+        await launchUrl(launchUri);
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('কল করতে ব্যর্থ হয়েছে')),
+        );
+      }
     }
+  }
+
+  void _resetFilters() {
+    setState(() {
+      _searchQuery = '';
+      _selectedUpazilla = null;
+      _selectedType = null;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    // Filtered libraries based on search query and applied filters
-    List<Map<String, String>> filteredLibraries =
-        libraries.where((library) {
-          final matchesName = library['name']!.toLowerCase().contains(
-            searchQuery.toLowerCase(),
-          );
-          final matchesUpazilla =
-              appliedUpazilla == null || library['upazilla'] == appliedUpazilla;
-          final matchesType =
-              appliedType == null || library['type'] == appliedType;
-          return matchesName && matchesUpazilla && matchesType;
-        }).toList();
+    final isDarkMode = Provider.of<AppProvider>(context).themeMode == ThemeMode.dark;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('লাইব্রেরী তালিকা'),
+        title: const Text(
+          'লাইব্রেরী তালিকা',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
         centerTitle: true,
         flexibleSpace: Container(
           decoration: BoxDecoration(
@@ -113,100 +124,224 @@ class _LibraryScreenState extends State<LibraryScreen> {
       ),
       body: Column(
         children: [
-          // Search Bar
           Padding(
-            padding: const EdgeInsets.all(12),
-            child: TextField(
-              onChanged: (value) {
-                setState(() {
-                  searchQuery = value;
-                });
-              },
-              decoration: InputDecoration(
-                labelText: 'লাইব্রেরী খুঁজুন',
-                prefixIcon: Icon(Icons.search, color: Colors.teal),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                filled: true,
-                fillColor: Colors.teal.shade50,
-              ),
-            ),
-          ),
-
-          // Library List
-          Expanded(
-            child: ListView.builder(
-              itemCount: filteredLibraries.length,
-              itemBuilder: (context, index) {
-                final library = filteredLibraries[index];
-                return Card(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 6,
-                  ),
-                  elevation: 1,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: ListTile(
-                    title: Text(library['name']!,style: TextStyle(color : Colors.teal)),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(library['location']!),
-                        Text('যোগাযোগ: ${library['contact']}'),
-                        Text('ধরণ: ${library['type']}'),
-                      ],
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                TextField(
+                  onChanged: (value) => setState(() => _searchQuery = value),
+                  decoration: InputDecoration(
+                    labelText: 'লাইব্রেরী খুঁজুন',
+                    prefixIcon: Icon(Icons.search, color: Colors.teal),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.teal),
                     ),
-                    trailing: GestureDetector(
-                              onTap: () => _makePhoneCall(library['contact']!),
-                              child: AnimatedContainer(
-                                duration: Duration(milliseconds: 300),
-                                width: 40,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [Colors.teal, Colors.teal.shade700],
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                  ),
-                                  shape: BoxShape.circle,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black12,
-                                      blurRadius: 4,
-                                      offset: Offset(0, 2),
-                                    ),
-                                  ],
-                                ),
-                                child: Icon(
-                                  Icons.call,
-                                  color: Colors.white,
-                                  size: 20,
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.teal, width: 2),
+                    ),
+                    filled: true,
+                    fillColor: isDarkMode ? Colors.grey[800] : Colors.teal.shade50,
+                    suffixIcon: _searchQuery.isNotEmpty
+                        ? IconButton(
+                            icon: Icon(Icons.clear, color: Colors.teal),
+                            onPressed: () => setState(() => _searchQuery = ''),
+                          )
+                        : null,
+                    labelStyle: TextStyle(
+                      color: isDarkMode ? Colors.white70 : Colors.black54,
+                    ),
+                  ),
+                  style: TextStyle(
+                    color: isDarkMode ? Colors.white : Colors.black,
+                  ),
+                ),
+                if (_selectedUpazilla != null || _selectedType != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Row(
+                      children: [
+                        if (_selectedUpazilla != null)
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8),
+                            child: Chip(
+                              label: Text(
+                                'উপজেলা: $_selectedUpazilla',
+                                style: TextStyle(
+                                  color: isDarkMode ? Colors.white : Colors.teal,
                                 ),
                               ),
+                              backgroundColor: isDarkMode ? Colors.teal[800] : Colors.teal.shade100,
+                              deleteIcon: Icon(
+                                Icons.close,
+                                size: 18,
+                                color: isDarkMode ? Colors.white : Colors.teal,
+                              ),
+                              onDeleted: () => setState(() => _selectedUpazilla = null),
                             ),
+                          ),
+                        if (_selectedType != null)
+                          Chip(
+                            label: Text(
+                              'ধরণ: $_selectedType',
+                              style: TextStyle(
+                                color: isDarkMode ? Colors.white : Colors.teal,
+                              ),
+                            ),
+                            backgroundColor: isDarkMode ? Colors.teal[800] : Colors.teal.shade100,
+                            deleteIcon: Icon(
+                              Icons.close,
+                              size: 18,
+                              color: isDarkMode ? Colors.white : Colors.teal,
+                            ),
+                            onDeleted: () => setState(() => _selectedType = null),
+                          ),
+                      ],
+                    ),
                   ),
-                );
-              },
+              ],
             ),
+          ),
+          Expanded(
+            child: _filteredLibraries.isEmpty
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.library_books,
+                          size: 60,
+                          color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          'কোন লাইব্রেরী পাওয়া যায়নি',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: isDarkMode ? Colors.white70 : Colors.black54,
+                          ),
+                        ),
+                        if (_searchQuery.isNotEmpty || _selectedUpazilla != null || _selectedType != null)
+                          TextButton(
+                            onPressed: _resetFilters,
+                            child: const Text('ফিল্টার সরান'),
+                          ),
+                      ],
+                    ),
+                  )
+                : ListView.builder(
+                    itemCount: _filteredLibraries.length,
+                    itemBuilder: (context, index) {
+                      final library = _filteredLibraries[index];
+                      return _buildLibraryCard(library, isDarkMode);
+                    },
+                  ),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _openSearchModal(context);
-        },
+        onPressed: () => _showFilterBottomSheet(context, isDarkMode),
         backgroundColor: Colors.teal,
-        foregroundColor: Colors.white,
-        elevation: 1,
-        child: const Icon(Icons.filter_list),
+        child: const Icon(Icons.filter_list, color: Colors.white),
       ),
     );
   }
 
-  void _openSearchModal(BuildContext context) {
+  Widget _buildLibraryCard(Map<String, String> library, bool isDarkMode) {
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      elevation: 1,
+      color: isDarkMode ? Colors.grey[800] : Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    library['name']!,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () => _makePhoneCall(library['contact']!),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Colors.teal, Colors.teal.shade700],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: const Icon(
+                      Icons.call,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            _buildDetailRow(Icons.location_on, library['location']!, isDarkMode),
+            _buildDetailRow(Icons.category, 'ধরণ: ${library['type']}', isDarkMode),
+            _buildDetailRow(Icons.map, 'উপজেলা: ${library['upazilla']}', isDarkMode),
+            if (library['contact']!.isNotEmpty)
+              _buildDetailRow(Icons.phone, 'যোগাযোগ: ${library['contact']}', isDarkMode),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDetailRow(IconData icon, String text, bool isDarkMode) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            icon,
+            size: 16,
+            color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              text,
+              style: TextStyle(
+                fontSize: 14,
+                color: isDarkMode ? Colors.white70 : Colors.black87,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showFilterBottomSheet(BuildContext context, bool isDarkMode) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -214,11 +349,11 @@ class _LibraryScreenState extends State<LibraryScreen> {
       builder: (context) {
         return Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: isDarkMode ? Colors.grey[900] : Colors.white,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
             boxShadow: [
               BoxShadow(
-                color: Colors.black26,
+                color: Colors.black.withOpacity(0.2),
                 blurRadius: 10,
                 offset: const Offset(0, -2),
               ),
@@ -228,101 +363,121 @@ class _LibraryScreenState extends State<LibraryScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Header
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  margin: const EdgeInsets.only(bottom: 16),
+                  decoration: BoxDecoration(
+                    color: isDarkMode ? Colors.grey[700] : Colors.grey[300],
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
               Text(
-                'লাইব্রেরী ফিল্টার করুন',
+                'ফিল্টার করুন',
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: Colors.teal,
+                  color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
                 ),
               ),
               const SizedBox(height: 16),
-
-              // Upazilla Dropdown
               Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Colors.teal.shade50, Colors.blue.shade50],
+                    colors: isDarkMode
+                        ? [Colors.grey[800]!, Colors.grey[700]!]
+                        : [Colors.teal.shade50, Colors.blue.shade50],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.teal.shade200, width: 1),
+                  border: Border.all(
+                    color: isDarkMode ? Colors.teal.shade400 : Colors.teal.shade200,
+                    width: 1,
+                  ),
                 ),
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: DropdownButtonFormField<String>(
-                  value: selectedUpazilla,
+                  value: _selectedUpazilla,
                   decoration: InputDecoration(
                     border: InputBorder.none,
-                    labelText: 'উপজেলা',
-                    labelStyle: TextStyle(color: Colors.teal),
+                    labelText: 'উপজেলা নির্বাচন করুন',
+                    labelStyle: TextStyle(
+                      color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                    ),
                   ),
-                  items:
-                      upazillas.map((upazilla) {
-                        return DropdownMenuItem(
-                          value: upazilla,
-                          child: Text(upazilla),
-                        );
-                      }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      selectedUpazilla = value; // Update selected upazilla
-                    });
-                  },
-                  dropdownColor: Colors.teal.shade50,
-                  icon: Icon(Icons.arrow_drop_down, color: Colors.teal),
+                  items: _upazillas.map((upazilla) {
+                    return DropdownMenuItem<String>(
+                      value: upazilla,
+                      child: Text(
+                        upazilla,
+                        style: TextStyle(
+                          color: isDarkMode ? Colors.white : Colors.black,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (value) => setState(() => _selectedUpazilla = value),
+                  dropdownColor: isDarkMode ? Colors.grey[800] : Colors.teal.shade50,
+                  icon: Icon(
+                    Icons.arrow_drop_down,
+                    color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                  ),
                 ),
               ),
               const SizedBox(height: 16),
-
-              // Type Dropdown
               Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Colors.teal.shade50, Colors.blue.shade50],
+                    colors: isDarkMode
+                        ? [Colors.grey[800]!, Colors.grey[700]!]
+                        : [Colors.teal.shade50, Colors.blue.shade50],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.teal.shade200, width: 1),
+                  border: Border.all(
+                    color: isDarkMode ? Colors.teal.shade400 : Colors.teal.shade200,
+                    width: 1,
+                  ),
                 ),
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: DropdownButtonFormField<String>(
-                  value: selectedType,
+                  value: _selectedType,
                   decoration: InputDecoration(
                     border: InputBorder.none,
-                    labelText: 'ধরণ',
-                    labelStyle: TextStyle(color: Colors.teal),
+                    labelText: 'ধরণ নির্বাচন করুন',
+                    labelStyle: TextStyle(
+                      color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                    ),
                   ),
-                  items:
-                      types.map((type) {
-                        return DropdownMenuItem(value: type, child: Text(type));
-                      }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      selectedType = value;
-                    });
-                  },
-                  dropdownColor: Colors.teal.shade50,
-                  icon: Icon(Icons.arrow_drop_down, color: Colors.teal),
+                  items: _types.map((type) {
+                    return DropdownMenuItem<String>(
+                      value: type,
+                      child: Text(
+                        type,
+                        style: TextStyle(
+                          color: isDarkMode ? Colors.white : Colors.black,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (value) => setState(() => _selectedType = value),
+                  dropdownColor: isDarkMode ? Colors.grey[800] : Colors.teal.shade50,
+                  icon: Icon(
+                    Icons.arrow_drop_down,
+                    color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
-
-              // Buttons
               Row(
                 children: [
-                  // Filter Button
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          appliedUpazilla = selectedUpazilla;
-                          appliedType = selectedType;
-                        });
-                        Navigator.pop(context);
-                      },
+                      onPressed: () => Navigator.pop(context),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.teal,
                         shape: RoundedRectangleBorder(
@@ -330,29 +485,22 @@ class _LibraryScreenState extends State<LibraryScreen> {
                         ),
                         padding: const EdgeInsets.symmetric(vertical: 12),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.search, color: Colors.white),
-                          const SizedBox(width: 8),
-                          Text(
-                            'ফিল্টার',
-                            style: TextStyle(color: Colors.white, fontSize: 16),
-                          ),
-                        ],
+                      child: const Text(
+                        'ফিল্টার প্রয়োগ',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ),
-                  const SizedBox(width: 16), // Space between buttons
-                  // Reset Button
+                  const SizedBox(width: 16),
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
                         setState(() {
-                          selectedUpazilla = null;
-                          selectedType = null;
-                          appliedUpazilla = null;
-                          appliedType = null;
+                          _selectedUpazilla = null;
+                          _selectedType = null;
                         });
                         Navigator.pop(context);
                       },
@@ -363,16 +511,12 @@ class _LibraryScreenState extends State<LibraryScreen> {
                         ),
                         padding: const EdgeInsets.symmetric(vertical: 12),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.refresh, color: Colors.white),
-                          const SizedBox(width: 8),
-                          Text(
-                            'রিসেট করুন',
-                            style: TextStyle(color: Colors.white, fontSize: 16),
-                          ),
-                        ],
+                      child: const Text(
+                        'রিসেট করুন',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../provider/app_provider.dart';
 
 class HouseRentScreen extends StatefulWidget {
   const HouseRentScreen({super.key});
@@ -97,6 +99,8 @@ class _HouseRentScreenState extends State<HouseRentScreen> {
 
   // Open filter modal
   void _openFilterModal(BuildContext context) {
+    final isDarkMode = Provider.of<AppProvider>(context).themeMode == ThemeMode.dark;
+    
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -104,7 +108,7 @@ class _HouseRentScreenState extends State<HouseRentScreen> {
       builder: (context) {
         return Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: isDarkMode ? Colors.grey[800] : Colors.white,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
             boxShadow: [
               BoxShadow(
@@ -118,7 +122,6 @@ class _HouseRentScreenState extends State<HouseRentScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Header
               Text(
                 'ফিল্টার করুন',
                 style: TextStyle(
@@ -128,44 +131,43 @@ class _HouseRentScreenState extends State<HouseRentScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              // Upazilla Buttons
               Wrap(
-                spacing: 8.0, // Horizontal spacing between buttons
-                runSpacing: 8.0, // Vertical spacing between buttons
+                spacing: 8.0,
+                runSpacing: 8.0,
                 children: upazillas.map((upazilla) {
                   bool isSelected = appliedUpazilla == upazilla;
                   return ElevatedButton(
                     onPressed: () {
                       setState(() {
-                        appliedUpazilla =
-                            isSelected ? null : upazilla; // Toggle selection
+                        appliedUpazilla = isSelected ? null : upazilla;
                       });
-                      Navigator.pop(context); // Close the bottom sheet
+                      Navigator.pop(context);
                     },
                     style: ElevatedButton.styleFrom(
                       elevation: 0.5,
-                      backgroundColor:
-                          isSelected ? Colors.teal : Colors.grey.shade50,
-                      foregroundColor:
-                          isSelected ? Colors.white : Colors.teal,
+                      backgroundColor: isSelected
+                          ? Colors.teal
+                          : (isDarkMode ? Colors.grey[700] : Colors.grey.shade50),
+                      foregroundColor: isSelected
+                          ? Colors.white
+                          : (isDarkMode ? Colors.white : Colors.teal),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 8),
+                        horizontal: 12, vertical: 8),
                     ),
                     child: Text(upazilla),
                   );
                 }).toList(),
               ),
               const SizedBox(height: 20),
-              // Reset Button
               ElevatedButton(
                 onPressed: () {
                   setState(() {
-                    appliedUpazilla = null; // Clear applied upazilla
+                    appliedUpazilla = null;
                   });
-                  Navigator.pop(context); // Close the bottom sheet
+                  Navigator.pop(context);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red.shade400,
@@ -194,18 +196,127 @@ class _HouseRentScreenState extends State<HouseRentScreen> {
     );
   }
 
+  void _showHouseDetailsModal(BuildContext context, Map<String, dynamic> house) {
+    final isDarkMode = Provider.of<AppProvider>(context).themeMode == ThemeMode.dark;
+    
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return Container(
+          decoration: BoxDecoration(
+            color: isDarkMode ? Colors.grey[800] : Colors.white,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 10,
+                offset: const Offset(0, -2),
+              ),
+            ],
+          ),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  house['name'],
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: isDarkMode ? Colors.white : Colors.teal,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  house['location'],
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: isDarkMode ? Colors.grey[300] : Colors.grey[600],
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'যোগাযোগ: ${house['phone']}',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: isDarkMode ? Colors.grey[300] : Colors.grey[600],
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  house['price'],
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  house['description'],
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: isDarkMode ? Colors.grey[300] : Colors.black87,
+                  ),
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed: () => _makePhoneCall(house['phone']),
+                      icon: Icon(Icons.call, color: Colors.white),
+                      label: Text(
+                        'কল করুন',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.teal,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 12,
+                        ),
+                      ),
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: () => Navigator.pop(context),
+                      icon: Icon(Icons.close, color: Colors.white),
+                      label: Text(
+                        'বন্ধ করুন',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 12,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final themeMode = Provider.of<AppProvider>(context).themeMode;
+    final isDarkMode = themeMode == ThemeMode.dark;
+
     // Filter houses based on search query and applied upazilla
     final filteredHouses = houses.where((house) {
-      // Match search query
       final matchesName =
           house['name'].toLowerCase().contains(searchQuery.toLowerCase());
-
-      // Match selected upazilla
       final matchesUpazilla =
           appliedUpazilla == null || house['upazilla'] == appliedUpazilla;
-
       return matchesName && matchesUpazilla;
     }).toList();
 
@@ -225,7 +336,6 @@ class _HouseRentScreenState extends State<HouseRentScreen> {
       ),
       body: Column(
         children: [
-          // Search Bar
           Padding(
             padding: const EdgeInsets.all(12),
             child: TextField(
@@ -241,12 +351,16 @@ class _HouseRentScreenState extends State<HouseRentScreen> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 filled: true,
-                fillColor: Colors.teal.shade50,
+                fillColor: isDarkMode ? Colors.grey[800] : Colors.teal.shade50,
+                labelStyle: TextStyle(
+                  color: isDarkMode ? Colors.grey[400] : Colors.grey[600],
+                ),
+              ),
+              style: TextStyle(
+                color: isDarkMode ? Colors.white : Colors.black,
               ),
             ),
           ),
-
-          // House List
           Expanded(
             child: ListView.builder(
               itemCount: filteredHouses.length,
@@ -255,6 +369,7 @@ class _HouseRentScreenState extends State<HouseRentScreen> {
                 return Card(
                   margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   elevation: 1,
+                  color: isDarkMode ? Colors.grey[800] : Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -279,10 +394,10 @@ class _HouseRentScreenState extends State<HouseRentScreen> {
                           children: [
                             Text(
                               house['name'],
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.teal,
+                                color: isDarkMode ? Colors.white : Colors.teal,
                               ),
                             ),
                             const SizedBox(height: 8),
@@ -291,23 +406,35 @@ class _HouseRentScreenState extends State<HouseRentScreen> {
                                 Icon(
                                   Icons.location_on,
                                   size: 16,
-                                  color: Colors.teal,
+                                  color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
                                 ),
                                 const SizedBox(width: 4),
                                 Text(
                                   house['location'],
-                                  style: TextStyle(color: Colors.grey.shade600),
+                                  style: TextStyle(
+                                    color: isDarkMode 
+                                        ? Colors.grey[300] 
+                                        : Colors.grey[600],
+                                  ),
                                 ),
                               ],
                             ),
                             const SizedBox(height: 8),
                             Row(
                               children: [
-                                Icon(Icons.phone, size: 16, color: Colors.teal),
+                                Icon(
+                                  Icons.phone, 
+                                  size: 16, 
+                                  color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
+                                ),
                                 const SizedBox(width: 4),
                                 Text(
                                   'যোগাযোগ: ${house['phone']}',
-                                  style: TextStyle(color: Colors.grey.shade600),
+                                  style: TextStyle(
+                                    color: isDarkMode 
+                                        ? Colors.grey[300] 
+                                        : Colors.grey[600],
+                                  ),
                                 ),
                               ],
                             ),
@@ -317,105 +444,14 @@ class _HouseRentScreenState extends State<HouseRentScreen> {
                               children: [
                                 Text(
                                   house['price'],
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.teal,
+                                    color: isDarkMode ? Colors.teal.shade200 : Colors.teal,
                                   ),
                                 ),
                                 ElevatedButton(
-                                  onPressed: () {
-                                    // Show details in a bottom modal sheet
-                                    showModalBottomSheet(
-                                      context: context,
-                                      isScrollControlled: true,
-                                      builder: (context) {
-                                        return SingleChildScrollView(
-                                          padding: const EdgeInsets.all(16),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                house['name'],
-                                                style: const TextStyle(
-                                                  fontSize: 24,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              const SizedBox(height: 8),
-                                              Text(
-                                                house['location'],
-                                                style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.grey[600],
-                                                ),
-                                              ),
-                                              const SizedBox(height: 8),
-                                              Text(
-                                                'যোগাযোগ: ${house['phone']}',
-                                                style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.grey[600],
-                                                ),
-                                              ),
-                                              const SizedBox(height: 8),
-                                              Text(
-                                                house['price'],
-                                                style: const TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.teal,
-                                                ),
-                                              ),
-                                              const SizedBox(height: 16),
-                                              Text(
-                                                house['description'],
-                                                style: const TextStyle(
-                                                  fontSize: 16,
-                                                ),
-                                              ),
-                                              const SizedBox(height: 24),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.spaceEvenly,
-                                                children: [
-                                                  ElevatedButton.icon(
-                                                    onPressed: () =>
-                                                        _makePhoneCall(house['phone']),
-                                                    icon: const Icon(Icons.call),
-                                                    label: const Text('কল করুন'),
-                                                    style: ElevatedButton.styleFrom(
-                                                      backgroundColor: Colors.teal,
-                                                      foregroundColor: Colors.white,
-                                                      padding: const EdgeInsets.symmetric(
-                                                        horizontal: 24,
-                                                        vertical: 12,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  ElevatedButton.icon(
-                                                    onPressed: () =>
-                                                        Navigator.pop(context),
-                                                    icon: const Icon(Icons.close),
-                                                    label: const Text('বন্ধ করুন'),
-                                                    style: ElevatedButton.styleFrom(
-                                                      backgroundColor: Colors.red,
-                                                      foregroundColor: Colors.white,
-                                                      padding: const EdgeInsets.symmetric(
-                                                        horizontal: 24,
-                                                        vertical: 12,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      },
-                                    );
-                                  },
+                                  onPressed: () => _showHouseDetailsModal(context, house),
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.teal,
                                     foregroundColor: Colors.white,
@@ -440,7 +476,7 @@ class _HouseRentScreenState extends State<HouseRentScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _openFilterModal(context), // Open filter modal
+        onPressed: () => _openFilterModal(context),
         backgroundColor: Colors.teal,
         foregroundColor: Colors.white,
         elevation: 1,
