@@ -15,4 +15,10 @@ class AppProvider with ChangeNotifier {
     gridView =!gridView;
     notifyListeners();
   }
+
+  bool isLoggedIn = true;  
+  void setLogIn(bool value) {
+    isLoggedIn = value;
+    notifyListeners();
+  }
 }

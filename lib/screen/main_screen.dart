@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/app_provider.dart';
-import '../utils/app_utils.dart';
 import 'earn_screen.dart';
 import 'home_screen.dart';
+import 'user_screen/login_screen.dart';
 import 'user_screen/notifications_screen.dart';
 import 'user_screen/profile_screen.dart';
 
@@ -18,12 +18,34 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
-  final screens = [
-    const HomeScreen(),
-    const EarnScreen(),
-    const NotificationsScreen(),
-    const ProfileScreen(),
-  ];
+  // Get the current screen title
+  String get _currentTitle {
+    final provider = Provider.of<AppProvider>(context, listen: false);
+
+    switch (_selectedIndex) {
+      case 0:
+        return 'Thakurgaon App';
+      case 1:
+        return 'ফ্রি রিচার্জ';
+      case 2:
+        return provider.isLoggedIn ? 'নোটিফিকেশন' : 'লগইন';
+      case 3:
+        return provider.isLoggedIn ? 'প্রোফাইল' : 'লগইন';
+      default:
+        return 'Thakurgaon App';
+    }
+  }
+
+  // Updated screens list to handle login state
+  List<Widget> get screens {
+    final provider = Provider.of<AppProvider>(context, listen: false);
+    return [
+      const HomeScreen(),
+      const EarnScreen(),
+      if (provider.isLoggedIn) const NotificationsScreen(),
+      provider.isLoggedIn ? const ProfileScreen() : const LoginScreen(),
+    ];
+  }
 
   final List _options = [
     {'icon': Icons.contact_support, 'title': 'যোগাযোগ', 'route': '/contact'},
@@ -51,6 +73,11 @@ class _MainScreenState extends State<MainScreen> {
       case 'about':
         break;
       case 'logout':
+        final provider = Provider.of<AppProvider>(context, listen: false);
+        provider.setLogIn(false);
+        setState(() {
+          _selectedIndex = 0;
+        });
         break;
       case 'theme':
         final provider = Provider.of<AppProvider>(context, listen: false);
@@ -63,128 +90,128 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
     final isDarkMode = provider.themeMode == ThemeMode.dark;
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          AppUtils.getTitle(_selectedIndex),
+          _currentTitle,
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         leading: Builder(
-          builder: (context) => IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () {
-              Scaffold.of(context).openDrawer();
-            },
-          ),
+          builder:
+              (context) => IconButton(
+                icon: const Icon(Icons.menu),
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
+              ),
         ),
         actions: [
           PopupMenuButton<String>(
             color: isDarkMode ? Colors.grey[800] : Colors.white,
             elevation: 0.1,
             onSelected: _onMenuItemSelected,
-            itemBuilder: (BuildContext context) => [
-              PopupMenuItem<String>(
-                value: 'view',
-                child: Row(
-                  children: [
-                    Icon(
-                      provider.gridView ? Icons.grid_view : Icons.list,
-                      size: 20,
-                      color: isDarkMode ? Colors.white : Colors.black,
+            itemBuilder:
+                (BuildContext context) => [
+                  PopupMenuItem<String>(
+                    value: 'view',
+                    child: Row(
+                      children: [
+                        Icon(
+                          provider.gridView ? Icons.grid_view : Icons.list,
+                          size: 20,
+                          color: isDarkMode ? Colors.white : Colors.black,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          'হোম ভিউ পরিবর্তন',
+                          style: TextStyle(
+                            color: isDarkMode ? Colors.white : Colors.black,
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 8),
-                    Text(
-                      'হোম ভিউ পরিবর্তন',
-                      style: TextStyle(
-                        color: isDarkMode ? Colors.white : Colors.black,
+                  ),
+                  PopupMenuItem<String>(
+                    value: 'theme',
+                    child: Row(
+                      children: [
+                        Icon(
+                          isDarkMode ? Icons.light_mode : Icons.dark_mode,
+                          size: 20,
+                          color: isDarkMode ? Colors.white : Colors.black,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          isDarkMode ? 'লাইট থিম' : 'ডার্ক থিম',
+                          style: TextStyle(
+                            color: isDarkMode ? Colors.white : Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  PopupMenuItem<String>(
+                    value: 'settings',
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.settings,
+                          size: 20,
+                          color: isDarkMode ? Colors.white : Colors.black,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          'সেটিংস',
+                          style: TextStyle(
+                            color: isDarkMode ? Colors.white : Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  PopupMenuItem<String>(
+                    value: 'about',
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.info,
+                          size: 20,
+                          color: isDarkMode ? Colors.white : Colors.black,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          'অ্যাপ সম্পর্কে',
+                          style: TextStyle(
+                            color: isDarkMode ? Colors.white : Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  if (provider.isLoggedIn)
+                    PopupMenuItem<String>(
+                      value: 'logout',
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.logout,
+                            size: 20,
+                            color: isDarkMode ? Colors.white : Colors.black,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            'লগ আউট',
+                            style: TextStyle(
+                              color: isDarkMode ? Colors.white : Colors.black,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-              PopupMenuItem<String>(
-                value: 'theme',
-                child: Row(
-                  children: [
-                    Icon(
-                      isDarkMode ? Icons.light_mode : Icons.dark_mode,
-                      size: 20,
-                      color: isDarkMode ? Colors.white : Colors.black,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      isDarkMode ? 'লাইট থিম' : 'ডার্ক থিম',
-                      style: TextStyle(
-                        color: isDarkMode ? Colors.white : Colors.black,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              PopupMenuItem<String>(
-                value: 'settings',
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.settings,
-                      size: 20,
-                      color: isDarkMode ? Colors.white : Colors.black,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      'সেটিংস',
-                      style: TextStyle(
-                        color: isDarkMode ? Colors.white : Colors.black,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              PopupMenuItem<String>(
-                value: 'about',
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.info,
-                      size: 20,
-                      color: isDarkMode ? Colors.white : Colors.black,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      'অ্যাপ সম্পর্কে',
-                      style: TextStyle(
-                        color: isDarkMode ? Colors.white : Colors.black,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              PopupMenuItem<String>(
-                value: 'logout',
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.logout,
-                      size: 20,
-                      color: isDarkMode ? Colors.white : Colors.black,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      'লগ আউট',
-                      style: TextStyle(
-                        color: isDarkMode ? Colors.white : Colors.black,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-            icon: Icon(
-              Icons.more_vert,
-              color: Colors.white,
-            ),
+                ],
+            icon: Icon(Icons.more_vert, color: Colors.white),
           ),
         ],
       ),
@@ -197,9 +224,9 @@ class _MainScreenState extends State<MainScreen> {
               decoration: BoxDecoration(
                 color: isDarkMode ? Colors.grey[800] : Colors.teal,
                 image: const DecorationImage(
-                        image: AssetImage('assets/images/village_scene.png'),
-                        fit: BoxFit.cover,
-                      ),
+                  image: AssetImage('assets/images/village_scene.png'),
+                  fit: BoxFit.cover,
+                ),
               ),
               child: Text(
                 'ঠাকুরগাঁও জেলা',
@@ -263,22 +290,20 @@ class _MainScreenState extends State<MainScreen> {
           showUnselectedLabels: true,
           elevation: 0,
           type: BottomNavigationBarType.fixed,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'হোম',
-            ),
-            BottomNavigationBarItem(
+          items: [
+            const BottomNavigationBarItem(icon: Icon(Icons.home), label: 'হোম'),
+            const BottomNavigationBarItem(
               icon: Icon(Icons.attach_money),
               label: 'ফ্রি রিচার্জ',
             ),
+            if (provider.isLoggedIn)
+              const BottomNavigationBarItem(
+                icon: Icon(Icons.notifications),
+                label: 'নোটিফিকেশন',
+              ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.notifications),
-              label: 'নোটিফিকেশন',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'প্রোফাইল',
+              icon: Icon(provider.isLoggedIn ? Icons.person : Icons.login),
+              label: provider.isLoggedIn ? 'প্রোফাইল' : 'লগইন',
             ),
           ],
         ),

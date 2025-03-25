@@ -5,7 +5,10 @@ class Routes {
   static const String register = '/register';
   static const String forgotPassword = '/forgot-password';
   static const String changePassword = '/change-password';
+  static const String verifyCode = '/verify-code';
+  static const String resetPassword = '/reset-password';
   static const String profile = '/profile';
+  static const String editProfile = '/edit-profile';
   static const String settings = '/settings';
   static const String dashboard = '/dashboard';
   static const String notification = '/notifications';

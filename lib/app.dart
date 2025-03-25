@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
 import 'package:thakurgaon/screen/app_info_screen/contact_screen.dart';
 import 'package:thakurgaon/screen/app_info_screen/developer_screen.dart';
@@ -31,6 +32,8 @@ import 'package:thakurgaon/screen/rewards/weekly_quiz_winner_screen.dart';
 import 'package:thakurgaon/screen/service_man/forman_screen.dart';
 import 'package:thakurgaon/screen/service_man/lawyer_screen.dart';
 import 'package:thakurgaon/screen/service_man/surveyor_screen.dart';
+import 'package:thakurgaon/screen/user_screen/reset_password_screen.dart';
+import 'package:thakurgaon/screen/user_screen/verify_code_screen.dart';
 
 import 'provider/app_provider.dart';
 import 'screen/app_info_screen/terms_screen.dart';
@@ -60,6 +63,7 @@ import 'screen/others/news_screen.dart';
 import 'screen/others/uddokta_details_screen.dart';
 import 'screen/rent/car_rent_screen.dart';
 import 'screen/user_screen/change_password_screen.dart';
+import 'screen/user_screen/edit_profile_screen.dart';
 import 'screen/user_screen/forget_password_screen.dart';
 import 'screen/user_screen/login_screen.dart';
 import 'screen/user_screen/notifications_screen.dart';
@@ -70,8 +74,24 @@ import 'utils/app_colors.dart';
 import 'utils/app_routes.dart';
 
 // app.dart
-class ThakurgaonApp extends StatelessWidget {
+class ThakurgaonApp extends StatefulWidget {
   const ThakurgaonApp({super.key});
+
+  @override
+  State<ThakurgaonApp> createState() => _ThakurgaonAppState();
+}
+
+class _ThakurgaonAppState extends State<ThakurgaonApp> {
+  @override
+  void initState() {
+    super.initState();
+    initialization();
+  }
+
+  void initialization() async{
+    await Future.delayed(Duration(seconds: 3));
+    FlutterNativeSplash.remove();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,8 +127,11 @@ class ThakurgaonApp extends StatelessWidget {
             Routes.login: (context) => LoginScreen(),
             Routes.register: (context) => RegisterScreen(),
             Routes.forgotPassword: (context) => ForgetPasswordScreen(),
+            Routes.verifyCode: (context) => VerifyCodeScreen(),
+            Routes.resetPassword: (context) => ResetPasswordScreen(),
             Routes.changePassword: (context) => ChangePasswordScreen(),
             Routes.profile: (context) => ProfileScreen(),
+            Routes.editProfile: (context) => EditProfileScreen(),
             Routes.settings: (context) => SettingsScreen(),
             Routes.notification: (context) => NotificationsScreen(),
             //info_routes

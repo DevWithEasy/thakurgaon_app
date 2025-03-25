@@ -1,25 +1,22 @@
 import 'package:flutter/material.dart';
 
-class ChangePasswordScreen extends StatefulWidget {
-  const ChangePasswordScreen({super.key});
+class ResetPasswordScreen extends StatefulWidget {
+  const ResetPasswordScreen({super.key});
 
   @override
-  State<ChangePasswordScreen> createState() => _ChangePasswordScreenState();
+  State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
 }
 
-class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
+class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _currentPasswordController = TextEditingController();
   final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-  bool _obscureCurrentPassword = true;
   bool _obscureNewPassword = true;
   bool _obscureConfirmPassword = true;
   bool _isLoading = false;
 
   @override
   void dispose() {
-    _currentPasswordController.dispose();
     _newPasswordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
@@ -28,20 +25,23 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
       setState(() => _isLoading = true);
-      // Simulate password change process
       await Future.delayed(const Duration(seconds: 2));
       setState(() => _isLoading = false);
       
       // Show success message
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Password changed successfully!'),
-          backgroundColor: Colors.teal,
+        SnackBar(
+          content: const Text('Password reset successfully!'),
+          backgroundColor: Colors.teal[400],
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
       );
       
-      // Navigate back after successful change
-      Navigator.pop(context);
+      // Navigate back to login screen
+      Navigator.popUntil(context, (route) => route.isFirst);
     }
   }
 
@@ -51,52 +51,43 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Change Password'),
+        title: const Text('Set New Password'),
         backgroundColor: Colors.teal,
         foregroundColor: Colors.white,
+        elevation: 0,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Form(
           key: _formKey,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Current Password Field
-              TextFormField(
-                controller: _currentPasswordController,
-                obscureText: _obscureCurrentPassword,
-                decoration: InputDecoration(
-                  labelText: 'Current Password',
-                  prefixIcon: Icon(Icons.lock_outline, color: Colors.teal),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscureCurrentPassword
-                          ? Icons.visibility_off
-                          : Icons.visibility,
-                      color: Colors.teal.withOpacity(0.7),
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _obscureCurrentPassword = !_obscureCurrentPassword;
-                      });
-                    },
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  filled: true,
-                  fillColor: isDarkMode 
-                      ? Colors.grey[800]!.withOpacity(0.5)
-                      : Colors.grey[100],
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter current password';
-                  }
-                  return null;
-                },
+              const SizedBox(height: 40),
+              // Header Illustration
+              Icon(
+                Icons.lock_reset,
+                size: 100,
+                color: Colors.teal[400],
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
+              Text(
+                'Create New Password',
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: isDarkMode ? Colors.white : Colors.grey[800],
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Your new password must be different from previous ones',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: isDarkMode ? Colors.white70 : Colors.grey[600],
+                ),
+              ),
+              const SizedBox(height: 40),
 
               // New Password Field
               TextFormField(
@@ -104,22 +95,19 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 obscureText: _obscureNewPassword,
                 decoration: InputDecoration(
                   labelText: 'New Password',
-                  prefixIcon: Icon(Icons.lock_reset, color: Colors.teal),
+                  prefixIcon: Icon(Icons.lock_outline, color: Colors.teal),
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _obscureNewPassword
-                          ? Icons.visibility_off
+                      _obscureNewPassword 
+                          ? Icons.visibility_off 
                           : Icons.visibility,
                       color: Colors.teal.withOpacity(0.7),
                     ),
-                    onPressed: () {
-                      setState(() {
-                        _obscureNewPassword = !_obscureNewPassword;
-                      });
-                    },
+                    onPressed: () => setState(() => _obscureNewPassword = !_obscureNewPassword),
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
                   ),
                   filled: true,
                   fillColor: isDarkMode 
@@ -130,36 +118,33 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   if (value == null || value.isEmpty) {
                     return 'Please enter new password';
                   }
-                  if (value.length < 6) {
-                    return 'Password must be at least 6 characters';
+                  if (value.length < 8) {
+                    return 'Password must be at least 8 characters';
                   }
                   return null;
                 },
               ),
               const SizedBox(height: 20),
 
-              // Confirm New Password Field
+              // Confirm Password Field
               TextFormField(
                 controller: _confirmPasswordController,
                 obscureText: _obscureConfirmPassword,
                 decoration: InputDecoration(
-                  labelText: 'Confirm New Password',
+                  labelText: 'Confirm Password',
                   prefixIcon: Icon(Icons.lock_reset, color: Colors.teal),
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _obscureConfirmPassword
-                          ? Icons.visibility_off
+                      _obscureConfirmPassword 
+                          ? Icons.visibility_off 
                           : Icons.visibility,
                       color: Colors.teal.withOpacity(0.7),
                     ),
-                    onPressed: () {
-                      setState(() {
-                        _obscureConfirmPassword = !_obscureConfirmPassword;
-                      });
-                    },
+                    onPressed: () => setState(() => _obscureConfirmPassword = !_obscureConfirmPassword),
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
                   ),
                   filled: true,
                   fillColor: isDarkMode 
@@ -168,7 +153,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please confirm new password';
+                    return 'Please confirm your password';
                   }
                   if (value != _newPasswordController.text) {
                     return 'Passwords do not match';
@@ -176,9 +161,21 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   return null;
                 },
               ),
+              const SizedBox(height: 8),
+              // Password requirements
+              Padding(
+                padding: const EdgeInsets.only(left: 12),
+                child: Text(
+                  '• At least 8 characters\n• Include uppercase and lowercase\n• Include a number',
+                  style: TextStyle(
+                    color: isDarkMode ? Colors.white60 : Colors.grey[600],
+                    fontSize: 12,
+                  ),
+                ),
+              ),
               const SizedBox(height: 32),
 
-              // Change Password Button
+              // Reset Button
               SizedBox(
                 width: double.infinity,
                 height: 50,
@@ -198,7 +195,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           color: Colors.white,
                         )
                       : const Text(
-                          'CHANGE PASSWORD',
+                          'RESET PASSWORD',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
